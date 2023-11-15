@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Project Setup">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,11 +38,9 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/College/Software Development/CA2",
-    "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java",
-    "vue.rearranger.settings.migration": "true"
+    "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java"
   }
 }]]></component>
   <component name="RunManager">
@@ -74,7 +71,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1700078725429</updated>
-      <workItem from="1700080450937" duration="145000" />
     </task>
     <task id="LOCAL-00001" summary="Project Setup">
       <option name="closed" value="true" />
@@ -86,9 +82,6 @@
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
