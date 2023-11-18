@@ -1,20 +1,20 @@
 package org.CA2;
 
 public class Book extends Asset {
-    private Author author;
+    private String author;
     private String ISBN;
 
-    public Book(String title, Author author, String ISBN, boolean availability) throws AssetException {
+    public Book(String title, String author, String ISBN, boolean availability) throws AssetException {
         super(title, availability);
         this.author = author;
         this.ISBN = ISBN;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

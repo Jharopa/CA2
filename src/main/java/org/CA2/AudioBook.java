@@ -4,7 +4,7 @@ public class AudioBook extends Book {
 
     private int duration;
 
-    public AudioBook(String title, Author author, String ISBN, int duration, boolean availability) throws AssetException{
+    public AudioBook(String title, String author, String ISBN, int duration, boolean availability) throws AssetException{
         super(title, author, ISBN, availability);
 
         if (duration < 0) {

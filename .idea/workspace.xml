@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Project Setup">
+    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Asset comparable">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Theses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Thesis.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +44,14 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/College/Software Development/CA1",
+    "last_opened_file_path": "C:/College/Software Development/UnitTesting",
     "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -92,7 +101,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700304280237</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Asset comparable">
+      <option name="closed" value="true" />
+      <created>1700304992574</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700304992574</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,7 +117,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project Setup" />
+    <MESSAGE value="Asset comparable" />
+    <option name="LAST_COMMIT_MESSAGE" value="Asset comparable" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

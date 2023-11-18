@@ -2,13 +2,13 @@ package org.CA2;
 
 import java.util.Date;
 
-public class Theses extends Asset {
-    private Author author;
+public class Thesis extends Asset {
+    private String author;
     private String topic;
     private String Abstract;
     private Date datePublished;
 
-    public Theses(String title, Author author, String topic, String Abstract, Date datePublished, boolean availability) throws AssetException {
+    public Thesis(String title, String author, String topic, String Abstract, Date datePublished, boolean availability) throws AssetException {
         super(title, availability);
 
         if (datePublished.after(new Date())) {
@@ -21,11 +21,11 @@ public class Theses extends Asset {
         this.datePublished = datePublished;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
