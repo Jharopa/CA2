@@ -2,23 +2,27 @@ package org.CA2;
 
 public abstract class Asset {
 
-    private String title;
-    private boolean availability;
+    protected String title;
+    protected boolean availability;
 
-    public Asset(String title, boolean availability) {
+    public Asset(String title, boolean availability) throws AssetException {
+        if (title.length() > 200) {
+            throw new AssetException("Asset title can not be greater than 200");
+        }
+
         this.title = title;
         this.availability = availability;
-    }
-
-    public Asset() {
-
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title) throws AssetException {
+        if (title.length() > 200) {
+            throw new AssetException("Asset title can not be greater than 200");
+        }
+
         this.title = title;
     }
 

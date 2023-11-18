@@ -5,15 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Project Setup">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Author.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/CD.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/LibraryUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Loan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Theses.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AssetException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Asset.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/CD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/CD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Loan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Loan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Theses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Theses.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,17 +44,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/College/Software Development/CA2&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/College/Software Development/CA2/src/main/java/org/example/Main.java&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/College/Software Development/CA1",
+    "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.CA2.Main" />
@@ -96,17 +98,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />

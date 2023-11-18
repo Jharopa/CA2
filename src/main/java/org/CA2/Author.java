@@ -5,11 +5,11 @@ import java.util.List;
 public class Author {
 
     private String name;
-    private List<Book> authoredBooks;
+    private List<Asset> authoredAsset;
 
-    public Author(String name, List<Book> authoredBooks) {
+    public Author(String name, List<Asset> authoredAsset) {
         this.name = name;
-        this.authoredBooks = authoredBooks;
+        this.authoredAsset = authoredAsset;
     }
 
     public String getName() {
@@ -20,11 +20,11 @@ public class Author {
         this.name = name;
     }
 
-    public List<Book> getAuthoredBooks() {
-        return authoredBooks;
+    public List<Asset> getAuthoredBooks() {
+        return authoredAsset;
     }
 
-    public void setAuthoredBooks(List<Book> authoredBooks) {
-        this.authoredBooks = authoredBooks;
+    public void setAuthoredBooks(List<Asset> authoredAsset) {
+        this.authoredAsset = authoredAsset;
     }
 }

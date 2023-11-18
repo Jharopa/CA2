@@ -5,23 +5,23 @@ import java.util.List;
 
 public class Loan {
 
-    private String borrower;
+    private LibraryUser borrower;
     private List<Asset> borrowedAsset;
     private Date borrowDate;
     private Date returnDate;
 
-    public Loan(String borrower, List<Asset> borrowedAsset, Date borrowDate, Date returnDate) {
+    public Loan(LibraryUser borrower, List<Asset> borrowedAsset) {
         this.borrower = borrower;
         this.borrowedAsset = borrowedAsset;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
+        this.borrowDate = new Date();
+        this.returnDate = null;
     }
 
-    public String getBorrower() {
+    public LibraryUser getBorrower() {
         return borrower;
     }
 
-    public void setBorrower(String borrower) {
+    public void setBorrower(LibraryUser borrower) {
         this.borrower = borrower;
     }
 
@@ -45,7 +45,11 @@ public class Loan {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(Date returnDate) throws AssetException {
+        if (returnDate.after(new Date())) {
+            throw new AssetException("Loan returnDate can not be in the future");
+        }
+
         this.returnDate = returnDate;
     }
 }
