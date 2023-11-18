@@ -1,10 +1,13 @@
 package org.CA2;
 
+import java.io.FileReader;
 import java.util.Date;
 import java.util.LinkedList;
 
 import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
+import org.apache.commons.csv.CSVRecord;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,7 +35,7 @@ public class LibrarySystem {
         try {
             books.add(new Book(title, author, ISBN, true));
         } catch (AssetException e) {
-            System.out.printf("Unable to add book. Reason: %s", e.toString());
+            System.out.printf("Unable to add book. Reason: %s", e);
         }
     }
 
@@ -40,7 +43,7 @@ public class LibrarySystem {
         try {
             audioBooks.add(new AudioBook(title, author, ISBN, duration, true));
         } catch (AssetException e) {
-            System.out.printf("Unable to add audio book. Reason: %s", e.toString());
+            System.out.printf("Unable to add audio book. Reason: %s", e);
         }
     }
 
@@ -48,7 +51,7 @@ public class LibrarySystem {
         try {
             cds.add(new CD(title, producer, director, playtime, true));
         } catch (AssetException e) {
-            System.out.printf("Unable to add CD. Reason: %s", e.toString());
+            System.out.printf("Unable to add CD. Reason: %s", e);
         }
     }
 
@@ -57,7 +60,7 @@ public class LibrarySystem {
         try {
             theses.add(new Thesis(title, author, topic, Abstract, datePublished, true));
         } catch (AssetException e) {
-            System.out.printf("Unable to add theses. Reason: %s", e.toString());
+            System.out.printf("Unable to add theses. Reason: %s", e);
         }
     }
 
@@ -123,24 +126,125 @@ public class LibrarySystem {
     }
 
     public void load() {
-        // Loads data from CSV
+        loadBooks();
+        loadAudioBooks();
+        loadCDs();
+        loadThesis();
+    }
+
+    private void loadBooks() {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("title", "author", "ISBN", "availability")
+                .setSkipHeaderRecord(true)
+                .build();
+
+        try (FileReader fileReader = new FileReader("books.csv");
+             CSVParser csvParser = csvFormat
+                     .parse(fileReader)) {
+
+            for (CSVRecord csvRecord : csvParser) {
+                String title = csvRecord.get("title");
+                String author = csvRecord.get("author");
+                String ISBN = csvRecord.get("ISBN");
+                boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
+                books.push(new Book(title, author, ISBN, availability));
+            }
+        } catch (IOException e) {
+            System.out.printf("Failed to load book. %s", e);
+        } catch (AssetException e) {
+            System.out.printf("Unable to add loaded book. %s", e);
+        }
+    }
+
+    private void loadAudioBooks() {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("title", "author", "ISBN", "duration", "availability")
+                .setSkipHeaderRecord(true)
+                .build();
+
+        try (FileReader fileReader = new FileReader("audiobooks.csv");
+             CSVParser csvParser = csvFormat
+                     .parse(fileReader)) {
+
+            for (CSVRecord csvRecord : csvParser) {
+                String title = csvRecord.get("title");
+                String author = csvRecord.get("author");
+                String ISBN = csvRecord.get("ISBN");
+                int duration = Integer.parseInt(csvRecord.get("duration"));
+                boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
+                audioBooks.push(new AudioBook(title, author, ISBN, duration, availability));
+            }
+        } catch (IOException e) {
+            System.out.printf("Failed to load audiobook. %s", e);
+        } catch (AssetException e) {
+            System.out.printf("Unable to add loaded audiobook. %s", e);
+        }
+    }
+
+    private void loadCDs() {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("title", "producer", "director", "playtime", "availability")
+                .setSkipHeaderRecord(true)
+                .build();
+
+        try (FileReader fileReader = new FileReader("cds.csv");
+             CSVParser csvParser = csvFormat
+                     .parse(fileReader)) {
+
+            for (CSVRecord csvRecord : csvParser) {
+                String title = csvRecord.get("title");
+                String producer = csvRecord.get("producer");
+                String director = csvRecord.get("director");
+                int playtime = Integer.parseInt(csvRecord.get("playtime"));
+                boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
+                cds.push(new CD(title, producer, director, playtime, availability));
+            }
+        } catch (IOException e) {
+            System.out.printf("Failed to load CD. %s", e);
+        } catch (AssetException e) {
+            System.out.printf("Unable to add loaded CD. %s", e);
+        }
+    }
+
+    private void loadThesis() {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader("title", "author", "topic", "Abstract", "datePublished", "availability")
+                .setSkipHeaderRecord(true)
+                .build();
+
+        try (FileReader fileReader = new FileReader("cds.csv");
+             CSVParser csvParser = csvFormat
+                     .parse(fileReader)) {
+
+            for (CSVRecord csvRecord : csvParser) {
+                String title = csvRecord.get("title");
+                String author = csvRecord.get("author");
+                String topic = csvRecord.get("topic");
+                String Abstract = csvRecord.get("Abstract");
+                Date datePublished = new Date(Date.parse(csvRecord.get("datePublished")));
+                boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
+                theses.push(new Thesis(title, author, topic, Abstract,datePublished, availability));
+            }
+        } catch (IOException e) {
+            System.out.printf("Failed to load thesis %s", e);
+        } catch (AssetException e) {
+            System.out.printf("Unable to add loaded thesis. %s", e);
+        }
     }
 
     public void save() {
-        // Save data to CSV
         saveBooks();
         saveAudioBooks();
-        saveCD();
+        saveCDs();
         saveTheses();
     }
 
     private void saveBooks() {
-        String csvFilePath = "books.csv";
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader("title", "author", "ISBN", "availability")
                 .build();
 
-        try (FileWriter fileWriter = new FileWriter(csvFilePath);
+        try (FileWriter fileWriter = new FileWriter("books.csv");
             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
             for (Book book : books) {
                 csvPrinter.printRecord(
@@ -156,12 +260,11 @@ public class LibrarySystem {
     }
 
     private void saveAudioBooks() {
-        String csvFilePath = "audiobooks.csv";
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader("title", "author", "ISBN", "duration", "availability")
                 .build();
 
-        try (FileWriter fileWriter = new FileWriter(csvFilePath);
+        try (FileWriter fileWriter = new FileWriter("audiobooks.csv");
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
             for (AudioBook audioBook : audioBooks) {
                 csvPrinter.printRecord(
@@ -177,13 +280,12 @@ public class LibrarySystem {
         }
     }
 
-    private void saveCD() {
-        String csvFilePath = "cds.csv";
+    private void saveCDs() {
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader("title", "producer", "director", "playtime", "availability")
                 .build();
 
-        try (FileWriter fileWriter = new FileWriter(csvFilePath);
+        try (FileWriter fileWriter = new FileWriter("cds.csv");
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
             for (CD cd : cds) {
                 csvPrinter.printRecord(
@@ -200,12 +302,11 @@ public class LibrarySystem {
     }
 
     private void saveTheses() {
-        String csvFilePath = "theses.csv";
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
-                .setHeader("title", "author", "topic", "abstract", "availability")
+                .setHeader("title", "author", "topic", "abstract", "datePublished", "availability")
                 .build();
 
-        try (FileWriter fileWriter = new FileWriter(csvFilePath);
+        try (FileWriter fileWriter = new FileWriter("theses.csv");
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
             for (Thesis thesis : theses) {
                 csvPrinter.printRecord(
@@ -213,6 +314,7 @@ public class LibrarySystem {
                         thesis.getAuthor(),
                         thesis.getTopic(),
                         thesis.getAbstract(),
+                        thesis.getDatePublished(),
                         thesis.isAvailability()
                 );
             }
