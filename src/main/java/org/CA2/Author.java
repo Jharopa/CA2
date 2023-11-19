@@ -20,7 +20,7 @@ public class Author {
         this.name = name;
     }
 
-    public List<Asset> getAuthoredBooks() {
+    public List<Asset> getAuthoredAssets() {
         return authoredAsset;
     }
 

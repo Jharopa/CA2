@@ -1,6 +1,6 @@
 package org.CA2;
 
-// Usage: HeapSort.<TYPE>sort(array); where type is the type of array being sorted
+// Usage: HeapSort.<TYPE>sort(array); where TYPE is the type of array being sorted
 // This will work for any type that implements the comparable interface
 
 public class HeapSort {

@@ -6,9 +6,9 @@ public class LibraryUser {
 
     private String name;
     private int ID;
-    private List<Book> borrowedAssets;
+    private List<Asset> borrowedAssets;
 
-    public LibraryUser(String name, int ID, List<Book> borrowedAssets) {
+    public LibraryUser(String name, int ID, List<Asset> borrowedAssets) {
         this.name = name;
         this.ID = ID;
         this.borrowedAssets = borrowedAssets;
@@ -30,11 +30,11 @@ public class LibraryUser {
         this.ID = ID;
     }
 
-    public List<Book> getBorrowedAssets() {
+    public List<Asset> getBorrowedAssets() {
         return borrowedAssets;
     }
 
-    public void setBorrowedAssets(List<Book> borrowedAssets) {
+    public void setBorrowedAssets(List<Asset> borrowedAssets) {
         this.borrowedAssets = borrowedAssets;
     }
 }
