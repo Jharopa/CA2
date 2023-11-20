@@ -181,7 +181,7 @@ public class LibrarySystem {
                     case "users.csv" -> {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
-                        String borrowed = csvRecord.get("topic");
+                        String borrowed = csvRecord.get("borrowed");
 
                         String[] borrowedAssetsTitle = borrowed.split(" ");
                         LinkedList<Asset> assetsList = new LinkedList<>();
@@ -197,7 +197,7 @@ public class LibrarySystem {
 
                     case "authors.csv" -> {
                         String name = csvRecord.get("name");
-                        String authored = csvRecord.get("authord");
+                        String authored = csvRecord.get("authored");
 
                         String[] authoredAssets = authored.split(" ");
                         LinkedList<Asset> assetsList = new LinkedList<>();
