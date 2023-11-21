@@ -2,7 +2,7 @@ package org.CA2;
 
 import java.util.List;
 
-public class Author {
+public class Author implements Comparable<Author> {
 
     private String name;
     private List<Asset> authoredAsset;
@@ -24,7 +24,12 @@ public class Author {
         return authoredAsset;
     }
 
-    public void setAuthoredBooks(List<Asset> authoredAsset) {
+    public void setAuthoredAssets(List<Asset> authoredAsset) {
         this.authoredAsset = authoredAsset;
+    }
+
+    @Override
+    public int compareTo(Author o) {
+        return this.name.compareTo(o.getName());
     }
 }

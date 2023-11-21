@@ -2,7 +2,7 @@ package org.CA2;
 
 import java.util.List;
 
-public class LibraryUser {
+public class LibraryUser implements Comparable<LibraryUser>{
 
     private String name;
     private int ID;
@@ -36,5 +36,10 @@ public class LibraryUser {
 
     public void setBorrowedAssets(List<Asset> borrowedAssets) {
         this.borrowedAssets = borrowedAssets;
+    }
+
+    @Override
+    public int compareTo(LibraryUser o) {
+        return this.name.compareTo(o.getName());
     }
 }

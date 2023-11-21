@@ -1,7 +1,6 @@
 package org.CA2;
 
-// Usage: HeapSort.<TYPE>sort(array); where TYPE is the type of array being sorted
-// This will work for any type that implements the comparable interface
+// Usage: HeapSort.sort(array); where array is an array of any type that implements the comparable interface
 
 public class HeapSort {
     public static <T extends Comparable<T>> void sort(T[] arr) {
