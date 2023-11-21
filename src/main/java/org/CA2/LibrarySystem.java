@@ -1,6 +1,7 @@
 package org.CA2;
 
 import java.io.FileReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -93,11 +94,11 @@ public class LibrarySystem {
     }
 
     public Asset getAsset(String title) {
-        return assetSearch(title);
-    }
+        Asset[] assetsArr = new Asset[assets.size()];
+        assetsArr = assets.toArray(assetsArr);
+        HeapSort.sort(assetsArr);
 
-    private Asset assetSearch(String title) {
-        return null;
+        return BinarySearch.assetSearch(assetsArr, title);
     }
 
     public void createLoan(int ID, String title) {
@@ -130,10 +131,10 @@ public class LibrarySystem {
     public void load() {
         loadItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
         loadItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
-        loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[3]);
-        loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[4]);
-        loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[5]);
-        loadItems(new String[] {"name", "authored"}, CSVPaths[6]);
+        loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
+        loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
+        loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
+        loadItems(new String[] {"name", "authored"}, CSVPaths[5]);
     }
 
     private void loadItems(String[] headers, String filePath) {
@@ -178,7 +179,9 @@ public class LibrarySystem {
                         String author = csvRecord.get("author");
                         String topic = csvRecord.get("topic");
                         String Abstract = csvRecord.get("Abstract");
-                        Date datePublished = new Date(Date.parse(csvRecord.get("datePublished")));
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        Date datePublished = sdf.parse(csvRecord.get("datePublished"));
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
@@ -221,6 +224,8 @@ public class LibrarySystem {
             System.out.printf("Failed to load asset. %s", e);
         } catch (AssetException e) {
             System.out.printf("Unable to add loaded asset. %s", e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 
