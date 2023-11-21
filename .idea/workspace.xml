@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Asset comparable">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name.">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/CSVReadTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/CSVWriteTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AssetException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/AssetException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Theses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Thesis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,12 +21,27 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Jharopa&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="823ac35f-9110-4655-b96a-fd79495035d9" />
+        <option name="url" value="https://github.com/Jharopa/CA2.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,22 +55,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/College/Software Development/UnitTesting",
-    "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/College/Software Development/UnitTesting&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/College/Software Development/CA2/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Java&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager">
+}</component>
+  <component name="RunManager" selected="JUnit.CSVWriteTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.CA2.Main" />
       <module name="CA2" />
@@ -69,9 +85,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="BinarySearchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CA2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="BinarySearchTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CSVWriteTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CA2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="CSVWriteTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HeapSortTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CA2" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="HeapSortTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CSVWriteTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.HeapSortTest" />
+        <item itemvalue="JUnit.BinarySearchTest" />
       </list>
     </recent_temporary>
   </component>
@@ -109,7 +155,71 @@
       <option name="project" value="LOCAL" />
       <updated>1700304992574</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented CSV save function&#10;&#10;Also updated theses to thesis the singular form of theses, and updated classes to swap out author class in asset subclasses.">
+      <option name="closed" value="true" />
+      <created>1700347846231</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700347846231</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Implemented CSV load function">
+      <option name="closed" value="true" />
+      <created>1700350047148</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700350047148</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Refactored CSV load and save">
+      <option name="closed" value="true" />
+      <created>1700351147220</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700351147220</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Generic heapsort">
+      <option name="closed" value="true" />
+      <created>1700410624504</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1700410624504</updated>
+    </task>
+    <task id="LOCAL-00008" summary="CSV load/save and BinarySearch&#10;Updated load/save function to include users and authors also created BinarySearch function for search for assets by title.">
+      <option name="closed" value="true" />
+      <created>1700430063405</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1700430063405</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed mistake in CSV loading">
+      <option name="closed" value="true" />
+      <created>1700501298980</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1700501298980</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Asset BinarySearch test">
+      <option name="closed" value="true" />
+      <created>1700502915863</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1700502915863</updated>
+    </task>
+    <task id="LOCAL-00011" summary="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name.">
+      <option name="closed" value="true" />
+      <created>1700572702568</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1700572702568</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,7 +228,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
     <MESSAGE value="Asset comparable" />
-    <option name="LAST_COMMIT_MESSAGE" value="Asset comparable" />
+    <MESSAGE value="Implemented CSV save function&#10;&#10;Also updated theses to thesis the singular form of theses, and updated classes to swap out author class in asset subclasses." />
+    <MESSAGE value="Implemented CSV load function" />
+    <MESSAGE value="Refactored CSV load and save" />
+    <MESSAGE value="Generic heapsort" />
+    <MESSAGE value="CSV load/save and BinarySearch&#10;Updated load/save function to include users and authors also created BinarySearch function for search for assets by title." />
+    <MESSAGE value="Fixed mistake in CSV loading" />
+    <MESSAGE value="Asset BinarySearch test" />
+    <MESSAGE value="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name." />
+    <option name="LAST_COMMIT_MESSAGE" value="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

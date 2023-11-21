@@ -1,7 +1,6 @@
 package org.CA2;
 
 public class Main {
-    private LibrarySystem system;
 
     private void addLibraryItem() {
         // Print Book, AudioBook, CD, Theses option.

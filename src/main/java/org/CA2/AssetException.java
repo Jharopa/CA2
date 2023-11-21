@@ -4,7 +4,7 @@ public class AssetException extends Exception{
     private final String message;
 
     public AssetException() {
-        this.message = "Error in Exam or Exam subclass class";
+        this.message = "Error in Exam or Exam subclass";
     }
 
     public AssetException(String message) {

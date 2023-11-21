@@ -1,6 +1,7 @@
 package org.CA2;
 
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -19,11 +20,17 @@ public class LibrarySystem {
     private LinkedList<LibraryUser> users;
     private LinkedList<Loan> loans;
 
-    LibrarySystem() {
+    // Paths to the CSV files that should be read from or written to
+    // Books, Audiobooks, CDs, Theses, Users, Authors
+    private String[] CSVPaths;
+
+    public LibrarySystem(String[] CSVPaths) {
         this.assets = new LinkedList<>();
         this.authors = new LinkedList<>();
         this.users = new LinkedList<>();
         this.loans = new LinkedList<>();
+
+        this.CSVPaths = CSVPaths;
     }
 
     public void addBook(String title, String author, String ISBN) {
@@ -51,7 +58,7 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public void addTheses(String title, String author, String topic, String Abstract, Date datePublished, boolean availability) {
+    public void addThesis(String title, String author, String topic, String Abstract, Date datePublished) {
         try {
             assets.add(new Thesis(title, author, topic, Abstract, datePublished, true));
         } catch (AssetException e) {
@@ -73,8 +80,8 @@ public class LibrarySystem {
         return null;
     }
 
-    public void addUser() {
-
+    public void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
+        users.add(new LibraryUser(name, ID, borrowedAssets));
     }
 
     public LibraryUser getUser(int ID) {
@@ -121,12 +128,12 @@ public class LibrarySystem {
     }
 
     public void load() {
-        loadItems(new String[] {"title", "author", "ISBN", "availability"}, "books.csv");
-        loadItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, "audiobooks.csv");
-        loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, "cds.csv");
-        loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, "theses.csv");
-        loadItems(new String[] {"id", "name", "borrowed"}, "users.csv");
-        loadItems(new String[] {"name", "authored"}, "authors.csv");
+        loadItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
+        loadItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
+        loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[3]);
+        loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[4]);
+        loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[5]);
+        loadItems(new String[] {"name", "authored"}, CSVPaths[6]);
     }
 
     private void loadItems(String[] headers, String filePath) {
@@ -140,8 +147,7 @@ public class LibrarySystem {
                      .parse(fileReader)) {
 
             for (CSVRecord csvRecord : csvParser) {
-                switch (filePath) {
-                    case "books.csv" -> {
+                    if (filePath.equals(CSVPaths[0])) {
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String ISBN = csvRecord.get("ISBN");
@@ -149,7 +155,7 @@ public class LibrarySystem {
 
                         assets.add(new Book(title, author, ISBN, availability));
                     }
-                    case "audiobooks.csv" -> {
+                    else if (filePath.equals(CSVPaths[1])) {
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String ISBN = csvRecord.get("ISBN");
@@ -158,7 +164,7 @@ public class LibrarySystem {
 
                         assets.add(new AudioBook(title, author, ISBN, duration, availability));
                     }
-                    case "cds.csv" -> {
+                    else if (filePath.equals(CSVPaths[2])) {
                         String title = csvRecord.get("title");
                         String producer = csvRecord.get("producer");
                         String director = csvRecord.get("director");
@@ -167,7 +173,7 @@ public class LibrarySystem {
 
                         assets.add(new CD(title, producer, director, playtime, availability));
                     }
-                    case "thesis.csv" -> {
+                    else if (filePath.equals(CSVPaths[3])) {
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String topic = csvRecord.get("topic");
@@ -178,12 +184,12 @@ public class LibrarySystem {
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
                     }
 
-                    case "users.csv" -> {
+                    else if (filePath.equals(CSVPaths[4])) {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
 
-                        String[] borrowedAssetsTitle = borrowed.split(" ");
+                        String[] borrowedAssetsTitle = borrowed.split("'");
                         LinkedList<Asset> assetsList = new LinkedList<>();
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
@@ -195,11 +201,11 @@ public class LibrarySystem {
                         users.add(new LibraryUser(name, id, assetsList));
                     }
 
-                    case "authors.csv" -> {
+                    else if (filePath.equals(CSVPaths[5])) {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
 
-                        String[] authoredAssets = authored.split(" ");
+                        String[] authoredAssets = authored.split("'");
                         LinkedList<Asset> assetsList = new LinkedList<>();
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
@@ -210,7 +216,6 @@ public class LibrarySystem {
 
                         authors.add(new Author(name, assetsList));
                     }
-                }
             }
         } catch (IOException e) {
             System.out.printf("Failed to load asset. %s", e);
@@ -220,12 +225,12 @@ public class LibrarySystem {
     }
 
     public void save() {
-        saveItems(new String[] {"title", "author", "ISBN", "availability"}, "books.csv");
-        saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, "audiobooks.csv");
-        saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, "cds.csv");
-        saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, "theses.csv");
-        saveItems(new String[] {"id", "name", "borrowed"}, "users.csv");
-        saveItems(new String[] {"name", "authored"}, "authors.csv");
+        saveItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
+        saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
+        saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
+        saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
+        saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
+        saveItems(new String[] {"name", "authored"}, CSVPaths[5]);
     }
 
     private void saveItems(String[] headers, String filePath) {
@@ -235,85 +240,79 @@ public class LibrarySystem {
 
         try (FileWriter fileWriter = new FileWriter(filePath);
              CSVPrinter csvPrinter = new CSVPrinter(fileWriter, csvFormat)) {
-            switch (filePath) {
-                case "books.csv" -> {
-                    for (Asset asset : assets) {
-                        if (asset instanceof Book book) {
-                            csvPrinter.printRecord(
-                                    book.getTitle(),
-                                    book.getAuthor(),
-                                    book.getISBN(),
-                                    book.isAvailability()
-                            );
-                        }
-                    }
-                }
-                case "audiobooks.csv" -> {
-                    for (Asset asset : assets) {
-                        if (asset instanceof AudioBook audioBook) {
-                            csvPrinter.printRecord(
-                                    audioBook.getTitle(),
-                                    audioBook.getAuthor(),
-                                    audioBook.getISBN(),
-                                    audioBook.getDuration(),
-                                    audioBook.isAvailability()
-                            );
-                        }
-                    }
-                }
-                case "cds.csv" -> {
-                    for (Asset asset : assets) {
-                        if (asset instanceof CD cd) {
-                            csvPrinter.printRecord(
-                                    cd.getTitle(),
-                                    cd.getProducer(),
-                                    cd.getDirector(),
-                                    cd.getPlaytime(),
-                                    cd.isAvailability()
-                            );
-                        }
-                    }
-                }
-                case "thesis.csv" -> {
-                    for (Asset asset : assets) {
-                        if (asset instanceof Thesis thesis) {
-                            csvPrinter.printRecord(
-                                    thesis.getTitle(),
-                                    thesis.getAuthor(),
-                                    thesis.getTopic(),
-                                    thesis.getAbstract(),
-                                    thesis.getDatePublished(),
-                                    thesis.isAvailability()
-                            );
-                        }
-                    }
-                }
-                case "users.csv" -> {
-                    for (LibraryUser user : users) {
-                        StringBuilder borrowed = new StringBuilder();
-                        for (Asset asset: user.getBorrowedAssets()) {
-                            borrowed.append(asset.getTitle()).append(" ");
-                        }
 
+            if (filePath.equals(CSVPaths[0])) {
+                for (Asset asset : assets) {
+                    if (asset instanceof Book book && !(asset instanceof AudioBook)) {
                         csvPrinter.printRecord(
-                                user.getID(),
-                                user.getName(),
-                                borrowed
+                                book.getTitle(),
+                                book.getAuthor(),
+                                book.getISBN(),
+                                book.isAvailability()
                         );
                     }
                 }
-                case "authors.csv" -> {
-                    for (Author author : authors) {
-                        StringBuilder authoredAssets = new StringBuilder();
-                        for (Asset asset: author.getAuthoredAssets()) {
-                            authoredAssets.append(asset.getTitle()).append(" ");
-                        }
-
+            } else if (filePath.equals(CSVPaths[1])) {
+                for (Asset asset : assets) {
+                    if (asset instanceof AudioBook audioBook) {
                         csvPrinter.printRecord(
-                                author.getName(),
-                                authoredAssets
+                                audioBook.getTitle(),
+                                audioBook.getAuthor(),
+                                audioBook.getISBN(),
+                                audioBook.getDuration(),
+                                audioBook.isAvailability()
                         );
                     }
+                }
+            } else if (filePath.equals(CSVPaths[2])) {
+                for (Asset asset : assets) {
+                    if (asset instanceof CD cd) {
+                        csvPrinter.printRecord(
+                                cd.getTitle(),
+                                cd.getProducer(),
+                                cd.getDirector(),
+                                cd.getPlaytime(),
+                                cd.isAvailability()
+                        );
+                    }
+                }
+            } else if (filePath.equals(CSVPaths[3])) {
+                for (Asset asset : assets) {
+                    if (asset instanceof Thesis thesis) {
+                        csvPrinter.printRecord(
+                                thesis.getTitle(),
+                                thesis.getAuthor(),
+                                thesis.getTopic(),
+                                thesis.getAbstract(),
+                                new SimpleDateFormat("dd/MM/yyyy").format(thesis.getDatePublished()),
+                                thesis.isAvailability()
+                        );
+                    }
+                }
+            } else if (filePath.equals(CSVPaths[4])) {
+                for (LibraryUser user : users) {
+                    StringBuilder borrowed = new StringBuilder();
+                    for (Asset asset : user.getBorrowedAssets()) {
+                        borrowed.append("'").append(asset.getTitle()).append("'");
+                    }
+
+                    csvPrinter.printRecord(
+                            user.getID(),
+                            user.getName(),
+                            borrowed
+                    );
+                }
+            } else if (filePath.equals(CSVPaths[5])) {
+                for (Author author : authors) {
+                    StringBuilder authoredAssets = new StringBuilder();
+                    for (Asset asset : author.getAuthoredAssets()) {
+                        authoredAssets.append("'").append(asset.getTitle()).append("'");
+                    }
+
+                    csvPrinter.printRecord(
+                            author.getName(),
+                            authoredAssets
+                    );
                 }
             }
         } catch (IOException e) {
@@ -321,3 +320,4 @@ public class LibrarySystem {
         }
     }
 }
+
