@@ -3,6 +3,7 @@ package org.CA2;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -16,9 +17,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class LibrarySystem {
-    private LinkedList<Asset> assets;
-    private LinkedList<Author> authors;
-    private LinkedList<LibraryUser> users;
+    private static LinkedList<Asset> assets;
+    private static LinkedList<Author> authors;
+    private static LinkedList<LibraryUser> users;
     private LinkedList<Loan> loans;
 
     // Paths to the CSV files that should be read from or written to
@@ -34,7 +35,7 @@ public class LibrarySystem {
         this.CSVPaths = CSVPaths;
     }
 
-    public void addBook(String title, String author, String ISBN) {
+    public static void addBook(String title, String author, String ISBN) {
         try {
             assets.add(new Book(title, author, ISBN, true));
         } catch (AssetException e) {
@@ -42,7 +43,7 @@ public class LibrarySystem {
         }
     }
 
-    public void addAudioBook(String title, String author, String ISBN, int duration) {
+    public static void addAudioBook(String title, String author, String ISBN, int duration) {
         try {
             assets.add(new AudioBook(title, author, ISBN, duration, true));
         } catch (AssetException e) {
@@ -50,7 +51,7 @@ public class LibrarySystem {
         }
     }
 
-    public void addCD(String title, String producer, String director, int playtime) {
+    public static void addCD(String title, String producer, String director, int playtime) {
         try {
             assets.add(new CD(title, producer, director, playtime, true));
         } catch (AssetException e) {
@@ -59,7 +60,7 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public void addThesis(String title, String author, String topic, String Abstract, Date datePublished) {
+    public static void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
         try {
             assets.add(new Thesis(title, author, topic, Abstract, datePublished, true));
         } catch (AssetException e) {
@@ -67,29 +68,29 @@ public class LibrarySystem {
         }
     }
 
-    public void addAuthor(String name, LinkedList<Asset> authoredBooks) {
+    public static void addAuthor(String name, LinkedList<Asset> authoredBooks) {
         authors.add(new Author(name, authoredBooks));
     }
 
     // Move the search functions out to their own class?
     // Find a way to make search algorithm generic to reduce code reuse?
-    public Author getAuthor(String name) {
+    public static Author getAuthor(String name) {
         return authorSearch(name);
     }
 
-    private Author authorSearch(String name) {
+    private static Author authorSearch(String name) {
         return null;
     }
 
-    public void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
+    public static void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
         users.add(new LibraryUser(name, ID, borrowedAssets));
     }
 
-    public LibraryUser getUser(int ID) {
+    public static LibraryUser getUser(int ID) {
         return userSearch(ID);
     }
 
-    private LibraryUser userSearch(int ID) {
+    private static LibraryUser userSearch(int ID) {
         return null;
     }
 
@@ -113,12 +114,12 @@ public class LibrarySystem {
         // Search for loans with library user and check books?
     }
 
-    public void listAvailableAssets() {
+    public static void listAvailableAssets() {
         // Iterate over assets
         // Print out available assets
     }
 
-    public void listBorrowedBooks(LibraryUser user) {
+    public static void listBorrowedBooks(LibraryUser user) {
         // Find the user in list
         // Print out its borrowed books
     }
