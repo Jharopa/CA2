@@ -1,8 +1,7 @@
 package org.CA2;
 
 public class Main {
-
-    private void addLibraryItem() {
+    private void addLibraryAsset() {
         // Print Book, AudioBook, CD, Theses option.
 
         // Get input/validate input

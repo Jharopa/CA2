@@ -3,7 +3,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.io.IOException;
 import java.text.ParseException;
 
 public class CSVReadTest {
@@ -27,36 +26,45 @@ public class CSVReadTest {
     }
 
     @Test
-    public void testCSVWriteBooks() {
+    public void testCSVReadBooks() {
         Asset lotr = lb.getAsset("The Lord of the Rings");
         Assert.assertNotNull(lotr);
     }
 
     @Test
-    public void testCSVWriteAudiobooks() {
+    public void testCSVReadAudiobooks() {
         Asset md = lb.getAsset("Moby Dick");
         Assert.assertNotNull(md);
     }
 
     @Test
-    public void testCSVWriteCDs() {
+    public void testCSVReadCDs() {
         Asset hd = lb.getAsset("Hunky Dory");
         Assert.assertNotNull(hd);
     }
 
     @Test
-    public void testCSVWriteTheses() throws IOException {
+    public void testCSVReadTheses() {
         Asset wawn = lb.getAsset("Where are we now");
         Assert.assertNotNull(wawn);
     }
 
     @Test
-    public void testCSVWriteUsers() throws IOException {
+    public void testCSVReadUsers() {
+        LibraryUser lu = lb.getUser("John Doe");
 
+        Assert.assertNotNull(lu);
+
+        Assert.assertNotNull(lu.getBorrowedAssets().get(0));
+        Assert.assertNotNull(lu.getBorrowedAssets().get(1));
     }
 
     @Test
-    public void testCSVWriteAuthors() throws IOException {
+    public void testCSVReadAuthors() {
+        Author a = lb.getAuthor("JRR. Tolkien");
 
+        Assert.assertNotNull(a);
+
+        Assert.assertNotNull(a.getAuthoredAssets().get(0));
     }
 }

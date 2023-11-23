@@ -21,4 +21,46 @@ public class BinarySearch {
 
         return null;
     }
+
+    public static Author authorSearch(Author[] arr, String name) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left <= right){
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid].getName().equals(name)){
+                return arr[mid];
+            }
+            else if (arr[mid].getName().compareTo(name) < 0){
+                left = mid + 1;
+            }
+            else {
+                right = mid -1;
+            }
+        }
+
+        return null;
+    }
+
+    public static LibraryUser userSearch(LibraryUser[] arr, String name) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left <= right){
+            int mid = left + (right - left) / 2;
+
+            if (arr[mid].getName().equals(name)){
+                return arr[mid];
+            }
+            else if (arr[mid].getName().compareTo(name) < 0){
+                left = mid + 1;
+            }
+            else {
+                right = mid -1;
+            }
+        }
+
+        return null;
+    }
 }

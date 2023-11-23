@@ -1,8 +1,11 @@
 package org.CA2;
 
 import java.io.FileReader;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -11,19 +14,19 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
+import javax.swing.text.DateFormatter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Objects;
 
 public class LibrarySystem {
-    private LinkedList<Asset> assets;
-    private LinkedList<Author> authors;
-    private LinkedList<LibraryUser> users;
-    private LinkedList<Loan> loans;
+    private final LinkedList<Asset> assets;
+    private final LinkedList<Author> authors;
+    private final LinkedList<LibraryUser> users;
+    private final LinkedList<Loan> loans;
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
-    private String[] CSVPaths;
+    private final String[] CSVPaths;
 
     public LibrarySystem(String[] CSVPaths) {
         this.assets = new LinkedList<>();
@@ -74,28 +77,28 @@ public class LibrarySystem {
     // Move the search functions out to their own class?
     // Find a way to make search algorithm generic to reduce code reuse?
     public Author getAuthor(String name) {
-        return authorSearch(name);
-    }
+        Author[] authorArr = new Author[authors.size()];
+        authors.toArray(authorArr);
+        HeapSort.sort(authorArr);
 
-    private Author authorSearch(String name) {
-        return null;
+        return BinarySearch.authorSearch(authorArr, name);
     }
 
     public void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
         users.add(new LibraryUser(name, ID, borrowedAssets));
     }
 
-    public LibraryUser getUser(int ID) {
-        return userSearch(ID);
-    }
+    public LibraryUser getUser(String name) {
+        LibraryUser[] userArr = new LibraryUser[users.size()];
+        users.toArray(userArr);
+        HeapSort.sort(userArr);
 
-    private LibraryUser userSearch(int ID) {
-        return null;
+        return BinarySearch.userSearch(userArr, name);
     }
 
     public Asset getAsset(String title) {
         Asset[] assetsArr = new Asset[assets.size()];
-        assetsArr = assets.toArray(assetsArr);
+        assets.toArray(assetsArr);
         HeapSort.sort(assetsArr);
 
         return BinarySearch.assetSearch(assetsArr, title);
@@ -135,6 +138,7 @@ public class LibrarySystem {
         loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         loadItems(new String[] {"name", "authored"}, CSVPaths[5]);
+        //loadItems(new String[] {"user", "borrowed", "dateBorrowed", "dateReturned"}, CSVPaths[6]);
     }
 
     private void loadItems(String[] headers, String filePath) {
@@ -186,14 +190,15 @@ public class LibrarySystem {
 
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
                     }
-
                     else if (filePath.equals(CSVPaths[4])) {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
 
-                        String[] borrowedAssetsTitle = borrowed.split("'");
+                        String[] borrowedAssetsTitle = borrowed.split("\\|");
                         LinkedList<Asset> assetsList = new LinkedList<>();
+
+                        // Search for asset by name and add to assetsList
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
@@ -203,13 +208,14 @@ public class LibrarySystem {
 
                         users.add(new LibraryUser(name, id, assetsList));
                     }
-
                     else if (filePath.equals(CSVPaths[5])) {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
 
-                        String[] authoredAssets = authored.split("'");
+                        String[] authoredAssets = authored.split("\\|");
                         LinkedList<Asset> assetsList = new LinkedList<>();
+
+                        // Search for asset by name and add to assetsList
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
@@ -218,6 +224,43 @@ public class LibrarySystem {
                         }
 
                         authors.add(new Author(name, assetsList));
+                    }
+                    else if (filePath.equals(CSVPaths[6])) {
+                        // Get library user
+                        String userName = csvRecord.get("user");
+
+                        LibraryUser[] userArr = this.users.toArray(new LibraryUser[users.size()]);
+                        HeapSort.sort(userArr);
+
+                        LibraryUser user = BinarySearch.userSearch(userArr, userName);
+
+                        // Get borrowed assets
+                        String borrowed = csvRecord.get("borrowed");
+
+                        String[] borrowedAssetsTitle = borrowed.split("\\|");
+                        LinkedList<Asset> assetsList = new LinkedList<>();
+
+                        // Search for asset by name and add to assetsList
+                        Asset[] assetArr = this.assets.toArray(new Asset[assets.size()]);
+                        HeapSort.sort(assetArr);
+
+                        for (String string: borrowedAssetsTitle) {
+                            assetsList.add(BinarySearch.assetSearch(assetArr, string));
+                        }
+
+                        // Create dateBorrowed
+                        LocalDate dateBorrowed = LocalDate.parse(csvRecord.get("dateBorrowed"), DateTimeFormatter.ISO_LOCAL_DATE);
+
+                        // Create dateReturned
+                        LocalDate dateReturned;
+
+                        if (csvRecord.get("dateReturned").isEmpty()) {
+                            dateReturned = null;
+                        } else {
+                            dateReturned = LocalDate.parse(csvRecord.get("dateReturned"), DateTimeFormatter.ISO_LOCAL_DATE);
+                        }
+
+                        loans.add(new Loan(user, assetsList, dateBorrowed, dateReturned));
                     }
             }
         } catch (IOException e) {
@@ -236,6 +279,7 @@ public class LibrarySystem {
         saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         saveItems(new String[] {"name", "authored"}, CSVPaths[5]);
+        //saveItems(new String[] {"user", "borrowed", "dateBorrowed", "dateReturned"}, CSVPaths[6]);
     }
 
     private void saveItems(String[] headers, String filePath) {
@@ -298,7 +342,7 @@ public class LibrarySystem {
                 for (LibraryUser user : users) {
                     StringBuilder borrowed = new StringBuilder();
                     for (Asset asset : user.getBorrowedAssets()) {
-                        borrowed.append("'").append(asset.getTitle()).append("'");
+                        borrowed.append(asset.getTitle()).append("|");
                     }
 
                     csvPrinter.printRecord(
@@ -311,12 +355,28 @@ public class LibrarySystem {
                 for (Author author : authors) {
                     StringBuilder authoredAssets = new StringBuilder();
                     for (Asset asset : author.getAuthoredAssets()) {
-                        authoredAssets.append("'").append(asset.getTitle()).append("'");
+                        authoredAssets.append(asset.getTitle()).append("|");
                     }
 
                     csvPrinter.printRecord(
                             author.getName(),
                             authoredAssets
+                    );
+                }
+            } else if (filePath.equals(CSVPaths[6])) {
+                for (Loan loan : loans) {
+                    StringBuilder borrowedAssets = new StringBuilder();
+                    for (Asset asset : loan.getBorrowedAsset()) {
+                        borrowedAssets.append(asset.getTitle()).append("|");
+                    }
+
+                    String returnDate = (loan.getReturnDate() != null) ? loan.getReturnDate().toString() : "";
+
+                    csvPrinter.printRecord(
+                            loan.getBorrower().getName(),
+                            borrowedAssets,
+                            loan.getBorrowDate().toString(),
+                            returnDate
                     );
                 }
             }

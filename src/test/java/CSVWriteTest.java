@@ -86,7 +86,7 @@ public class CSVWriteTest {
         ArrayList<String> contents = getContents("src/test/resources/write_users.csv");
 
         Assert.assertEquals(contents.get(0), "id,name,borrowed");
-        Assert.assertEquals(contents.get(1), "1,John Doe,'Hunky Dory''The Hobbit'");
+        Assert.assertEquals(contents.get(1), "1,John Doe,Hunky Dory|The Hobbit|");
     }
 
     @Test
@@ -94,7 +94,7 @@ public class CSVWriteTest {
         ArrayList<String> contents = getContents("src/test/resources/write_authors.csv");
 
         Assert.assertEquals(contents.get(0), "name,authored");
-        Assert.assertEquals(contents.get(1), "JRR. Tolkien,'The Lord of the Rings''The Hobbit'");
+        Assert.assertEquals(contents.get(1), "JRR. Tolkien,The Lord of the Rings|The Hobbit|");
     }
 
     private ArrayList<String> getContents(String path) throws IOException {

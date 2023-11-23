@@ -3,7 +3,6 @@ package org.CA2;
 import java.util.List;
 
 public class LibraryUser implements Comparable<LibraryUser>{
-
     private String name;
     private int ID;
     private List<Asset> borrowedAssets;

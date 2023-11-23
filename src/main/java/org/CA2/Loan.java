@@ -1,5 +1,6 @@
 package org.CA2;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -7,14 +8,14 @@ public class Loan {
 
     private LibraryUser borrower;
     private List<Asset> borrowedAsset;
-    private Date borrowDate;
-    private Date returnDate;
+    private LocalDate borrowDate;
+    private LocalDate returnDate;
 
-    public Loan(LibraryUser borrower, List<Asset> borrowedAsset) {
+    public Loan(LibraryUser borrower, List<Asset> borrowedAsset, LocalDate borrowDate, LocalDate returnDate) {
         this.borrower = borrower;
         this.borrowedAsset = borrowedAsset;
-        this.borrowDate = new Date();
-        this.returnDate = null;
+        this.borrowDate = returnDate;
+        this.returnDate = borrowDate;
     }
 
     public LibraryUser getBorrower() {
@@ -33,20 +34,20 @@ public class Loan {
         this.borrowedAsset = borrowedAsset;
     }
 
-    public Date getBorrowDate() {
+    public LocalDate getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
+    public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) throws AssetException {
-        if (returnDate.after(new Date())) {
+    public void setReturnDate(LocalDate returnDate) throws AssetException {
+        if (returnDate.isAfter(LocalDate.now())) {
             throw new AssetException("Loan returnDate can not be in the future");
         }
 
