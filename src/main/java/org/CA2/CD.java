@@ -1,6 +1,6 @@
 package org.CA2;
 
-public class CD extends Asset {
+public class CD extends Asset implements Printable{
     private String producer;
     private String director;
     private int playtime;
@@ -35,5 +35,16 @@ public class CD extends Asset {
 
     public void setPlaytime(int playtime) {
         this.playtime = playtime;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" %s %s %d", producer, director, playtime);
+    }
+
+
+    @Override
+    public void print() {
+        System.out.println(this);
     }
 }

@@ -2,7 +2,7 @@ package org.CA2;
 
 import java.util.Date;
 
-public class Thesis extends Asset {
+public class Thesis extends Asset implements Printable {
     private String author;
     private String topic;
     private String Abstract;
@@ -51,5 +51,16 @@ public class Thesis extends Asset {
 
     public void setDatePublished(Date datePublished) {
         this.datePublished = datePublished;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" %s %s %s", author, topic, datePublished.toString());
+    }
+
+
+    @Override
+    public void print() {
+        System.out.println(this);
     }
 }
