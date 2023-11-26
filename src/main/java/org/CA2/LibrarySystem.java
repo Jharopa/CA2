@@ -62,7 +62,7 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public void addThesis(String title, String author, String topic, String Abstract, Date datePublished) {
+    public void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
         try {
             assets.add(new Thesis(title, author, topic, Abstract, datePublished, true));
         } catch (AssetException e) {
@@ -183,9 +183,7 @@ public class LibrarySystem {
                         String author = csvRecord.get("author");
                         String topic = csvRecord.get("topic");
                         String Abstract = csvRecord.get("Abstract");
-
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        Date datePublished = sdf.parse(csvRecord.get("datePublished"));
+                        LocalDate datePublished = LocalDate.parse(csvRecord.get("datePublished"), DateTimeFormatter.ISO_LOCAL_DATE);
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
@@ -267,8 +265,6 @@ public class LibrarySystem {
             System.out.printf("Failed to load asset. %s", e);
         } catch (AssetException e) {
             System.out.printf("Unable to add loaded asset. %s", e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -333,7 +329,7 @@ public class LibrarySystem {
                                 thesis.getAuthor(),
                                 thesis.getTopic(),
                                 thesis.getAbstract(),
-                                new SimpleDateFormat("dd/MM/yyyy").format(thesis.getDatePublished()),
+                                thesis.getDatePublished(),
                                 thesis.isAvailability()
                         );
                     }

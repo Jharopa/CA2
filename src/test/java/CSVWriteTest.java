@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class CSVWriteTest {
@@ -36,7 +38,7 @@ public class CSVWriteTest {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        lb.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", sdf.parse("26/09/2023"));
+        lb.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
 
         authorsAssets.add(new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true));
         authorsAssets.add(new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true));
@@ -78,7 +80,7 @@ public class CSVWriteTest {
         ArrayList<String> contents = getContents("src/test/resources/write_theses.csv");
 
         Assert.assertEquals(contents.get(0), "title,author,topic,Abstract,datePublished,availability");
-        Assert.assertEquals(contents.get(1), "Where are we now,John Doe,Philosophy,This is an abstract,26/09/2023,true");
+        Assert.assertEquals(contents.get(1), "Where are we now,John Doe,Philosophy,This is an abstract,2023-08-08,true");
     }
 
     @Test

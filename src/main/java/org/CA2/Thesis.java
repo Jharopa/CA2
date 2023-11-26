@@ -1,17 +1,18 @@
 package org.CA2;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Thesis extends Asset implements Printable {
     private String author;
     private String topic;
     private String Abstract;
-    private Date datePublished;
+    private LocalDate datePublished;
 
-    public Thesis(String title, String author, String topic, String Abstract, Date datePublished, boolean availability) throws AssetException {
+    public Thesis(String title, String author, String topic, String Abstract, LocalDate datePublished, boolean availability) throws AssetException {
         super(title, availability);
 
-        if (datePublished.after(new Date())) {
+        if (datePublished.isAfter(LocalDate.now())) {
             throw new AssetException("Theses datePublished can not be in the future");
         }
 
@@ -45,11 +46,11 @@ public class Thesis extends Asset implements Printable {
         Abstract = anAbstract;
     }
 
-    public Date getDatePublished() {
+    public LocalDate getDatePublished() {
         return datePublished;
     }
 
-    public void setDatePublished(Date datePublished) {
+    public void setDatePublished(LocalDate datePublished) {
         this.datePublished = datePublished;
     }
 

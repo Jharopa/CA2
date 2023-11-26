@@ -3,6 +3,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class HeapSortTest {
@@ -16,7 +17,7 @@ public class HeapSortTest {
                 new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true),
                 new AudioBook("Moby Dick", "Herman Melville","9781566192637", 340, true),
                 new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true),
-                new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", new Date(), true)
+                new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.now(), true)
         };
 
         authorArr = new Author[] {
