@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -17,7 +16,7 @@ public class CSVWriteTest {
     static String[] CSVPaths;
 
     @BeforeClass
-    public static void testSetup() throws AssetException, ParseException {
+    public static void testSetup() throws AssetException {
         CSVPaths = new String[] {
                 "src/test/resources/write_books.csv",
                 "src/test/resources/write_audiobooks.csv",
@@ -35,8 +34,6 @@ public class CSVWriteTest {
         lb.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
         lb.addAudioBook("Moby Dick", "Herman Melville","9781566192637", 340);
         lb.addCD("Hunky Dory", "Ken Scott", "David Bowie", 41);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
         lb.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
 
@@ -100,7 +97,7 @@ public class CSVWriteTest {
     }
 
     private ArrayList<String> getContents(String path) throws IOException {
-        ArrayList<String> contents = new ArrayList<String>();
+        ArrayList<String> contents = new ArrayList<>();
 
         BufferedReader bf = new BufferedReader(
                 new FileReader(path));
