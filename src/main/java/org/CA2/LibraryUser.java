@@ -2,8 +2,7 @@ package org.CA2;
 
 import java.util.List;
 
-public class LibraryUser implements Comparable<LibraryUser>{
-
+public class LibraryUser implements Comparable<LibraryUser>, Printable{
     private String name;
     private int ID;
     private List<Asset> borrowedAssets;
@@ -41,5 +40,15 @@ public class LibraryUser implements Comparable<LibraryUser>{
     @Override
     public int compareTo(LibraryUser o) {
         return this.name.compareTo(o.getName());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d %s", ID, name);
+    }
+
+    @Override
+    public void print() {
+        System.out.println(this.toString());
     }
 }

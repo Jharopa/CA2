@@ -1,6 +1,6 @@
 package org.CA2;
 
-public class Book extends Asset {
+public class Book extends Asset implements Printable{
     private String author;
     private String ISBN;
 
@@ -24,5 +24,15 @@ public class Book extends Asset {
 
     public void setISBN(String ISBN) {
         this.ISBN = ISBN;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" %s %s", author, ISBN);
+    }
+
+    @Override
+    public void print() {
+        System.out.println(this);
     }
 }

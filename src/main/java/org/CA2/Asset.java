@@ -1,6 +1,6 @@
 package org.CA2;
 
-public abstract class Asset implements Comparable<Asset>{
+public abstract class Asset implements Comparable<Asset> {
     protected String title;
     protected boolean availability;
 
@@ -36,5 +36,10 @@ public abstract class Asset implements Comparable<Asset>{
     // Strings are compared lexicographic order https://www.educative.io/answers/what-is-a-lexicographic-order
     public int compareTo(Asset o) {
         return this.title.compareTo(o.getTitle());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", getTitle(), availability ? "available" : "unavailable");
     }
 }

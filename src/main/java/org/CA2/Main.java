@@ -19,7 +19,6 @@ public class Main {
         }
     }
 
-
     private static boolean validateDate(String input) {
         try {
             LocalDate date = LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);

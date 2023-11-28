@@ -1,6 +1,6 @@
 package org.CA2;
 
-public class AudioBook extends Book {
+public class AudioBook extends Book implements Printable {
 
     private int duration;
 
@@ -24,5 +24,15 @@ public class AudioBook extends Book {
         }
 
         this.duration = duration;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" %d", duration);
+    }
+
+    @Override
+    public void print() {
+        System.out.println(this.toString());
     }
 }
