@@ -57,8 +57,15 @@ public class LibrarySystem {
 
 
     public static void addAudioBook(String title, String author, String ISBN, int duration) {
+        var thisAuthor = getAuthor(author);
+        if (thisAuthor == null) {
+            System.out.println("No author found, please create this author first.");
+            return;
+        };
         try {
-            assets.add(new AudioBook(title, author, ISBN, duration, true));
+            Asset asset = new AudioBook(title, author, ISBN, duration, true);
+            thisAuthor.AddAssetToAuthor(asset);
+            assets.add(asset);
         } catch (AssetException e) {
             System.out.printf("Unable to add audio book. Reason: %s", e);
         }
@@ -74,9 +81,15 @@ public class LibrarySystem {
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
     public static void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
-
+        var thisAuthor = getAuthor(author);
+        if (thisAuthor == null) {
+            System.out.println("No author found, please create this author first.");
+            return;
+        };
         try {
-            assets.add(new Thesis(title, author, topic, Abstract, datePublished, true));
+            Asset asset = new Thesis(title, author, topic, Abstract, datePublished, true);
+            assets.add(asset);
+            thisAuthor.AddAssetToAuthor(asset);
         } catch (AssetException e) {
             System.out.printf("Unable to add theses. Reason: %s", e);
         }
@@ -133,6 +146,38 @@ public class LibrarySystem {
     public static void listAvailableAssets() {
         for (Asset asset : assets) {
             if (asset.isAvailability()) {
+                asset.print();
+            }
+        }
+    }
+
+    public static void listAvailableBooks() {
+        for (Asset asset : assets) {
+            if (asset.isAvailability() && asset instanceof Book ) {
+                asset.print();
+            }
+        }
+    }
+
+    public static void listAvailableTheses() {
+        for (Asset asset : assets) {
+            if (asset.isAvailability() && asset instanceof Thesis ) {
+                asset.print();
+            }
+        }
+    }
+
+    public static void listAvailableAudioBooks() {
+        for (Asset asset : assets) {
+            if (asset.isAvailability() && asset instanceof AudioBook ) {
+                asset.print();
+            }
+        }
+    }
+
+    public static void listAvailableCds() {
+        for (Asset asset : assets) {
+            if (asset.isAvailability() && asset instanceof CD ) {
                 asset.print();
             }
         }
