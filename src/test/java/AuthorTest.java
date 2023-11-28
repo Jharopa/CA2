@@ -7,15 +7,13 @@ import java.util.LinkedList;
 public class AuthorTest {
     @Test
     public void testAuthor() throws AssetException {
-        LinkedList<Asset> authorsAssets = new LinkedList<>();
-
         Book b1 = new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true);
         AudioBook ab1 = new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true);
 
-        authorsAssets.add(b1);
-        authorsAssets.add(ab1);
+        Author a = new Author("JRR. Tolkien");
 
-        Author a = new Author("JRR. Tolkien", authorsAssets);
+        a.AddAssetToAuthor(b1);
+        a.AddAssetToAuthor(ab1);
 
         Assert.assertEquals(a.getName(), "JRR. Tolkien");
         Assert.assertEquals(a.getAuthoredAssets().get(0), b1);
@@ -26,11 +24,10 @@ public class AuthorTest {
         Book b2 = new Book("New Book", "New name", "123456", true);
         AudioBook ab2 = new AudioBook("New Book 2", "New name","654321", 340, true);
 
-        authorsAssets.clear();
-        authorsAssets.add(b2);
-        authorsAssets.add(ab2);
-
-        a.setAuthoredAssets(authorsAssets);
+        LinkedList<Asset> assets = new LinkedList<>();
+        assets.add(b2);
+        assets.add(ab2);
+        a.setAuthoredAssets(assets);
 
         Assert.assertEquals(a.getName(), "New Name");
         Assert.assertEquals(a.getAuthoredAssets().get(0), b2);

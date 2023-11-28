@@ -6,7 +6,6 @@ import org.junit.Test;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -28,22 +27,20 @@ public class CSVWriteTest {
 
         lb = new LibrarySystem(CSVPaths);
 
-        LinkedList<Asset> authorsAssets = new LinkedList<>();
         LinkedList<Asset> usersBorrowedAssets = new LinkedList<>();
 
-        lb.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
-        lb.addAudioBook("Moby Dick", "Herman Melville","9781566192637", 340);
-        lb.addCD("Hunky Dory", "Ken Scott", "David Bowie", 41);
+        LibrarySystem.addAuthor("JRR. Tolkien");
 
-        lb.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
-
-        authorsAssets.add(new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true));
-        authorsAssets.add(new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true));
-        lb.addAuthor("JRR. Tolkien", authorsAssets);
+        LibrarySystem.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
+        LibrarySystem.addBook("The Hobbit", "JRR. Tolkien","9781566192637");
+        LibrarySystem.addAudioBook("Moby Dick", "Herman Melville","9781566192637", 340);
+        LibrarySystem.addCD("Hunky Dory", "Ken Scott", "David Bowie", 41);
+        LibrarySystem.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
 
         usersBorrowedAssets.add(new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true));
         usersBorrowedAssets.add(new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true));
-        lb.addUser(1,"John Doe", usersBorrowedAssets);
+
+        LibrarySystem.addUser(1,"John Doe", usersBorrowedAssets);
 
         lb.save();
     }

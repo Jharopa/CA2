@@ -30,9 +30,9 @@ public class LibrarySystem {
     private final String[] CSVPaths;
 
     public LibrarySystem(String[] CSVPaths) {
-        this.assets = new LinkedList<>();
-        this.authors = new LinkedList<>();
-        this.users = new LinkedList<>();
+        assets = new LinkedList<>();
+        authors = new LinkedList<>();
+        users = new LinkedList<>();
         this.loans = new LinkedList<>();
 
         this.CSVPaths = CSVPaths;
@@ -40,10 +40,12 @@ public class LibrarySystem {
 
     public static void addBook(String title, String author, String ISBN) {
         var thisAuthor = getAuthor(author);
+
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
             return;
-        };
+        }
+
         try {
             Asset asset = new Book(title, author, ISBN, true);
             thisAuthor.AddAssetToAuthor(asset);
@@ -100,7 +102,7 @@ public class LibrarySystem {
     }
 
 
-    public LibraryUser getUser(String name) {
+    public static LibraryUser getUser(String name) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
         HeapSort.sort(userArr);
@@ -129,8 +131,11 @@ public class LibrarySystem {
     }
 
     public static void listAvailableAssets() {
-        // Iterate over assets
-        // Print out available assets
+        for (Asset asset : assets) {
+            if (asset.isAvailability()) {
+                asset.print();
+            }
+        }
     }
 
     public static void listBorrowedBooks(LibraryUser user) {
@@ -283,9 +288,6 @@ public class LibrarySystem {
         } catch (AssetException e) {
             System.out.printf("Unable to add loaded asset. %s", e);
         }
-//        catch (ParseException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     public void save() {

@@ -1,6 +1,6 @@
 package org.CA2;
 
-public abstract class Asset implements Comparable<Asset> {
+public abstract class Asset implements Comparable<Asset>, Printable {
     protected String title;
     protected boolean availability;
 

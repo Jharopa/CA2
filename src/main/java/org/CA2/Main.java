@@ -241,7 +241,7 @@ public class Main {
         // Get user data as input
         System.out.println("Please enter the user's ID:\r\n");
         int id = sc.nextInt();
-        LibrarySystem.getUser(id);
+        // LibrarySystem.getUser(id);
 
         // Get asset titles
 
@@ -252,7 +252,7 @@ public class Main {
         // Get user data as input
         System.out.println("Please enter the user's ID:\r\n");
         int id = sc.nextInt();
-        LibrarySystem.getUser(id);
+        // LibrarySystem.getUser(id);
         // Get asset titles
 
         // Call LibrarySystem createLoan
