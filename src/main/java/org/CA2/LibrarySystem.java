@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -36,12 +37,20 @@ public class LibrarySystem {
     }
 
     public static void addBook(String title, String author, String ISBN) {
+        var thisAuthor = getAuthor(author);
+        if (thisAuthor == null) {
+            System.out.println("No author found, please create this author first.");
+            return;
+        };
         try {
-            assets.add(new Book(title, author, ISBN, true));
+            Asset asset = new Book(title, author, ISBN, true);
+            thisAuthor.AddAssetToAuthor(asset);
+            assets.add(asset);
         } catch (AssetException e) {
             System.out.printf("Unable to add book. Reason: %s", e);
         }
     }
+
 
     public static void addAudioBook(String title, String author, String ISBN, int duration) {
         try {
@@ -68,8 +77,8 @@ public class LibrarySystem {
         }
     }
 
-    public static void addAuthor(String name, LinkedList<Asset> authoredBooks) {
-        authors.add(new Author(name, authoredBooks));
+    public static void addAuthor(String name) {
+        authors.add(new Author(name));
     }
 
     // Move the search functions out to their own class?
@@ -181,8 +190,8 @@ public class LibrarySystem {
                         String topic = csvRecord.get("topic");
                         String Abstract = csvRecord.get("Abstract");
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                        Date datePublished = sdf.parse(csvRecord.get("datePublished"));
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        LocalDate datePublished = LocalDate.parse(csvRecord.get("datePublished"), formatter);
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
@@ -210,24 +219,25 @@ public class LibrarySystem {
                         String authored = csvRecord.get("authored");
 
                         String[] authoredAssets = authored.split("'");
-                        LinkedList<Asset> assetsList = new LinkedList<>();
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
-                        for (String string: authoredAssets) {
-                            assetsList.add(BinarySearch.assetSearch(arr, string));
-                        }
+                        Author author = new Author(name);
 
-                        authors.add(new Author(name, assetsList));
+                        for (String string: authoredAssets) {
+                            author.AddAssetToAuthor(BinarySearch.assetSearch(arr, string));
+                        }
+                        authors.add(author);
                     }
             }
         } catch (IOException e) {
             System.out.printf("Failed to load asset. %s", e);
         } catch (AssetException e) {
             System.out.printf("Unable to add loaded asset. %s", e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
         }
+//        catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void save() {

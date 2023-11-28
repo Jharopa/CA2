@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name.">
+    <list default="true" id="39bbfa67-c527-4667-95b5-ac8cc82de380" name="Changes" comment="Working on menu. Need to finish it. Need to fix published date type.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Author.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Thesis.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/Thesis.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/HeapSortTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HeapSortTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +67,8 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "LH__libraryMenu",
     "last_opened_file_path": "C:/College/Software Development/UnitTesting",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "onboarding.tips.debug.path": "C:/College/Software Development/CA2/src/main/java/org/example/Main.java",
     "project.structure.last.edited": "Modules",
@@ -74,7 +78,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.CSVWriteTest">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.CA2.Main" />
       <module name="CA2" />
@@ -117,8 +121,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CSVWriteTest" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.CSVWriteTest" />
         <item itemvalue="JUnit.HeapSortTest" />
         <item itemvalue="JUnit.BinarySearchTest" />
       </list>
@@ -133,6 +137,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700078725429</updated>
       <workItem from="1700080450937" duration="145000" />
+      <workItem from="1701190451006" duration="6254000" />
     </task>
     <task id="LOCAL-00001" summary="Project Setup">
       <option name="closed" value="true" />
@@ -222,11 +227,30 @@
       <option name="project" value="LOCAL" />
       <updated>1700572702568</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Working on menu. Need to finish it. Need to fix published date type.">
+      <option name="closed" value="true" />
+      <created>1700625716129</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1700625716129</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Project Setup" />
@@ -239,7 +263,8 @@
     <MESSAGE value="Fixed mistake in CSV loading" />
     <MESSAGE value="Asset BinarySearch test" />
     <MESSAGE value="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name." />
-    <option name="LAST_COMMIT_MESSAGE" value="HeapSort tests&#10;Also implemented comparable interface on LibraryUser and Author to sort by name lexicographically, and fixed some method name." />
+    <MESSAGE value="Working on menu. Need to finish it. Need to fix published date type." />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on menu. Need to finish it. Need to fix published date type." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -248,6 +273,26 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>15</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/CA2/Main.java</url>
+          <line>214</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/CA2/Main.java</url>
+          <line>136</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/CA2/Main.java</url>
+          <line>140</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/CA2/LibrarySystem.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

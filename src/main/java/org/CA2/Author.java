@@ -1,19 +1,24 @@
 package org.CA2;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Author implements Comparable<Author> {
 
     private String name;
-    private List<Asset> authoredAsset;
+    private LinkedList<Asset> authoredAsset;
 
-    public Author(String name, List<Asset> authoredAsset) {
+    public Author(String name) {
         this.name = name;
-        this.authoredAsset = authoredAsset;
+        this.authoredAsset = new LinkedList<Asset>();
     }
 
     public String getName() {
         return name;
+    }
+
+    public void AddAssetToAuthor(Asset asset){
+        authoredAsset.add(asset);
     }
 
     public void setName(String name) {
@@ -24,7 +29,7 @@ public class Author implements Comparable<Author> {
         return authoredAsset;
     }
 
-    public void setAuthoredAssets(List<Asset> authoredAsset) {
+    public void setAuthoredAssets(LinkedList<Asset> authoredAsset) {
         this.authoredAsset = authoredAsset;
     }
 

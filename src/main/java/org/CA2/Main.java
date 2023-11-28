@@ -4,17 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    private boolean validateIntegerRange(int choice, int limit) {
+    private static boolean validateIntegerRange(int choice, int limit) {
         if (choice >= 0 && choice <= limit) {
             return true;
         } else {
@@ -22,7 +19,8 @@ public class Main {
         }
     }
 
-    private boolean validateDate(String input) {
+
+    private static boolean validateDate(String input) {
         try {
             LocalDate date = LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
             return true;
@@ -32,7 +30,7 @@ public class Main {
         }
     }
 
-    private void addLibraryItem() {
+    private static void addLibraryItem() {
         int choice;
         do {
             System.out.println("\nWhich type of asset would you like to add?");
@@ -40,14 +38,13 @@ public class Main {
             System.out.println("2. Audio Book");
             System.out.println("3. Thesis");
             System.out.println("4. CD");
-            System.out.println("");
-            System.out.println("0. Exit");
-
+            System.out.println("0. Return to main menu");
+            System.out.print("\r\nEnter your choice: ");
             choice = sc.nextInt();
 
             switch (choice) {
                 case 0:
-                    System.out.println("\n\rThank you for using the library system. Goodbye.");
+                    System.out.println("\n\rReturning to main menu...\n\r");
                     return;
                 case 1:
                     System.out.println("You have chosen to add a book...");
@@ -112,7 +109,7 @@ public class Main {
                 System.out.println("Adding the thesis titled '" + thesisTitle + "' to the catalog");
                 LibrarySystem.addThesis(thesisTitle, name, topic, thesisAbstract, date);
         }
-        System.out.println("Enter q to return to the main menu, or hit enter to add another assett");
+        System.out.println("Enter q to return to the main menu, or hit enter to add another asset");
 
         while (true) {
             String carryon = sc.nextLine();
@@ -125,12 +122,14 @@ public class Main {
 
     }
 
-    private void addBook() {
+    private static void addBook() {
         // Get book data as input
+        sc.nextLine();
         System.out.println("Please enter the title of the book:\r\n");
         String title = sc.nextLine();
         System.out.println("Generating an ISBN....\r\n");
         String isbn = generateISBN();
+        System.out.println("ISBN for " + title + " is " + isbn);
         System.out.println("Please enter the author of the book:\r\n");
         String author = sc.nextLine();
 
@@ -142,23 +141,28 @@ public class Main {
         LibrarySystem.addBook(title, author, isbn);
     }
 
-    private void addCD() {
-        // Get CD data as input
+    private static void addCD() {
+        // needed to add an extra nextLine as it's not waiting for cd title input
+        sc.nextLine();
         System.out.println("Please enter the title of the CD:\r\n");
         String title = sc.nextLine();
-        System.out.println("Please enter the producer of the book:\r\n");
+        System.out.println("Debug: Title entered: " + title);
+
+        System.out.println("Please enter the producer of the cd:\r\n");
         String producer = sc.nextLine();
-        System.out.println("Please enter the director of the book:\r\n");
+        System.out.println("Please enter the director of the cd:\r\n");
         String director = sc.nextLine();
         System.out.println("Please enter the length of the CD in minutes:\r\n");
         int playtime = sc.nextInt();
+        sc.nextLine();
 
         System.out.println("Adding this cd to our catalog...");
         // Call LibrarySystem addCD
         LibrarySystem.addCD(title, producer, director, playtime);
+
     }
 
-    private void addAudioBook() {
+    private static void addAudioBook() {
         // Get audiobook data as input
         System.out.println("Please enter the title of the audio book:\r\n");
         String title = sc.nextLine();
@@ -176,7 +180,7 @@ public class Main {
         LibrarySystem.addAudioBook(title, author, isbn, duration);
     }
 
-    private void addTheses() {
+    private static void addTheses() {
         // Get thesis data as input
         System.out.println("Please enter the title of the thesis:\r\n");
         String title = sc.nextLine();
@@ -187,7 +191,7 @@ public class Main {
         System.out.println("Please enter the abstract of the thesis:\r\n");
         String thesisAbstract = sc.nextLine();
         System.out.println("Please enter the publish date for the thesis in the format yyyy-mm-dd:");
-        LocalDate date;
+        LocalDate date = null;
         boolean thisBool = false;
         while (!thisBool) {
             String input = sc.nextLine();
@@ -203,29 +207,25 @@ public class Main {
         LibrarySystem.addThesis(title, author, topic, thesisAbstract, date);
     }
 
-    private void addAuthor() {
+    private static void addAuthor() {
+        sc.nextLine();
         // Get author data as input
         System.out.println("Please enter the name of the author:\r\n");
         String name = sc.nextLine();
-
-        // Get asset titles and add to list
-        LinkedList<Asset> authoredBooks;
-        System.out.println("Would you like to add an asset belonging to this author? (y/n)");
-        String input = sc.nextLine();
-        if (input == "0" || input.toLowerCase() == "q") {
-            System.out.println("Thank you for using the system. Goodbye.");
-            break;
-        } else if (input.toLowerCase() == "y") {
-            System.out.println("You have chosen to add assets for this author...");
-            addAuthorItem(name);
-        }
-
-
-        // Call LibrarySystem addAuthor
-        LibrarySystem.addAuthor(name, authoredBooks);
+        LibrarySystem.addAuthor(name);
+        System.out.println("Added " + name + " to list of authors in library system.");
+//        System.out.println("Would you like to add an asset belonging to this author? (y/n)");
+//        String input = sc.nextLine();
+//        if (input.toLowerCase() == "n") {
+//            System.out.println("Returning to main menu...");
+//            return;
+//        } else if (input.toLowerCase() == "y") {
+//            System.out.println("You have chosen to add assets for this author...");
+//            addLibraryItem();
+//        }
     }
 
-    private void addUser() {
+    private static void addUser() {
         // Get user data as input
         System.out.println("Please enter the user's full name:\r\n");
         String name = sc.nextLine();
@@ -238,7 +238,7 @@ public class Main {
         LibrarySystem.addUser(id, name, null);
     }
 
-    private void borrowAsset() {
+    private static void borrowAsset() {
         // Get user data as input
         System.out.println("Please enter the user's ID:\r\n");
         int id = sc.nextInt();
@@ -249,7 +249,7 @@ public class Main {
         // Call LibrarySystem createLoan
     }
 
-    private void returnAsset() {
+    private static void returnAsset() {
         // Get user data as input
         System.out.println("Please enter the user's ID:\r\n");
         int id = sc.nextInt();
@@ -273,7 +273,7 @@ public class Main {
         // Call LibrarySystems listAuthorsBooks
     }
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         // Call LibrarySystems load
 
         // Main Loop/Menu
@@ -288,7 +288,7 @@ public class Main {
         while (true) {
             System.out.println("\nWelcome to the Library Management System. \r\nPlease select one of the following options:");
             System.out.println("1. Add asset to the library catalogue");
-            System.out.println("2. Register a new user");
+            System.out.println("2. Add author to catalogue");
             System.out.println("3. View available assets");
             System.out.println("4. Lend book to customer");
             System.out.println("5. Customer is returning a book");
@@ -297,8 +297,21 @@ public class Main {
             System.out.println();
             System.out.println("0. Exit");
 
+                  String input;
+            int choice;
+
             System.out.print("Enter your choice: ");
-            int choice = sc.nextInt();
+            while (true) {
+                input = sc.next();
+                // Check if the input is an integer using regex
+                if (input.matches("-?\\d+")) {
+                    choice = Integer.parseInt(input);
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a number from 0 - 7 for the options listed above.");
+                    System.out.print("Enter your choice: ");
+                }
+            }
 
             switch (choice) {
                 case 1:
@@ -333,6 +346,7 @@ public class Main {
 
     public static String generateISBN() {
         // Generate random ISBN-13 digits
+        Random random = new Random();
         int[] digits = new int[13];
         for (int i = 0; i < 12; i++) {
             digits[i] = random.nextInt(10);
