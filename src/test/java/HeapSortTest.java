@@ -18,13 +18,14 @@ public class HeapSortTest {
                 new AudioBook("Moby Dick", "Herman Melville","9781566192637", 340, true),
                 new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true),
                 new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.now(), true)
+
         };
 
         authorArr = new Author[] {
-                new Author("Ken Scott", null),
-                new Author("JRR. Tolkien", null),
-                new Author("Herman Melville", null),
-                new Author("John Doe",null),
+                new Author("Ken Scott"),
+                new Author("JRR. Tolkien"),
+                new Author("Herman Melville"),
+                new Author("John Doe"),
         };
 
         userArr = new LibraryUser[] {

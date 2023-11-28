@@ -19,10 +19,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class LibrarySystem {
-    private final LinkedList<Asset> assets;
-    private final LinkedList<Author> authors;
-    private final LinkedList<LibraryUser> users;
-    private final LinkedList<Loan> loans;
+    private static LinkedList<Asset> assets;
+    private static LinkedList<Author> authors;
+    private static LinkedList<LibraryUser> users;
+    private LinkedList<Loan> loans;
+
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
@@ -37,15 +38,23 @@ public class LibrarySystem {
         this.CSVPaths = CSVPaths;
     }
 
-    public void addBook(String title, String author, String ISBN) {
+    public static void addBook(String title, String author, String ISBN) {
+        var thisAuthor = getAuthor(author);
+        if (thisAuthor == null) {
+            System.out.println("No author found, please create this author first.");
+            return;
+        };
         try {
-            assets.add(new Book(title, author, ISBN, true));
+            Asset asset = new Book(title, author, ISBN, true);
+            thisAuthor.AddAssetToAuthor(asset);
+            assets.add(asset);
         } catch (AssetException e) {
             System.out.printf("Unable to add book. Reason: %s", e);
         }
     }
 
-    public void addAudioBook(String title, String author, String ISBN, int duration) {
+
+    public static void addAudioBook(String title, String author, String ISBN, int duration) {
         try {
             assets.add(new AudioBook(title, author, ISBN, duration, true));
         } catch (AssetException e) {
@@ -53,7 +62,7 @@ public class LibrarySystem {
         }
     }
 
-    public void addCD(String title, String producer, String director, int playtime) {
+    public static void addCD(String title, String producer, String director, int playtime) {
         try {
             assets.add(new CD(title, producer, director, playtime, true));
         } catch (AssetException e) {
@@ -62,7 +71,8 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
+    public static void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
+
         try {
             assets.add(new Thesis(title, author, topic, Abstract, datePublished, true));
         } catch (AssetException e) {
@@ -70,13 +80,14 @@ public class LibrarySystem {
         }
     }
 
-    public void addAuthor(String name, LinkedList<Asset> authoredBooks) {
-        authors.add(new Author(name, authoredBooks));
+    public static void addAuthor(String name) {
+        authors.add(new Author(name));
     }
 
     // Move the search functions out to their own class?
     // Find a way to make search algorithm generic to reduce code reuse?
-    public Author getAuthor(String name) {
+
+    public static Author getAuthor(String name) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
         HeapSort.sort(authorArr);
@@ -84,9 +95,10 @@ public class LibrarySystem {
         return BinarySearch.authorSearch(authorArr, name);
     }
 
-    public void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
+    public static void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
         users.add(new LibraryUser(name, ID, borrowedAssets));
     }
+
 
     public LibraryUser getUser(String name) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
@@ -116,12 +128,12 @@ public class LibrarySystem {
         // Search for loans with library user and check books?
     }
 
-    public void listAvailableAssets() {
+    public static void listAvailableAssets() {
         // Iterate over assets
         // Print out available assets
     }
 
-    public void listBorrowedBooks(LibraryUser user) {
+    public static void listBorrowedBooks(LibraryUser user) {
         // Find the user in list
         // Print out its borrowed books
     }
@@ -183,7 +195,9 @@ public class LibrarySystem {
                         String author = csvRecord.get("author");
                         String topic = csvRecord.get("topic");
                         String Abstract = csvRecord.get("Abstract");
+
                         LocalDate datePublished = LocalDate.parse(csvRecord.get("datePublished"), DateTimeFormatter.ISO_LOCAL_DATE);
+
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
                         assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
@@ -210,18 +224,21 @@ public class LibrarySystem {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
 
+
                         String[] authoredAssets = authored.split("\\|");
                         LinkedList<Asset> assetsList = new LinkedList<>();
 
                         // Search for asset by name and add to assetsList
+                      
                         Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
-                        for (String string: authoredAssets) {
-                            assetsList.add(BinarySearch.assetSearch(arr, string));
-                        }
+                        Author author = new Author(name);
 
-                        authors.add(new Author(name, assetsList));
+                        for (String string: authoredAssets) {
+                            author.AddAssetToAuthor(BinarySearch.assetSearch(arr, string));
+                        }
+                        authors.add(author);
                     }
                     else if (filePath.equals(CSVPaths[6])) {
                         // Get library user
@@ -266,6 +283,9 @@ public class LibrarySystem {
         } catch (AssetException e) {
             System.out.printf("Unable to add loaded asset. %s", e);
         }
+//        catch (ParseException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public void save() {

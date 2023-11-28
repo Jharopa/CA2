@@ -1,7 +1,6 @@
 package org.CA2;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Thesis extends Asset implements Printable {
     private String author;
