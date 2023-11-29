@@ -39,7 +39,7 @@ public class LibrarySystem {
     }
 
     public static void addBook(String title, String author, String ISBN) {
-        var thisAuthor = getAuthor(author);
+        Author thisAuthor = getAuthor(author);
 
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
@@ -47,9 +47,9 @@ public class LibrarySystem {
         }
 
         try {
-            Asset asset = new Book(title, author, ISBN, true);
-            thisAuthor.AddAssetToAuthor(asset);
-            assets.add(asset);
+            Book book = new Book(title, author, ISBN, true);
+            thisAuthor.AddAssetToAuthor(book);
+            assets.add(book);
         } catch (AssetException e) {
             System.out.printf("Unable to add book. Reason: %s", e);
         }
@@ -57,15 +57,17 @@ public class LibrarySystem {
 
 
     public static void addAudioBook(String title, String author, String ISBN, int duration) {
-        var thisAuthor = getAuthor(author);
+        Author thisAuthor = getAuthor(author);
+
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
             return;
-        };
+        }
+
         try {
-            Asset asset = new AudioBook(title, author, ISBN, duration, true);
-            thisAuthor.AddAssetToAuthor(asset);
-            assets.add(asset);
+            AudioBook audioBook = new AudioBook(title, author, ISBN, duration, true);
+            thisAuthor.AddAssetToAuthor(audioBook);
+            assets.add(audioBook);
         } catch (AssetException e) {
             System.out.printf("Unable to add audio book. Reason: %s", e);
         }
@@ -81,15 +83,17 @@ public class LibrarySystem {
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
     public static void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
-        var thisAuthor = getAuthor(author);
+        Author thisAuthor = getAuthor(author);
+
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
             return;
-        };
+        }
+
         try {
-            Asset asset = new Thesis(title, author, topic, Abstract, datePublished, true);
-            assets.add(asset);
-            thisAuthor.AddAssetToAuthor(asset);
+            Thesis thesis = new Thesis(title, author, topic, Abstract, datePublished, true);
+            thisAuthor.AddAssetToAuthor(thesis);
+            assets.add(thesis);
         } catch (AssetException e) {
             System.out.printf("Unable to add theses. Reason: %s", e);
         }
@@ -153,42 +157,42 @@ public class LibrarySystem {
 
     public static void listAvailableBooks() {
         for (Asset asset : assets) {
-            if (asset.isAvailability() && asset instanceof Book ) {
-                asset.print();
-            }
-        }
-    }
-
-    public static void listAvailableTheses() {
-        for (Asset asset : assets) {
-            if (asset.isAvailability() && asset instanceof Thesis ) {
-                asset.print();
+            if (asset.isAvailability() && asset instanceof Book book && !(asset instanceof AudioBook)) {
+                book.print();
             }
         }
     }
 
     public static void listAvailableAudioBooks() {
         for (Asset asset : assets) {
-            if (asset.isAvailability() && asset instanceof AudioBook ) {
-                asset.print();
+            if (asset.isAvailability() && asset instanceof AudioBook audioBook) {
+                audioBook.print();
+            }
+        }
+    }
+
+    public static void listAvailableThesis() {
+        for (Asset asset : assets) {
+            if (asset.isAvailability() && asset instanceof Thesis thesis) {
+                thesis.print();
             }
         }
     }
 
     public static void listAvailableCds() {
         for (Asset asset : assets) {
-            if (asset.isAvailability() && asset instanceof CD ) {
-                asset.print();
+            if (asset.isAvailability() && asset instanceof CD cd) {
+                cd.print();
             }
         }
     }
 
-    public static void listBorrowedBooks(LibraryUser user) {
+    public static void listBorrowedAssets(LibraryUser user) {
         // Find the user in list
         // Print out its borrowed books
     }
 
-    public void listAuthorsBooks(Author author) {
+    public void listAuthorsAssets(Author author) {
         // Find the author in list
         // Print out its books
     }

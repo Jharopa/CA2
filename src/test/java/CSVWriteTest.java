@@ -30,6 +30,8 @@ public class CSVWriteTest {
         LinkedList<Asset> usersBorrowedAssets = new LinkedList<>();
 
         LibrarySystem.addAuthor("JRR. Tolkien");
+        LibrarySystem.addAuthor("Herman Melville");
+        LibrarySystem.addAuthor("John Doe");
 
         LibrarySystem.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
         LibrarySystem.addBook("The Hobbit", "JRR. Tolkien","9781566192637");
@@ -91,6 +93,8 @@ public class CSVWriteTest {
 
         Assert.assertEquals(contents.get(0), "name,authored");
         Assert.assertEquals(contents.get(1), "JRR. Tolkien,The Lord of the Rings|The Hobbit|");
+        Assert.assertEquals(contents.get(2), "Herman Melville,Moby Dick|");
+        Assert.assertEquals(contents.get(3), "John Doe,Where are we now|");
     }
 
     private ArrayList<String> getContents(String path) throws IOException {

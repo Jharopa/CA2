@@ -283,7 +283,7 @@ public class Main {
                 break;
             case 4:
                 System.out.println("Listing available theses: ");
-                LibrarySystem.listAvailableTheses();
+                LibrarySystem.listAvailableThesis();
                 break;
             case 5:
                 System.out.println("Listing available CDs: ");
