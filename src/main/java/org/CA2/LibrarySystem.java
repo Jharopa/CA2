@@ -147,9 +147,9 @@ public class LibrarySystem {
         }
     }
 
-    public void returnLoan(Asset asset, LibraryUser borrowedssets) {
-        if (borrowedssets.contains(asset)) {
-            borrowedssets.remove(asset);
+    public void returnLoan(Asset asset, LibraryUser borrowedAssets) {
+        if (borrowedAssets.contains(asset)) {
+            borrowedAssets.remove(asset);
             asset.setAvailability(true);
             System.out.println("Asset returned successfully");
         } else {
