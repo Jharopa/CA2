@@ -37,6 +37,9 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
         this.borrowedAssets = borrowedAssets;
     }
 
+    public void addBorrowedAsset(Asset asset) {
+    }
+
     @Override
     public int compareTo(LibraryUser o) {
         return this.name.compareTo(o.getName());
@@ -50,5 +53,13 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
     @Override
     public void print() {
         System.out.println(this.toString());
+    }
+
+
+    public boolean contains(Asset asset) {
+        return true;
+    }
+
+    public void remove(Asset asset) {
     }
 }

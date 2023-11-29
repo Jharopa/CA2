@@ -33,6 +33,9 @@ public abstract class Asset implements Comparable<Asset>, Printable {
         this.availability = availability;
     }
 
+    public void borrow(LibraryUser user) {
+    }
+
     // Strings are compared lexicographic order https://www.educative.io/answers/what-is-a-lexicographic-order
     public int compareTo(Asset o) {
         return this.title.compareTo(o.getTitle());
@@ -42,4 +45,5 @@ public abstract class Asset implements Comparable<Asset>, Printable {
     public String toString() {
         return String.format("%s %s", getTitle(), availability ? "available" : "unavailable");
     }
+
 }
