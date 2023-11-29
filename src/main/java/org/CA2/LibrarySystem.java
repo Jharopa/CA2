@@ -135,26 +135,16 @@ public class LibrarySystem {
         return BinarySearch.assetSearch(assetsArr, title);
     }
 
-    public void createLoan(Asset asset, LibraryUser user) {
-        if (asset.isAvailability()) {
-            asset.setAvailability(false);
-            asset.borrow(user);
-            user.addBorrowedAsset(asset);
-            System.out.println("Asset borrowed successfully.");
-        } else {
-            System.out.println("Asset is not available for loan");
-        }
-
+    public void createLoan(int ID, String title) {
+        // find library user by ID
+        // find asset by title
+        // Create loan class and append to list
     }
 
-    public void returnLoan(Asset asset, LibraryUser borrowedAssets) {
-        if (borrowedAssets.contains(asset)) {
-            borrowedAssets.remove(asset);
-            asset.setAvailability(true);
-            System.out.println("Asset returned successfully");
-        } else {
-            System.out.println("Asset is not borrowed by this user");
-        }
+    public void returnLoan(int ID) {
+        // find library user by ID
+        // find books?
+        // Search for loans with library user and check books?
     }
 
     public static void listAvailableAssets() {
