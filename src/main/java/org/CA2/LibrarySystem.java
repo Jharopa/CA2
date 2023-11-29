@@ -22,7 +22,7 @@ public class LibrarySystem {
     private static LinkedList<Asset> assets;
     private static LinkedList<Author> authors;
     private static LinkedList<LibraryUser> users;
-    private LinkedList<Loan> loans;
+    private static LinkedList<Loan> loans;
 
 
     // Paths to the CSV files that should be read from or written to
@@ -33,7 +33,7 @@ public class LibrarySystem {
         assets = new LinkedList<>();
         authors = new LinkedList<>();
         users = new LinkedList<>();
-        this.loans = new LinkedList<>();
+        loans = new LinkedList<>();
 
         this.CSVPaths = CSVPaths;
     }

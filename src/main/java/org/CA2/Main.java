@@ -316,7 +316,10 @@ public class Main {
 
         // Main Loop/Menu
         String[] csvPaths = new String[]{
-                "assets.csv",
+                "books.csv",
+                "audiobooks.csv",
+                "cds.csv",
+                "theses.csv",
                 "authors.csv",
                 "users.csv",
                 "loans.csv"
