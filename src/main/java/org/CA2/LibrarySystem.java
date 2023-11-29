@@ -187,14 +187,20 @@ public class LibrarySystem {
         }
     }
 
-    public static void listBorrowedAssets(LibraryUser user) {
-        // Find the user in list
-        // Print out its borrowed books
+    public static void listBorrowedAssets(String userName) {
+        LibraryUser libraryUser = getUser(userName);
+
+        for (Asset asset : libraryUser.getBorrowedAssets()) {
+            asset.print();
+        }
     }
 
-    public void listAuthorsAssets(Author author) {
-        // Find the author in list
-        // Print out its books
+    public void listAuthorsAssets(String authorName) {
+        Author author = getAuthor(authorName);
+
+        for (Asset asset : author.getAuthoredAssets()) {
+            asset.print();
+        }
     }
 
     public void load() {
