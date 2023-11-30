@@ -6,7 +6,7 @@ import java.util.List;
 public class LibraryUser implements Comparable<LibraryUser>, Printable{
     private int ID;
     private String name;
-    private List<Asset> borrowedAssets;
+    private LinkedList<Asset> borrowedAssets;
 
     public LibraryUser(int ID, String name) {
         this.ID = ID;
@@ -30,11 +30,11 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
         this.name = name;
     }
 
-    public List<Asset> getBorrowedAssets() {
+    public LinkedList<Asset> getBorrowedAssets() {
         return borrowedAssets;
     }
 
-    public void setBorrowedAssets(List<Asset> borrowedAssets) {
+    public void setBorrowedAssets(LinkedList<Asset> borrowedAssets) {
         this.borrowedAssets = borrowedAssets;
     }
 

@@ -280,6 +280,21 @@ public class LibrarySystem {
         }
     }
 
+    public void listAssets() {
+        for (Asset asset : assets) {
+            asset.print();
+        }
+    }
+
+    public void listAuthors() {
+        for (Author author : authors) {
+            author.print();
+            for (Asset asset : author.getAuthoredAssets()) {
+                asset.print();
+            }
+        }
+    }
+
     public void initializeIDCounters() {
         if (loans.isEmpty()) {
             loanIDCount = new AtomicInteger(0);
@@ -362,33 +377,43 @@ public class LibrarySystem {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
-                        String[] borrowedAssetsTitle = borrowed.split("\\|");
+                        String[] borrowedAssetsTitle = null;
+
+                        if (!borrowed.isEmpty()) {
+                            borrowedAssetsTitle = borrowed.split("\\|");
+                        }
 
                         // Search for asset by name and add to assetsList
-                        Asset[] arr = assets.toArray(new Asset[assets.size()]);
+                        Asset[] arr = assets.toArray(new Asset[0]);
                         HeapSort.sort(arr);
 
                         LibraryUser user = new LibraryUser(id, name);
-
-                        for (String string: borrowedAssetsTitle) {
-                            user.addBorrowedAsset(BinarySearch.assetSearch(arr, string));
+                        if (borrowedAssetsTitle != null) {
+                            for (String string: borrowedAssetsTitle) {
+                                user.addBorrowedAsset(BinarySearch.assetSearch(arr, string));
+                            }
                         }
 
                         users.add(user);
-                    }
-                    else if (filePath.equals(CSVPaths[5])) {
+                    } else if (filePath.equals(CSVPaths[5])) {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
-                        String[] authoredAssets = authored.split("\\|");
+                        String[] authoredAssets = null;
+
+                        if (!authored.isEmpty()) {
+                            authoredAssets = authored.split("\\|");
+                        }
 
                         // Search for asset by name and add to assetsList
-                        Asset[] arr = assets.toArray(new Asset[assets.size()]);
+                        Asset[] arr = assets.toArray(new Asset[0]);
                         HeapSort.sort(arr);
 
                         Author author = new Author(name);
 
-                        for (String string: authoredAssets) {
-                            author.addAuthoredAsset(BinarySearch.assetSearch(arr, string));
+                        if (authoredAssets != null) {
+                            for (String string: authoredAssets) {
+                                author.addAuthoredAsset(BinarySearch.assetSearch(arr, string));
+                            }
                         }
 
                         authors.add(author);
@@ -499,34 +524,26 @@ public class LibrarySystem {
                 }
             } else if (filePath.equals(CSVPaths[4])) {
                 for (LibraryUser user : users) {
-                    StringBuilder sb = new StringBuilder();
-                    String borrowed = "";
+                    StringBuilder borrowedAssets = new StringBuilder();
+                    LinkedList<Asset> assets = user.getBorrowedAssets();
 
-                    if (!user.getBorrowedAssets().isEmpty()) {
-                        for (Asset asset : user.getBorrowedAssets()) {
-                            sb.append(asset.getTitle()).append("|");
-                        }
-
-                        borrowed = sb.substring(0, sb.length() - 1);
+                    for (Asset asset : assets) {
+                        borrowedAssets.append(asset.getTitle()).append("|");
                     }
 
                     csvPrinter.printRecord(
                             user.getID(),
                             user.getName(),
-                            borrowed
+                            borrowedAssets
                     );
                 }
             } else if (filePath.equals(CSVPaths[5])) {
                 for (Author author : authors) {
-                    StringBuilder sb = new StringBuilder();
-                    String authoredAssets = "";
+                    StringBuilder authoredAssets = new StringBuilder();
+                    LinkedList<Asset> assets = author.getAuthoredAssets();
 
-                    if (!author.getAuthoredAssets().isEmpty()) {
-                        for (Asset asset : author.getAuthoredAssets()) {
-                            sb.append(asset.getTitle()).append("|");
-                        }
-
-                        authoredAssets = sb.substring(0, sb.length() - 1);
+                    for (Asset asset : assets) {
+                        authoredAssets.append(asset.getTitle()).append("|");
                     }
 
                     csvPrinter.printRecord(

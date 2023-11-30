@@ -289,7 +289,7 @@ public class Main {
                 System.out.println("Returning to main menu... ");
                 return;
             default:
-                System.out.println("Invalid selection, please try again.\r\n");
+                System.out.println("Invalid selection, please try again.\n");
         }
     }
 
@@ -325,6 +325,9 @@ public class Main {
 
         library.load();
         library.initializeIDCounters();
+
+        // library.listAssets();
+        // library.listAuthors();
 
         int choice = -1;
 

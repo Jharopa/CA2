@@ -1,7 +1,6 @@
 package org.CA2;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class Author implements Comparable<Author>, Printable {
 
@@ -25,7 +24,7 @@ public class Author implements Comparable<Author>, Printable {
         this.name = name;
     }
 
-    public List<Asset> getAuthoredAssets() {
+    public LinkedList<Asset> getAuthoredAssets() {
         return authoredAsset;
     }
 
