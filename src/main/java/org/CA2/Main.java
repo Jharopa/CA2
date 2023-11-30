@@ -205,9 +205,8 @@ public class Main {
     }
 
     private static void addAuthor() {
-        sc.nextLine();
         // Get author data as input
-        System.out.println("Please enter the name of the author:\r\n");
+        System.out.print("Please enter the name of the author: ");
         String name = sc.nextLine();
         LibrarySystem.addAuthor(name);
         System.out.println("Added " + name + " to list of authors in library system.");
@@ -320,14 +319,19 @@ public class Main {
                 "audiobooks.csv",
                 "cds.csv",
                 "theses.csv",
-                "authors.csv",
                 "users.csv",
+                "authors.csv",
                 "loans.csv"
         };
 
         LibrarySystem library = new LibrarySystem(csvPaths); // Create library object
 
-        while (true) {
+        library.load();
+        library.initializeIDCounters();
+
+        int choice = -1;
+
+        while (choice != 0) {
             System.out.println("\nWelcome to the Library Management System. \r\nPlease select one of the following options:");
             System.out.println("1. Add asset to the library catalogue");
             System.out.println("2. Add author to catalogue");
@@ -335,24 +339,17 @@ public class Main {
             System.out.println("4. View available assets");
             System.out.println("5. Customer wants to borrow asset");
             System.out.println("6. Customer wants to return asset");
-//            System.out.println("7. View overdue fines");
             System.out.println();
             System.out.println("0. Exit");
 
-                  String input;
-            int choice;
 
             System.out.print("Enter your choice: ");
-            while (true) {
-                input = sc.next();
-                // Check if the input is an integer using regex
-                if (input.matches("-?\\d+")) {
-                    choice = Integer.parseInt(input);
-                    break;
-                } else {
-                    System.out.println("Invalid input. Please enter a number from 0 - 7 for the options listed above.");
-                    System.out.print("Enter your choice: ");
-                }
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                continue;
             }
 
             switch (choice) {
@@ -383,11 +380,13 @@ public class Main {
                 // Add case statements for other options
                 case 0:
                     System.out.println("Exiting system...");
-                    return;
+                    break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please select option from 0-6.");
             }
         }
+
+        library.save();
     }
 
     public static String generateISBN() {

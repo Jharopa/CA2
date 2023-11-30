@@ -358,6 +358,7 @@ public class LibrarySystem {
                         for (String string: authoredAssets) {
                             author.AddAssetToAuthor(BinarySearch.assetSearch(arr, string));
                         }
+
                         authors.add(author);
                     }
                     else if (filePath.equals(CSVPaths[6])) {
@@ -474,8 +475,11 @@ public class LibrarySystem {
             } else if (filePath.equals(CSVPaths[5])) {
                 for (Author author : authors) {
                     StringBuilder authoredAssets = new StringBuilder();
-                    for (Asset asset : author.getAuthoredAssets()) {
-                        authoredAssets.append(asset.getTitle()).append("|");
+
+                    if (!author.getAuthoredAssets().isEmpty()) {
+                        for (Asset asset : author.getAuthoredAssets()) {
+                            authoredAssets.append(asset.getTitle()).append("|");
+                        }
                     }
 
                     csvPrinter.printRecord(
