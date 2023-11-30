@@ -58,7 +58,6 @@ public class Thesis extends Asset implements Printable {
         return super.toString() + String.format(" %s %s %s", author, topic, datePublished.toString());
     }
 
-
     @Override
     public void print() {
         System.out.println(this);

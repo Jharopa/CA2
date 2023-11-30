@@ -255,10 +255,6 @@ public class LibrarySystem {
         }
     }
 
-    public LinkedList<Loan> getLoans() {
-        return loans;
-    }
-
     public void initializeIDCounters() {
         if (loans.isEmpty()) {
             loanIDCount = new AtomicInteger(0);

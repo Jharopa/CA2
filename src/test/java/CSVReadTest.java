@@ -74,7 +74,7 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadLoan() {
-        Loan loan = lb.getLoans().get(0);
+        Loan loan = lb.getLoan(1);
 
         Assert.assertEquals(loan.getID(), 1);
         Assert.assertEquals(loan.getBorrower().getName(), "John Doe");
