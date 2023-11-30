@@ -1,24 +1,17 @@
 package org.CA2;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class LibraryUser implements Comparable<LibraryUser>, Printable{
-    private String name;
     private int ID;
+    private String name;
     private List<Asset> borrowedAssets;
 
-    public LibraryUser(String name, int ID, List<Asset> borrowedAssets) {
-        this.name = name;
+    public LibraryUser(int ID, String name) {
         this.ID = ID;
-        this.borrowedAssets = borrowedAssets;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
+        this.borrowedAssets = new LinkedList<>();
     }
 
     public int getID() {
@@ -27,6 +20,14 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
 
     public void setID(int ID) {
         this.ID = ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Asset> getBorrowedAssets() {
@@ -53,7 +54,7 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
     }
 
     public void addBorrowedAsset(Asset asset) {
-
+        borrowedAssets.add(asset);
     }
 
     public boolean contains(Asset asset) {

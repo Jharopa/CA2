@@ -1,12 +1,8 @@
 package org.CA2;
 
 import java.io.FileReader;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedList;
 
 import org.apache.commons.csv.CSVFormat;
@@ -14,7 +10,6 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
-import javax.swing.text.DateFormatter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,7 +20,8 @@ public class LibrarySystem {
     private static LinkedList<LibraryUser> users;
     private static LinkedList<Loan> loans;
 
-    private AtomicInteger loanIDCount;
+    private static AtomicInteger loanIDCount;
+    private static AtomicInteger userIDCount;
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
@@ -52,6 +48,7 @@ public class LibrarySystem {
             Book book = new Book(title, author, ISBN, true);
             thisAuthor.AddAssetToAuthor(book);
             assets.add(book);
+            sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add book. Reason: %s", e);
         }
@@ -70,6 +67,7 @@ public class LibrarySystem {
             AudioBook audioBook = new AudioBook(title, author, ISBN, duration, true);
             thisAuthor.AddAssetToAuthor(audioBook);
             assets.add(audioBook);
+            sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add audio book. Reason: %s", e);
         }
@@ -78,6 +76,7 @@ public class LibrarySystem {
     public static void addCD(String title, String producer, String director, int playtime) {
         try {
             assets.add(new CD(title, producer, director, playtime, true));
+            sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add CD. Reason: %s", e);
         }
@@ -96,6 +95,7 @@ public class LibrarySystem {
             Thesis thesis = new Thesis(title, author, topic, Abstract, datePublished, true);
             thisAuthor.AddAssetToAuthor(thesis);
             assets.add(thesis);
+            sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add theses. Reason: %s", e);
         }
@@ -103,49 +103,67 @@ public class LibrarySystem {
 
     public static void addAuthor(String name) {
         authors.add(new Author(name));
+        sortAuthors();
     }
 
-    // Move the search functions out to their own class?
-    // Find a way to make search algorithm generic to reduce code reuse?
+    public static void addUser(String name) {
+        users.add(new LibraryUser(userIDCount.incrementAndGet(), name));
+        sortUsers();
+    }
+
+    public static Asset getAsset(String title) {
+        Asset[] assetsArr = new Asset[assets.size()];
+        assets.toArray(assetsArr);
+
+        return BinarySearch.assetSearch(assetsArr, title);
+    }
 
     public static Author getAuthor(String name) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
-        HeapSort.sort(authorArr);
 
         return BinarySearch.authorSearch(authorArr, name);
     }
 
-    public static void addUser(int ID, String name, LinkedList<Asset> borrowedAssets) {
-        users.add(new LibraryUser(name, ID, borrowedAssets));
-    }
-
-
     public static LibraryUser getUser(String name) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
-        HeapSort.sort(userArr);
 
         return BinarySearch.userSearch(userArr, name);
-    }
-
-    public Asset getAsset(String title) {
-        Asset[] assetsArr = new Asset[assets.size()];
-        assets.toArray(assetsArr);
-        HeapSort.sort(assetsArr);
-
-        return BinarySearch.assetSearch(assetsArr, title);
     }
 
     public Loan getLoan(int id) {
         Loan[] loanArr = new Loan[loans.size()];
         loans.toArray(loanArr);
-        HeapSort.sort(loanArr);
 
         return BinarySearch.loanSearch(loanArr, id);
     }
 
-    public void createLoan(String assetTitle, String userName) {
+    private static void sortAssets() {
+        Asset[] assetsArr = new Asset[assets.size()];
+        assets.toArray(assetsArr);
+        HeapSort.sort(assetsArr);
+    }
+
+    private static void sortAuthors() {
+        Author[] authorArr = new Author[authors.size()];
+        authors.toArray(authorArr);
+        HeapSort.sort(authorArr);
+    }
+
+    private static void sortUsers() {
+        LibraryUser[] userArr = new LibraryUser[users.size()];
+        users.toArray(userArr);
+        HeapSort.sort(userArr);
+    }
+
+    private static void sortLoans() {
+        Loan[] loanArr = new Loan[loans.size()];
+        loans.toArray(loanArr);
+        HeapSort.sort(loanArr);
+    }
+
+    public static void createLoan(String assetTitle, String userName) {
         Asset asset = getAsset(assetTitle);
         LibraryUser user = getUser(userName);
 
@@ -164,6 +182,8 @@ public class LibrarySystem {
             user.addBorrowedAsset(asset);
 
             loans.add(new Loan(loanIDCount.incrementAndGet() ,user, asset, LocalDate.now(), LocalDate.now().plusDays(14), false));
+
+            sortLoans();
 
             System.out.println("Loan successfully created.");
         } else {
@@ -261,6 +281,12 @@ public class LibrarySystem {
         } else {
             loanIDCount = new AtomicInteger(loans.get(loans.size() - 1).getID());
         }
+
+        if (users.isEmpty()) {
+            userIDCount = new AtomicInteger(0);
+        } else {
+            userIDCount = new AtomicInteger(users.get(users.size() - 1).getID());
+        }
     }
 
     public void load() {
@@ -327,30 +353,29 @@ public class LibrarySystem {
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
 
-                        String[] borrowedAssetsTitle = borrowed.split("\\|");
-                        LinkedList<Asset> assetsList = new LinkedList<>();
-
                         // Search for asset by name and add to assetsList
-                        Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
+                        Asset[] arr = assets.toArray(new Asset[0]);
                         HeapSort.sort(arr);
 
+                        LibraryUser user = new LibraryUser(id, name);
+
+                        String[] borrowedAssetsTitle = borrowed.split("\\|");
+
                         for (String string: borrowedAssetsTitle) {
-                            assetsList.add(BinarySearch.assetSearch(arr, string));
+                            user.addBorrowedAsset(BinarySearch.assetSearch(arr, string));
                         }
 
-                        users.add(new LibraryUser(name, id, assetsList));
+                        users.add(new LibraryUser(id, name));
                     }
                     else if (filePath.equals(CSVPaths[5])) {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
 
-
                         String[] authoredAssets = authored.split("\\|");
-                        LinkedList<Asset> assetsList = new LinkedList<>();
 
                         // Search for asset by name and add to assetsList
                       
-                        Asset[] arr = this.assets.toArray(new Asset[assets.size()]);
+                        Asset[] arr = assets.toArray(new Asset[0]);
                         HeapSort.sort(arr);
 
                         Author author = new Author(name);
@@ -461,9 +486,15 @@ public class LibrarySystem {
                 }
             } else if (filePath.equals(CSVPaths[4])) {
                 for (LibraryUser user : users) {
-                    StringBuilder borrowed = new StringBuilder();
-                    for (Asset asset : user.getBorrowedAssets()) {
-                        borrowed.append(asset.getTitle()).append("|");
+                    StringBuilder sb = new StringBuilder();
+                    String borrowed = "";
+
+                    if (!user.getBorrowedAssets().isEmpty()) {
+                        for (Asset asset : user.getBorrowedAssets()) {
+                            sb.append(asset.getTitle()).append("|");
+                        }
+
+                        borrowed = sb.substring(0, sb.length() - 1);
                     }
 
                     csvPrinter.printRecord(
@@ -474,12 +505,15 @@ public class LibrarySystem {
                 }
             } else if (filePath.equals(CSVPaths[5])) {
                 for (Author author : authors) {
-                    StringBuilder authoredAssets = new StringBuilder();
+                    StringBuilder sb = new StringBuilder();
+                    String authoredAssets = "";
 
                     if (!author.getAuthoredAssets().isEmpty()) {
                         for (Asset asset : author.getAuthoredAssets()) {
-                            authoredAssets.append(asset.getTitle()).append("|");
+                            sb.append(asset.getTitle()).append("|");
                         }
+
+                        authoredAssets = sb.substring(0, sb.length() - 1);
                     }
 
                     csvPrinter.printRecord(

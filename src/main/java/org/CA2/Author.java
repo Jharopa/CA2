@@ -10,7 +10,7 @@ public class Author implements Comparable<Author>, Printable {
 
     public Author(String name) {
         this.name = name;
-        this.authoredAsset = new LinkedList<Asset>();
+        this.authoredAsset = new LinkedList<>();
     }
 
     public String getName() {

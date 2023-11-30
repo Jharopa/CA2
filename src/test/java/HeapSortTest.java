@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class HeapSortTest {
     private static Asset[] assetArr;
@@ -29,10 +28,10 @@ public class HeapSortTest {
         };
 
         userArr = new LibraryUser[] {
-                new LibraryUser("Mary Smith", 1, null),
-                new LibraryUser("John Doe", 2, null),
-                new LibraryUser("Jane Doe", 3, null),
-                new LibraryUser("Alan Connor", 4, null)
+                new LibraryUser(1, "Mary Smith"),
+                new LibraryUser(2, "John Doe"),
+                new LibraryUser(3, "Jane Doe"),
+                new LibraryUser(4, "Alan Connor")
         };
     }
 

@@ -4,12 +4,11 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 
 public class LoanTest {
     @Test
     public void testLoan() throws AssetException {
-        LibraryUser user = new LibraryUser("John Doe", 1, new LinkedList<Asset>());
+        LibraryUser user = new LibraryUser( 1, "John Doe");
         Asset book = new Book("The Lord of the Rings", "JRR. Tolkien", "1234", false);
         Loan loan = new Loan(
                 1, user, book, LocalDate.parse("2023-11-30", DateTimeFormatter.ISO_LOCAL_DATE),

@@ -225,13 +225,10 @@ public class Main {
         // Get user data as input
         System.out.println("Please enter the user's full name:\r\n");
         String name = sc.nextLine();
-        // create ID generator method
-        System.out.println("Please enter the user's ID:\r\n");
-        int id = sc.nextInt();
 
         // enter logic here to allow user to borrow books immediately
         // Call LibrarySystem addUser
-        LibrarySystem.addUser(id, name, null);
+        LibrarySystem.addUser(name);
     }
 
     private static void borrowAsset() {
@@ -349,6 +346,7 @@ public class Main {
                 choice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
                 continue;
             }
 

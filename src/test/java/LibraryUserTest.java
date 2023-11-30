@@ -15,7 +15,7 @@ public class LibraryUserTest {
         userAssets.add(b1);
         userAssets.add(ab1);
 
-        LibraryUser a = new LibraryUser("John Doe", 1, userAssets);
+        LibraryUser a = new LibraryUser( 1, "John Doe");
 
         Assert.assertEquals(a.getName(), "John Doe");
         Assert.assertEquals(a.getBorrowedAssets().get(0), b1);

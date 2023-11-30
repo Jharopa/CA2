@@ -45,7 +45,7 @@ public class CSVWriteTest {
         usersBorrowedAssets.add(new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true));
         usersBorrowedAssets.add(new Book("The Hobbit", "JRR. Tolkien","9781566192637", true));
 
-        LibrarySystem.addUser(1,"John Doe", usersBorrowedAssets);
+        LibrarySystem.addUser("John Doe");
 
         lb.createLoan("The Hobbit", "John Doe");
 
