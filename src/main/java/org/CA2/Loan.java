@@ -1,21 +1,27 @@
 package org.CA2;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Loan {
-
+public class Loan implements Comparable<Loan>, Printable {
+    private final int id;
     private LibraryUser borrower;
-    private List<Asset> borrowedAsset;
+    private Asset borrowedAsset;
     private LocalDate borrowDate;
     private LocalDate returnDate;
+    private boolean returned;
 
-    public Loan(LibraryUser borrower, List<Asset> borrowedAsset, LocalDate borrowDate, LocalDate returnDate) {
+    public Loan(int id, LibraryUser borrower, Asset borrowedAsset, LocalDate borrowDate, LocalDate returnDate, boolean returned) {
+        this.id = id;
         this.borrower = borrower;
         this.borrowedAsset = borrowedAsset;
-        this.borrowDate = returnDate;
-        this.returnDate = borrowDate;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
+        this.returned = returned;
+    }
+
+    public int getID() {
+        return id;
     }
 
     public LibraryUser getBorrower() {
@@ -26,11 +32,11 @@ public class Loan {
         this.borrower = borrower;
     }
 
-    public List<Asset> getBorrowedAsset() {
+    public Asset getBorrowedAsset() {
         return borrowedAsset;
     }
 
-    public void setBorrowedAsset(List<Asset> borrowedAsset) {
+    public void setBorrowedAsset(Asset borrowedAsset) {
         this.borrowedAsset = borrowedAsset;
     }
 
@@ -52,5 +58,37 @@ public class Loan {
         }
 
         this.returnDate = returnDate;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public void returnLoan() {
+        returned = true;
+    }
+
+    public boolean isOverdue() {
+        return (!isReturned() && LocalDate.now().isAfter(returnDate));
+    }
+
+    @Override
+    public int compareTo(Loan o) {
+        return Integer.compare(this.getID(), o.getID());
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "%d, %s, %s, %s, %s, %s",
+                id, borrower.getName(), borrowedAsset.getTitle(),
+                borrowDate.toString(), returnDate.toString(),
+                returned ? "returned" : "unreturned"
+        );
+    }
+
+    @Override
+    public void print() {
+        System.out.println(this);
     }
 }

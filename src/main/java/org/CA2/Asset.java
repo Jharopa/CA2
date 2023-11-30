@@ -42,7 +42,4 @@ public abstract class Asset implements Comparable<Asset>, Printable {
     public String toString() {
         return String.format("%s %s", getTitle(), availability ? "available" : "unavailable");
     }
-
-    public void borrow(LibraryUser user) {
-    }
 }

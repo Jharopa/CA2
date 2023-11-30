@@ -53,12 +53,14 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
     }
 
     public void addBorrowedAsset(Asset asset) {
+
     }
 
     public boolean contains(Asset asset) {
         return true;
     }
 
-    public void remove(Asset asset) {
+    public void removeBorrowedAsset(Asset asset) {
+
     }
 }

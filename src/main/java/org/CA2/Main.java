@@ -324,6 +324,7 @@ public class Main {
                 "users.csv",
                 "loans.csv"
         };
+
         LibrarySystem library = new LibrarySystem(csvPaths); // Create library object
 
         while (true) {

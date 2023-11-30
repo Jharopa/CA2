@@ -4,13 +4,16 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 
 public class CSVReadTest {
     static LibrarySystem lb;
     static String[] CSVPaths;
 
     @BeforeClass
-    public static void testSetup() throws AssetException, ParseException {
+    public static void testSetup() {
         CSVPaths = new String[] {
                 "src/test/resources/read_books.csv",
                 "src/test/resources/read_audiobooks.csv",
@@ -18,6 +21,7 @@ public class CSVReadTest {
                 "src/test/resources/read_theses.csv",
                 "src/test/resources/read_users.csv",
                 "src/test/resources/read_authors.csv",
+                "src/test/resources/read_loans.csv",
         };
 
         lb = new LibrarySystem(CSVPaths);
@@ -51,7 +55,7 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadUsers() {
-        LibraryUser lu = lb.getUser("John Doe");
+        LibraryUser lu = LibrarySystem.getUser("John Doe");
 
         Assert.assertNotNull(lu);
 
@@ -61,10 +65,22 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadAuthors() {
-        Author a = lb.getAuthor("JRR. Tolkien");
+        Author a = LibrarySystem.getAuthor("JRR. Tolkien");
 
         Assert.assertNotNull(a);
 
         Assert.assertNotNull(a.getAuthoredAssets().get(0));
+    }
+
+    @Test
+    public void testCSVReadLoan() {
+        Loan loan = lb.getLoans().get(0);
+
+        Assert.assertEquals(loan.getID(), 1);
+        Assert.assertEquals(loan.getBorrower().getName(), "John Doe");
+        Assert.assertEquals(loan.getBorrowedAsset().getTitle(), "The Lord of the Rings");
+        Assert.assertEquals(loan.getBorrowDate(), LocalDate.parse("2023-11-30", DateTimeFormatter.ISO_LOCAL_DATE));
+        Assert.assertEquals(loan.getReturnDate(), LocalDate.parse("2023-12-14", DateTimeFormatter.ISO_LOCAL_DATE));
+        Assert.assertFalse(loan.isReturned());
     }
 }

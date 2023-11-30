@@ -17,6 +17,7 @@ import org.apache.commons.csv.CSVRecord;
 import javax.swing.text.DateFormatter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LibrarySystem {
     private static LinkedList<Asset> assets;
@@ -24,6 +25,7 @@ public class LibrarySystem {
     private static LinkedList<LibraryUser> users;
     private static LinkedList<Loan> loans;
 
+    private AtomicInteger loanIDCount;
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
@@ -135,25 +137,51 @@ public class LibrarySystem {
         return BinarySearch.assetSearch(assetsArr, title);
     }
 
-    public void createLoan(Asset asset, LibraryUser user) {
+    public Loan getLoan(int id) {
+        Loan[] loanArr = new Loan[loans.size()];
+        loans.toArray(loanArr);
+        HeapSort.sort(loanArr);
+
+        return BinarySearch.loanSearch(loanArr, id);
+    }
+
+    public void createLoan(String assetTitle, String userName) {
+        Asset asset = getAsset(assetTitle);
+        LibraryUser user = getUser(userName);
+
+        if (asset == null) {
+            System.out.printf("Unable to find provided asset %s\nUnable to create loan", assetTitle);
+            return;
+        }
+
+        if (user == null) {
+            System.out.printf("Unable to find provided user %s\nUnable to create loan", assetTitle);
+            return;
+        }
+
         if (asset.isAvailability()) {
             asset.setAvailability(false);
-            asset.borrow(user);
             user.addBorrowedAsset(asset);
-            System.out.println("Asset borrowed successfully.");
 
+            loans.add(new Loan(loanIDCount.incrementAndGet() ,user, asset, LocalDate.now(), LocalDate.now().plusDays(14), false));
+
+            System.out.println("Loan successfully created.");
         } else {
             System.out.println("Asset is not available for loan.");
         }
     }
 
-    public void returnLoan(Asset asset, LibraryUser borrowedAssets) {
-        if (borrowedAssets.contains(asset)) {
-            borrowedAssets.remove(asset);
-            asset.setAvailability(true);
-            System.out.println("Asset returned successfully");
+    public void returnLoan(int id) {
+        Loan loan = getLoan(id);
+
+        if (loan != null) {
+            loan.getBorrowedAsset().setAvailability(true);
+            loan.getBorrower().removeBorrowedAsset(loan.getBorrowedAsset());
+            loan.returnLoan();
+
+            System.out.println("Loan successfully returned.");
         } else {
-            System.out.println("Asset is not borrowed by this user");
+            System.out.printf("Unable to find loan with ID of %d.\n", id);
         }
     }
 
@@ -213,6 +241,32 @@ public class LibrarySystem {
         }
     }
 
+    public void listLoans() {
+        for (Loan loan : loans) {
+            loan.print();
+        }
+    }
+
+    public void listOverdueLoans() {
+        for (Loan loan : loans) {
+            if (loan.isOverdue()) {
+                loan.print();
+            }
+        }
+    }
+
+    public LinkedList<Loan> getLoans() {
+        return loans;
+    }
+
+    public void initializeIDCounters() {
+        if (loans.isEmpty()) {
+            loanIDCount = new AtomicInteger(0);
+        } else {
+            loanIDCount = new AtomicInteger(loans.get(loans.size() - 1).getID());
+        }
+    }
+
     public void load() {
         loadItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
         loadItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
@@ -220,7 +274,7 @@ public class LibrarySystem {
         loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         loadItems(new String[] {"name", "authored"}, CSVPaths[5]);
-        //loadItems(new String[] {"user", "borrowed", "dateBorrowed", "dateReturned"}, CSVPaths[6]);
+        loadItems(new String[] {"id", "user", "borrowed", "borrowDate", "returnDate", "returned"}, CSVPaths[6]);
     }
 
     private void loadItems(String[] headers, String filePath) {
@@ -311,41 +365,28 @@ public class LibrarySystem {
                         authors.add(author);
                     }
                     else if (filePath.equals(CSVPaths[6])) {
+                        // Get loan ID
+                        int id = Integer.parseInt(csvRecord.get("id"));
+
                         // Get library user
                         String userName = csvRecord.get("user");
 
-                        LibraryUser[] userArr = this.users.toArray(new LibraryUser[users.size()]);
-                        HeapSort.sort(userArr);
+                        LibraryUser user = getUser(userName);
 
-                        LibraryUser user = BinarySearch.userSearch(userArr, userName);
-
-                        // Get borrowed assets
+                        // Get borrowed asset
                         String borrowed = csvRecord.get("borrowed");
 
-                        String[] borrowedAssetsTitle = borrowed.split("\\|");
-                        LinkedList<Asset> assetsList = new LinkedList<>();
-
-                        // Search for asset by name and add to assetsList
-                        Asset[] assetArr = this.assets.toArray(new Asset[assets.size()]);
-                        HeapSort.sort(assetArr);
-
-                        for (String string: borrowedAssetsTitle) {
-                            assetsList.add(BinarySearch.assetSearch(assetArr, string));
-                        }
+                        Asset borrowedAsset = getAsset(borrowed);
 
                         // Create dateBorrowed
-                        LocalDate dateBorrowed = LocalDate.parse(csvRecord.get("dateBorrowed"), DateTimeFormatter.ISO_LOCAL_DATE);
+                        LocalDate dateBorrowed = LocalDate.parse(csvRecord.get("borrowDate"), DateTimeFormatter.ISO_LOCAL_DATE);
 
                         // Create dateReturned
-                        LocalDate dateReturned;
+                        LocalDate dateReturned = LocalDate.parse(csvRecord.get("returnDate"), DateTimeFormatter.ISO_LOCAL_DATE);
 
-                        if (csvRecord.get("dateReturned").isEmpty()) {
-                            dateReturned = null;
-                        } else {
-                            dateReturned = LocalDate.parse(csvRecord.get("dateReturned"), DateTimeFormatter.ISO_LOCAL_DATE);
-                        }
+                        boolean returned = Boolean.parseBoolean(csvRecord.get("returned"));
 
-                        loans.add(new Loan(user, assetsList, dateBorrowed, dateReturned));
+                        loans.add(new Loan(id, user, borrowedAsset, dateBorrowed, dateReturned, returned));
                     }
             }
         } catch (IOException e) {
@@ -362,7 +403,7 @@ public class LibrarySystem {
         saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         saveItems(new String[] {"name", "authored"}, CSVPaths[5]);
-        //saveItems(new String[] {"user", "borrowed", "dateBorrowed", "dateReturned"}, CSVPaths[6]);
+        saveItems(new String[] {"id", "user", "borrowed", "dateBorrowed", "dateReturned", "returned"}, CSVPaths[6]);
     }
 
     private void saveItems(String[] headers, String filePath) {
@@ -448,18 +489,13 @@ public class LibrarySystem {
                 }
             } else if (filePath.equals(CSVPaths[6])) {
                 for (Loan loan : loans) {
-                    StringBuilder borrowedAssets = new StringBuilder();
-                    for (Asset asset : loan.getBorrowedAsset()) {
-                        borrowedAssets.append(asset.getTitle()).append("|");
-                    }
-
-                    String returnDate = (loan.getReturnDate() != null) ? loan.getReturnDate().toString() : "";
-
                     csvPrinter.printRecord(
+                            loan.getID(),
                             loan.getBorrower().getName(),
-                            borrowedAssets,
+                            loan.getBorrowedAsset().getTitle(),
                             loan.getBorrowDate().toString(),
-                            returnDate
+                            loan.getReturnDate().toString(),
+                            loan.isReturned()
                     );
                 }
             }

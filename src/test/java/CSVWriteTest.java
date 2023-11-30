@@ -23,9 +23,12 @@ public class CSVWriteTest {
                 "src/test/resources/write_theses.csv",
                 "src/test/resources/write_users.csv",
                 "src/test/resources/write_authors.csv",
+                "src/test/resources/write_loans.csv",
         };
 
         lb = new LibrarySystem(CSVPaths);
+
+        lb.initializeIDCounters();
 
         LinkedList<Asset> usersBorrowedAssets = new LinkedList<>();
 
@@ -40,9 +43,11 @@ public class CSVWriteTest {
         LibrarySystem.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
 
         usersBorrowedAssets.add(new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true));
-        usersBorrowedAssets.add(new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true));
+        usersBorrowedAssets.add(new Book("The Hobbit", "JRR. Tolkien","9781566192637", true));
 
         LibrarySystem.addUser(1,"John Doe", usersBorrowedAssets);
+
+        lb.createLoan("The Hobbit", "John Doe");
 
         lb.save();
     }
@@ -95,6 +100,17 @@ public class CSVWriteTest {
         Assert.assertEquals(contents.get(1), "JRR. Tolkien,The Lord of the Rings|The Hobbit|");
         Assert.assertEquals(contents.get(2), "Herman Melville,Moby Dick|");
         Assert.assertEquals(contents.get(3), "John Doe,Where are we now|");
+    }
+
+    @Test
+    public void testCSVWriteLoans() throws IOException {
+        ArrayList<String> loanContents = getContents("src/test/resources/write_loans.csv");
+
+        Assert.assertEquals(loanContents.get(0), "id,user,borrowed,dateBorrowed,dateReturned,returned");
+        Assert.assertEquals(loanContents.get(1), "1,John Doe,The Hobbit,2023-12-14,2023-11-30,false");
+
+        ArrayList<String> bookContents = getContents("src/test/resources/write_books.csv");
+        Assert.assertTrue(bookContents.get(2).contains("false"));
     }
 
     private ArrayList<String> getContents(String path) throws IOException {
