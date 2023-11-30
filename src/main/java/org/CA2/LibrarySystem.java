@@ -3,6 +3,7 @@ package org.CA2;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.apache.commons.csv.CSVFormat;
@@ -46,7 +47,7 @@ public class LibrarySystem {
 
         try {
             Book book = new Book(title, author, ISBN, true);
-            thisAuthor.AddAssetToAuthor(book);
+            thisAuthor.addAuthoredAsset(book);
             assets.add(book);
             sortAssets();
         } catch (AssetException e) {
@@ -65,7 +66,7 @@ public class LibrarySystem {
 
         try {
             AudioBook audioBook = new AudioBook(title, author, ISBN, duration, true);
-            thisAuthor.AddAssetToAuthor(audioBook);
+            thisAuthor.addAuthoredAsset(audioBook);
             assets.add(audioBook);
             sortAssets();
         } catch (AssetException e) {
@@ -93,7 +94,7 @@ public class LibrarySystem {
 
         try {
             Thesis thesis = new Thesis(title, author, topic, Abstract, datePublished, true);
-            thisAuthor.AddAssetToAuthor(thesis);
+            thisAuthor.addAuthoredAsset(thesis);
             assets.add(thesis);
             sortAssets();
         } catch (AssetException e) {
@@ -143,24 +144,28 @@ public class LibrarySystem {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
         HeapSort.sort(assetsArr);
+        assets = new LinkedList<>(Arrays.asList(assetsArr));
     }
 
     private static void sortAuthors() {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
         HeapSort.sort(authorArr);
+        authors = new LinkedList<>(Arrays.asList(authorArr));
     }
 
     private static void sortUsers() {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
         HeapSort.sort(userArr);
+        users = new LinkedList<>(Arrays.asList(userArr));
     }
 
     private static void sortLoans() {
         Loan[] loanArr = new Loan[loans.size()];
         loans.toArray(loanArr);
         HeapSort.sort(loanArr);
+        loans = new LinkedList<>(Arrays.asList(loanArr));
     }
 
     public static void createLoan(String assetTitle, String userName) {
@@ -297,6 +302,11 @@ public class LibrarySystem {
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         loadItems(new String[] {"name", "authored"}, CSVPaths[5]);
         loadItems(new String[] {"id", "user", "borrowed", "borrowDate", "returnDate", "returned"}, CSVPaths[6]);
+
+        sortAssets();
+        sortAuthors();
+        sortUsers();
+        sortLoans();
     }
 
     private void loadItems(String[] headers, String filePath) {
@@ -352,36 +362,33 @@ public class LibrarySystem {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
+                        String[] borrowedAssetsTitle = borrowed.split("\\|");
 
                         // Search for asset by name and add to assetsList
-                        Asset[] arr = assets.toArray(new Asset[0]);
+                        Asset[] arr = assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
                         LibraryUser user = new LibraryUser(id, name);
-
-                        String[] borrowedAssetsTitle = borrowed.split("\\|");
 
                         for (String string: borrowedAssetsTitle) {
                             user.addBorrowedAsset(BinarySearch.assetSearch(arr, string));
                         }
 
-                        users.add(new LibraryUser(id, name));
+                        users.add(user);
                     }
                     else if (filePath.equals(CSVPaths[5])) {
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
-
                         String[] authoredAssets = authored.split("\\|");
 
                         // Search for asset by name and add to assetsList
-                      
-                        Asset[] arr = assets.toArray(new Asset[0]);
+                        Asset[] arr = assets.toArray(new Asset[assets.size()]);
                         HeapSort.sort(arr);
 
                         Author author = new Author(name);
 
                         for (String string: authoredAssets) {
-                            author.AddAssetToAuthor(BinarySearch.assetSearch(arr, string));
+                            author.addAuthoredAsset(BinarySearch.assetSearch(arr, string));
                         }
 
                         authors.add(author);
@@ -398,6 +405,7 @@ public class LibrarySystem {
                         // Get borrowed asset
                         String borrowed = csvRecord.get("borrowed");
 
+                        sortAssets();
                         Asset borrowedAsset = getAsset(borrowed);
 
                         // Create dateBorrowed
@@ -419,6 +427,11 @@ public class LibrarySystem {
     }
 
     public void save() {
+        sortAssets();
+        sortAuthors();
+        sortUsers();
+        sortLoans();
+
         saveItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
         saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
         saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);

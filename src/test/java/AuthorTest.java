@@ -12,8 +12,8 @@ public class AuthorTest {
 
         Author a = new Author("JRR. Tolkien");
 
-        a.AddAssetToAuthor(b1);
-        a.AddAssetToAuthor(ab1);
+        a.addAuthoredAsset(b1);
+        a.addAuthoredAsset(ab1);
 
         Assert.assertEquals(a.getName(), "JRR. Tolkien");
         Assert.assertEquals(a.getAuthoredAssets().get(0), b1);

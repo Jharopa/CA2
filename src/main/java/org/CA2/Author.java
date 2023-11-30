@@ -17,7 +17,7 @@ public class Author implements Comparable<Author>, Printable {
         return name;
     }
 
-    public void AddAssetToAuthor(Asset asset){
+    public void addAuthoredAsset(Asset asset){
         authoredAsset.add(asset);
     }
 

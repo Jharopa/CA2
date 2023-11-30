@@ -3,10 +3,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
 
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 
 public class CSVReadTest {
     static LibrarySystem lb;
@@ -31,25 +29,25 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadBooks() {
-        Asset lotr = lb.getAsset("The Lord of the Rings");
+        Asset lotr = LibrarySystem.getAsset("The Lord of the Rings");
         Assert.assertNotNull(lotr);
     }
 
     @Test
     public void testCSVReadAudiobooks() {
-        Asset md = lb.getAsset("Moby Dick");
+        Asset md = LibrarySystem.getAsset("Moby Dick");
         Assert.assertNotNull(md);
     }
 
     @Test
     public void testCSVReadCDs() {
-        Asset hd = lb.getAsset("Hunky Dory");
+        Asset hd = LibrarySystem.getAsset("Hunky Dory");
         Assert.assertNotNull(hd);
     }
 
     @Test
     public void testCSVReadTheses() {
-        Asset wawn = lb.getAsset("Where are we now");
+        Asset wawn = LibrarySystem.getAsset("Where are we now");
         Assert.assertNotNull(wawn);
     }
 
