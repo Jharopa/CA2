@@ -16,13 +16,13 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LibrarySystem {
-    private static LinkedList<Asset> assets;
-    private static LinkedList<Author> authors;
-    private static LinkedList<LibraryUser> users;
-    private static LinkedList<Loan> loans;
+    private LinkedList<Asset> assets;
+    private LinkedList<Author> authors;
+    private LinkedList<LibraryUser> users;
+    private LinkedList<Loan> loans;
 
-    private static AtomicInteger loanIDCount;
-    private static AtomicInteger userIDCount;
+    private AtomicInteger loanIDCount;
+    private AtomicInteger userIDCount;
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
@@ -37,7 +37,7 @@ public class LibrarySystem {
         this.CSVPaths = CSVPaths;
     }
 
-    public static void addBook(String title, String author, String ISBN) {
+    public void addBook(String title, String author, String ISBN) {
         Author thisAuthor = getAuthor(author);
 
         if (thisAuthor == null) {
@@ -56,7 +56,7 @@ public class LibrarySystem {
     }
 
 
-    public static void addAudioBook(String title, String author, String ISBN, int duration) {
+    public void addAudioBook(String title, String author, String ISBN, int duration) {
         Author thisAuthor = getAuthor(author);
 
         if (thisAuthor == null) {
@@ -74,7 +74,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void addCD(String title, String producer, String director, int playtime) {
+    public void addCD(String title, String producer, String director, int playtime) {
         try {
             assets.add(new CD(title, producer, director, playtime, true));
             sortAssets();
@@ -84,7 +84,7 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public static void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
+    public void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
         Author thisAuthor = getAuthor(author);
 
         if (thisAuthor == null) {
@@ -102,31 +102,31 @@ public class LibrarySystem {
         }
     }
 
-    public static void addAuthor(String name) {
+    public void addAuthor(String name) {
         authors.add(new Author(name));
         sortAuthors();
     }
 
-    public static void addUser(String name) {
+    public void addUser(String name) {
         users.add(new LibraryUser(userIDCount.incrementAndGet(), name));
         sortUsers();
     }
 
-    public static Asset getAsset(String title) {
+    public Asset getAsset(String title) {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
 
         return BinarySearch.assetSearch(assetsArr, title);
     }
 
-    public static Author getAuthor(String name) {
+    public Author getAuthor(String name) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
 
         return BinarySearch.authorSearch(authorArr, name);
     }
 
-    public static LibraryUser getUser(String name) {
+    public LibraryUser getUser(String name) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
 
@@ -140,35 +140,35 @@ public class LibrarySystem {
         return BinarySearch.loanSearch(loanArr, id);
     }
 
-    private static void sortAssets() {
+    private void sortAssets() {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
         HeapSort.sort(assetsArr);
         assets = new LinkedList<>(Arrays.asList(assetsArr));
     }
 
-    private static void sortAuthors() {
+    private void sortAuthors() {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
         HeapSort.sort(authorArr);
         authors = new LinkedList<>(Arrays.asList(authorArr));
     }
 
-    private static void sortUsers() {
+    private void sortUsers() {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
         HeapSort.sort(userArr);
         users = new LinkedList<>(Arrays.asList(userArr));
     }
 
-    private static void sortLoans() {
+    private void sortLoans() {
         Loan[] loanArr = new Loan[loans.size()];
         loans.toArray(loanArr);
         HeapSort.sort(loanArr);
         loans = new LinkedList<>(Arrays.asList(loanArr));
     }
 
-    public static void createLoan(String assetTitle, String userName) {
+    public void createLoan(String assetTitle, String userName) {
         Asset asset = getAsset(assetTitle);
         LibraryUser user = getUser(userName);
 
@@ -210,7 +210,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listAvailableAssets() {
+    public void listAvailableAssets() {
         for (Asset asset : assets) {
             if (asset.isAvailability()) {
                 asset.print();
@@ -218,7 +218,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listAvailableBooks() {
+    public void listAvailableBooks() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof Book book && !(asset instanceof AudioBook)) {
                 book.print();
@@ -226,7 +226,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listAvailableAudioBooks() {
+    public void listAvailableAudioBooks() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof AudioBook audioBook) {
                 audioBook.print();
@@ -234,7 +234,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listAvailableThesis() {
+    public void listAvailableThesis() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof Thesis thesis) {
                 thesis.print();
@@ -242,7 +242,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listAvailableCds() {
+    public void listAvailableCds() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof CD cd) {
                 cd.print();
@@ -250,7 +250,7 @@ public class LibrarySystem {
         }
     }
 
-    public static void listBorrowedAssets(String userName) {
+    public void listBorrowedAssets(String userName) {
         LibraryUser libraryUser = getUser(userName);
 
         for (Asset asset : libraryUser.getBorrowedAssets()) {

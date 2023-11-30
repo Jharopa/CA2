@@ -11,6 +11,8 @@ public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
 
+    private static LibrarySystem library;
+
     private static boolean validateIntegerRange(int choice, int limit) {
         if (choice >= 0 && choice <= limit) {
             return true;
@@ -82,7 +84,7 @@ public class Main {
                 System.out.println("Generating isbn ");
                 String isbn = generateISBN();
                 System.out.println("Adding the book titled '" + title + "' to the catalog");
-                LibrarySystem.addBook(title, name, isbn);
+                library.addBook(title, name, isbn);
             case 2:
                 System.out.println("You have chosen an audio book. Please enter it's title: ");
                 String audioTitle = sc.nextLine();
@@ -91,7 +93,7 @@ public class Main {
                 System.out.println("Generating isbn ");
                 String isbnAudio = generateISBN();
                 System.out.println("Adding the audio book titled '" + audioTitle + "' to the catalog");
-                LibrarySystem.addAudioBook(audioTitle, name, isbnAudio, audioDuration);
+                library.addAudioBook(audioTitle, name, isbnAudio, audioDuration);
                 break;
 
             case 3:
@@ -106,7 +108,7 @@ public class Main {
                 System.out.println("Enter the publishing date");
                 LocalDate date = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ISO_LOCAL_DATE);
                 System.out.println("Adding the thesis titled '" + thesisTitle + "' to the catalog");
-                LibrarySystem.addThesis(thesisTitle, name, topic, thesisAbstract, date);
+                library.addThesis(thesisTitle, name, topic, thesisAbstract, date);
         }
         System.out.println("Enter q to return to the main menu, or hit enter to add another asset");
 
@@ -137,7 +139,7 @@ public class Main {
 
         System.out.println("Adding this book to our catalog");
         // Call LibrarySystem addBook
-        LibrarySystem.addBook(title, author, isbn);
+        library.addBook(title, author, isbn);
     }
 
     private static void addCD() {
@@ -157,7 +159,7 @@ public class Main {
 
         System.out.println("Adding this cd to our catalog...");
         // Call LibrarySystem addCD
-        LibrarySystem.addCD(title, producer, director, playtime);
+        library.addCD(title, producer, director, playtime);
 
     }
 
@@ -177,7 +179,7 @@ public class Main {
 //        LibrarySystem.getAuthor(author);
         System.out.println("Adding the audio book to our catalog...");
         // Call LibrarySystem addAudioBook
-        LibrarySystem.addAudioBook(title, author, isbn, duration);
+        library.addAudioBook(title, author, isbn, duration);
     }
 
     private static void addTheses() {
@@ -201,14 +203,14 @@ public class Main {
         }
         System.out.println("Adding thesis to our catalog...");
         // Call LibrarySystem addThesis
-        LibrarySystem.addThesis(title, author, topic, thesisAbstract, date);
+        library.addThesis(title, author, topic, thesisAbstract, date);
     }
 
     private static void addAuthor() {
         // Get author data as input
         System.out.print("Please enter the name of the author: ");
         String name = sc.nextLine();
-        LibrarySystem.addAuthor(name);
+        library.addAuthor(name);
         System.out.println("Added " + name + " to list of authors in library system.");
 //        System.out.println("Would you like to add an asset belonging to this author? (y/n)");
 //        String input = sc.nextLine();
@@ -228,7 +230,7 @@ public class Main {
 
         // enter logic here to allow user to borrow books immediately
         // Call LibrarySystem addUser
-        LibrarySystem.addUser(name);
+        library.addUser(name);
     }
 
     private static void borrowAsset() {
@@ -252,7 +254,7 @@ public class Main {
         // Call LibrarySystem createLoan
     }
 
-    private static void ListAvailableAssets() {
+    private static void listAvailableAssets() {
         System.out.println("Please select one of the asset types to view: ");
         System.out.println("1. All assets");
         System.out.println("2. Book");
@@ -267,23 +269,23 @@ public class Main {
         switch (input) {
             case 1:
                 System.out.println("Listing available assets: ");
-                LibrarySystem.listAvailableAssets();
+                library.listAvailableAssets();
                 break;
             case 2:
                 System.out.println("Listing available books: ");
-                LibrarySystem.listAvailableBooks();
+                library.listAvailableBooks();
                 break;
             case 3:
                 System.out.println("Listing available audio books: ");
-                LibrarySystem.listAvailableAudioBooks();
+                library.listAvailableAudioBooks();
                 break;
             case 4:
                 System.out.println("Listing available theses: ");
-                LibrarySystem.listAvailableThesis();
+                library.listAvailableThesis();
                 break;
             case 5:
                 System.out.println("Listing available CDs: ");
-                LibrarySystem.listAvailableCds();
+                library.listAvailableCds();
                 break;
             case 0:
                 System.out.println("Returning to main menu... ");
@@ -293,9 +295,13 @@ public class Main {
         }
     }
 
+    private static void listAuthors() {
+        library.listAuthors();
+    }
+
     private static void listAvailableBooks() {
         // Call LibrarySystems listAvailableBooks
-        LibrarySystem.listAvailableAssets();
+        library.listAvailableAssets();
     }
 
     private void listBorrowedBooks() {
@@ -321,7 +327,7 @@ public class Main {
                 "loans.csv"
         };
 
-        LibrarySystem library = new LibrarySystem(csvPaths); // Create library object
+        library = new LibrarySystem(csvPaths);
 
         library.load();
         library.initializeIDCounters();
@@ -333,10 +339,10 @@ public class Main {
 
         while (choice != 0) {
             System.out.println("\nWelcome to the Library Management System. \r\nPlease select one of the following options:");
-            System.out.println("1. Add asset to the library catalogue");
-            System.out.println("2. Add author to catalogue");
-            System.out.println("3. Register new user");
-            System.out.println("4. View available assets");
+            System.out.println("1. Catalogue information");
+            System.out.println("2. Add asset to the library catalogue");
+            System.out.println("3. Add author to catalogue");
+            System.out.println("4. Register new user");
             System.out.println("5. Customer wants to borrow asset");
             System.out.println("6. Customer wants to return asset");
             System.out.println();
@@ -355,20 +361,20 @@ public class Main {
 
             switch (choice) {
                 case 1:
+
+                    returnAsset();
+                    break;
+                case 2:
                     System.out.println("You have chosen to add an asset.");
                     addLibraryItem();
                     break;
-                case 2:
+                case 3:
                     System.out.println("You have chosen to add an author.");
                     addAuthor();
                     break;
-                case 3:
+                case 4:
                     System.out.println("You have chosen to register a new member.");
                     addUser();
-                    break;
-                case 4:
-                    System.out.println("You have chosen to view available assets");
-                    ListAvailableAssets();
                     break;
                 case 5:
                     System.out.println("You have chosen to lend an asset to a member.");
@@ -378,7 +384,6 @@ public class Main {
                     System.out.println("You have chosen a member is returning an asset.");
                     returnAsset();
                     break;
-                // Add case statements for other options
                 case 0:
                     System.out.println("Exiting system...");
                     break;

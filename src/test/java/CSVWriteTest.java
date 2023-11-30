@@ -30,23 +30,23 @@ public class CSVWriteTest {
 
         lb.initializeIDCounters();
 
-        LibrarySystem.addAuthor("JRR. Tolkien");
-        LibrarySystem.addAuthor("Herman Melville");
-        LibrarySystem.addAuthor("John Doe");
+        lb.addAuthor("JRR. Tolkien");
+        lb.addAuthor("Herman Melville");
+        lb.addAuthor("John Doe");
 
-        LibrarySystem.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
-        LibrarySystem.addBook("The Hobbit", "JRR. Tolkien","9781566192637");
-        LibrarySystem.addAudioBook("Moby Dick", "Herman Melville","9781566192637", 340);
-        LibrarySystem.addCD("Hunky Dory", "Ken Scott", "David Bowie", 41);
-        LibrarySystem.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
+        lb.addBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415");
+        lb.addBook("The Hobbit", "JRR. Tolkien","9781566192637");
+        lb.addAudioBook("Moby Dick", "Herman Melville","9781566192637", 340);
+        lb.addCD("Hunky Dory", "Ken Scott", "David Bowie", 41);
+        lb.addThesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
 
-        LibrarySystem.addUser("John Doe");
+        lb.addUser("John Doe");
 
-        LibraryUser user = LibrarySystem.getUser("John Doe");
+        LibraryUser user = lb.getUser("John Doe");
 
         user.addBorrowedAsset(new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true));
 
-        LibrarySystem.createLoan("The Hobbit", "John Doe");
+        lb.createLoan("The Hobbit", "John Doe");
 
         lb.save();
     }

@@ -29,31 +29,31 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadBooks() {
-        Asset lotr = LibrarySystem.getAsset("The Lord of the Rings");
+        Asset lotr = lb.getAsset("The Lord of the Rings");
         Assert.assertNotNull(lotr);
     }
 
     @Test
     public void testCSVReadAudiobooks() {
-        Asset md = LibrarySystem.getAsset("Moby Dick");
+        Asset md = lb.getAsset("Moby Dick");
         Assert.assertNotNull(md);
     }
 
     @Test
     public void testCSVReadCDs() {
-        Asset hd = LibrarySystem.getAsset("Hunky Dory");
+        Asset hd = lb.getAsset("Hunky Dory");
         Assert.assertNotNull(hd);
     }
 
     @Test
     public void testCSVReadTheses() {
-        Asset wawn = LibrarySystem.getAsset("Where are we now");
+        Asset wawn = lb.getAsset("Where are we now");
         Assert.assertNotNull(wawn);
     }
 
     @Test
     public void testCSVReadUsers() {
-        LibraryUser lu = LibrarySystem.getUser("John Doe");
+        LibraryUser lu = lb.getUser("John Doe");
 
         Assert.assertNotNull(lu);
 
@@ -63,7 +63,7 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadAuthors() {
-        Author a = LibrarySystem.getAuthor("JRR. Tolkien");
+        Author a = lb.getAuthor("JRR. Tolkien");
 
         Assert.assertNotNull(a);
 
