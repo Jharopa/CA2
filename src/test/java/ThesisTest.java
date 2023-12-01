@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class ThesisTest {
     @Test
     public void testThesis() throws AssetException {
-        Thesis t = new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE), true);
+        Thesis t = new Thesis(1, "Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE), true);
 
         Assert.assertEquals(t.getTitle(), "Where are we now");
         Assert.assertEquals(t.getAuthor(), "John Doe");
@@ -19,7 +19,7 @@ public class ThesisTest {
         Assert.assertEquals(t.getDatePublished(), LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
         Assert.assertTrue(t.isAvailability());
 
-        Assert.assertEquals(t.toString(), "Where are we now, John Doe, Philosophy, 2023-08-08, available");
+        Assert.assertEquals(t.toString(), "1, Where are we now, John Doe, Philosophy, 2023-08-08, available");
 
         t.setTitle("New title");
         t.setAuthor("Jane Doe");

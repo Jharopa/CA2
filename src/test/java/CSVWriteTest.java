@@ -44,9 +44,9 @@ public class CSVWriteTest {
 
         LibraryUser user = lb.getUser(1);
 
-        user.addBorrowedAsset(new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true));
+        user.addBorrowedAsset(new CD(4, "Hunky Dory", "Ken Scott", "David Bowie", 41, true));
 
-        lb.createLoan("The Hobbit", 1);
+        lb.createLoan(2, 1);
 
         lb.save();
     }
@@ -55,32 +55,32 @@ public class CSVWriteTest {
     public void testCSVWriteBooks() throws IOException {
         ArrayList<String> contents = getContents("src/test/resources/write_books.csv");
 
-        Assert.assertEquals(contents.get(0), "title,author,ISBN,availability");
-        Assert.assertEquals(contents.get(1), "The Hobbit,JRR. Tolkien,9781566192637,false");
+        Assert.assertEquals(contents.get(0), "id,title,author,ISBN,availability");
+        Assert.assertEquals(contents.get(1), "1,The Lord of the Rings,JRR. Tolkien,9780544003415,true");
     }
 
     @Test
     public void testCSVWriteAudiobooks() throws IOException {
         ArrayList<String> contents = getContents("src/test/resources/write_audiobooks.csv");
 
-        Assert.assertEquals(contents.get(0), "title,author,ISBN,duration,availability");
-        Assert.assertEquals(contents.get(1), "Moby Dick,Herman Melville,9781566192637,340,true");
+        Assert.assertEquals(contents.get(0), "id,title,author,ISBN,duration,availability");
+        Assert.assertEquals(contents.get(1), "3,Moby Dick,Herman Melville,9781566192637,340,true");
     }
 
     @Test
     public void testCSVWriteCDs() throws IOException {
         ArrayList<String> contents = getContents("src/test/resources/write_cds.csv");
 
-        Assert.assertEquals(contents.get(0), "title,producer,director,playtime,availability");
-        Assert.assertEquals(contents.get(1), "Hunky Dory,Ken Scott,David Bowie,41,true");
+        Assert.assertEquals(contents.get(0), "id,title,producer,director,playtime,availability");
+        Assert.assertEquals(contents.get(1), "4,Hunky Dory,Ken Scott,David Bowie,41,true");
     }
 
     @Test
     public void testCSVWriteTheses() throws IOException {
         ArrayList<String> contents = getContents("src/test/resources/write_theses.csv");
 
-        Assert.assertEquals(contents.get(0), "title,author,topic,Abstract,datePublished,availability");
-        Assert.assertEquals(contents.get(1), "Where are we now,John Doe,Philosophy,This is an abstract,2023-08-08,true");
+        Assert.assertEquals(contents.get(0), "id,title,author,topic,Abstract,datePublished,availability");
+        Assert.assertEquals(contents.get(1), "5,Where are we now,John Doe,Philosophy,This is an abstract,2023-08-08,true");
     }
 
     @Test
@@ -88,7 +88,7 @@ public class CSVWriteTest {
         ArrayList<String> contents = getContents("src/test/resources/write_users.csv");
 
         Assert.assertEquals(contents.get(0), "id,name,borrowed");
-        Assert.assertEquals(contents.get(1), "1,John Doe,Hunky Dory|The Hobbit|");
+        Assert.assertEquals(contents.get(1), "1,John Doe,4|2|");
     }
 
     @Test
@@ -96,9 +96,9 @@ public class CSVWriteTest {
         ArrayList<String> contents = getContents("src/test/resources/write_authors.csv");
 
         Assert.assertEquals(contents.get(0), "id,name,authored");
-        Assert.assertEquals(contents.get(1), "1,JRR. Tolkien,The Lord of the Rings|The Hobbit|");
-        Assert.assertEquals(contents.get(2), "2,Herman Melville,Moby Dick|");
-        Assert.assertEquals(contents.get(3), "3,John Doe,Where are we now|");
+        Assert.assertEquals(contents.get(1), "1,JRR. Tolkien,1|2|");
+        Assert.assertEquals(contents.get(2), "2,Herman Melville,3|");
+        Assert.assertEquals(contents.get(3), "3,John Doe,5|");
     }
 
     @Test
@@ -106,10 +106,10 @@ public class CSVWriteTest {
         ArrayList<String> loanContents = getContents("src/test/resources/write_loans.csv");
 
         Assert.assertEquals(loanContents.get(0), "id,user,borrowed,dateBorrowed,dateReturned,returned");
-        Assert.assertEquals(loanContents.get(1), String.format("1,1,The Hobbit,%s,%s,false", LocalDate.now(), LocalDate.now().plusDays(14)));
+        Assert.assertEquals(loanContents.get(1), String.format("1,1,2,%s,%s,false", LocalDate.now(), LocalDate.now().plusDays(14)));
 
         ArrayList<String> bookContents = getContents("src/test/resources/write_books.csv");
-        Assert.assertTrue(bookContents.get(1).contains("false"));
+        Assert.assertTrue(bookContents.get(2).contains("false"));
     }
 
     private ArrayList<String> getContents(String path) throws IOException {

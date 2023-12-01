@@ -13,10 +13,10 @@ public class HeapSortTest {
     @BeforeClass
     public static void testSetup() throws AssetException {
         assetArr = new Asset[] {
-                new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true),
-                new AudioBook("Moby Dick", "Herman Melville","9781566192637", 340, true),
-                new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true),
-                new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.now(), true)
+                new Book(2, "The Lord of the Rings", "JRR. Tolkien", "9780544003415", true),
+                new AudioBook(4, "Moby Dick", "Herman Melville","9781566192637", 340, true),
+                new CD(3, "Hunky Dory", "Ken Scott", "David Bowie", 41, true),
+                new Thesis(1, "Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.now(), true)
 
         };
 
@@ -44,10 +44,10 @@ public class HeapSortTest {
 
         HeapSort.sort(assetArr);
 
-        Assert.assertEquals(assetArr[0].getTitle(), "Hunky Dory");
-        Assert.assertEquals(assetArr[1].getTitle(), "Moby Dick");
-        Assert.assertEquals(assetArr[2].getTitle(), "The Lord of the Rings");
-        Assert.assertEquals(assetArr[3].getTitle(), "Where are we now");
+        Assert.assertEquals(assetArr[0].getTitle(), "Where are we now");
+        Assert.assertEquals(assetArr[1].getTitle(), "The Lord of the Rings");
+        Assert.assertEquals(assetArr[2].getTitle(), "Hunky Dory");
+        Assert.assertEquals(assetArr[3].getTitle(), "Moby Dick");
 
         Assert.assertEquals(authorArr[0].getName(), "John Doe");
         Assert.assertEquals(authorArr[1].getName(), "JRR. Tolkien");

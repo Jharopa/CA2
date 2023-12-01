@@ -7,8 +7,8 @@ import java.util.LinkedList;
 public class AuthorTest {
     @Test
     public void testAuthor() throws AssetException {
-        Book b1 = new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true);
-        AudioBook ab1 = new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true);
+        Book b1 = new Book(1, "The Lord of the Rings", "JRR. Tolkien", "9780544003415", true);
+        AudioBook ab1 = new AudioBook(2, "The Hobbit", "JRR. Tolkien","9781566192637", 340, true);
 
         Author a = new Author(1, "JRR. Tolkien");
 
@@ -21,8 +21,8 @@ public class AuthorTest {
 
         a.setName("New Name");
 
-        Book b2 = new Book("New Book", "New name", "123456", true);
-        AudioBook ab2 = new AudioBook("New Book 2", "New name","654321", 340, true);
+        Book b2 = new Book(1, "New Book", "New name", "123456", true);
+        AudioBook ab2 = new AudioBook(2, "New Book 2", "New name","654321", 340, true);
 
         LinkedList<Asset> assets = new LinkedList<>();
         assets.add(b2);

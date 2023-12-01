@@ -6,7 +6,7 @@ import org.CA2.CD;
 public class CDTest {
     @Test
     public void testBook() throws AssetException {
-        CD c = new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true);
+        CD c = new CD(1, "Hunky Dory", "Ken Scott", "David Bowie", 41, true);
 
         Assert.assertEquals(c.getTitle(), "Hunky Dory");
         Assert.assertEquals(c.getProducer(), "Ken Scott");
@@ -14,7 +14,7 @@ public class CDTest {
         Assert.assertEquals(c.getPlaytime(), 41);
         Assert.assertTrue(c.isAvailability());
 
-        Assert.assertEquals(c.toString(), "Hunky Dory, Ken Scott, David Bowie, 41, available");
+        Assert.assertEquals(c.toString(), "1, Hunky Dory, Ken Scott, David Bowie, 41, available");
 
         c.setTitle("New title");
         c.setProducer("John Doe");

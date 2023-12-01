@@ -6,7 +6,7 @@ import org.CA2.AudioBook;
 public class AudioBookTest {
     @Test
     public void testAudioBook() throws AssetException {
-        AudioBook ab = new AudioBook("The Lord of the Rings", "JRR. Tolkien", "9780544003415", 360,true);
+        AudioBook ab = new AudioBook(1, "The Lord of the Rings", "JRR. Tolkien", "9780544003415", 360,true);
 
         Assert.assertEquals(ab.getTitle(), "The Lord of the Rings");
         Assert.assertEquals(ab.getAuthor(), "JRR. Tolkien");

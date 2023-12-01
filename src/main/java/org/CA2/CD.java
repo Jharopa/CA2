@@ -5,8 +5,8 @@ public class CD extends Asset implements Printable{
     private String director;
     private int playtime;
 
-    public CD(String title, String producer, String director, int playtime, boolean availability) throws AssetException {
-        super(title, availability);
+    public CD(int id, String title, String producer, String director, int playtime, boolean availability) throws AssetException {
+        super(id, title, availability);
 
         this.producer = producer;
         this.director = director;

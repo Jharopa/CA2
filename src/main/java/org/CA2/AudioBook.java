@@ -4,8 +4,8 @@ public class AudioBook extends Book implements Printable {
 
     private int duration;
 
-    public AudioBook(String title, String author, String ISBN, int duration, boolean availability) throws AssetException{
-        super(title, author, ISBN, availability);
+    public AudioBook(int id, String title, String author, String ISBN, int duration, boolean availability) throws AssetException{
+        super(id, title, author, ISBN, availability);
 
         if (duration < 0) {
             throw new AssetException("AudioBook duration can not be less than 0");

@@ -13,19 +13,19 @@ public class BinarySearchTest {
     @BeforeClass
     public static void testSetup() throws AssetException {
         arr = new Asset[] {
-                new CD("Hunky Dory", "Ken Scott", "David Bowie", 41, true),
-                new AudioBook("Moby Dick", "Herman Melville","9781566192637", 340, true),
-                new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true),
-                new Thesis("Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE), true)
+                new CD(1, "Hunky Dory", "Ken Scott", "David Bowie", 41, true),
+                new AudioBook(2, "Moby Dick", "Herman Melville","9781566192637", 340, true),
+                new Book(3, "The Lord of the Rings", "JRR. Tolkien", "9780544003415", true),
+                new Thesis(4, "Where are we now", "John Doe", "Philosophy", "This is an abstract", LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE), true)
         };
     }
 
     @Test
     public void testBinarySearch() {
-        Asset hd = BinarySearch.assetSearch(arr, "Hunky Dory");
-        Asset mb = BinarySearch.assetSearch(arr, "Moby Dick");
-        Asset lotr = BinarySearch.assetSearch(arr, "The Lord of the Rings");
-        Asset wawn = BinarySearch.assetSearch(arr, "Where are we now");
+        Asset hd = BinarySearch.assetSearch(arr, 1);
+        Asset mb = BinarySearch.assetSearch(arr, 2);
+        Asset lotr = BinarySearch.assetSearch(arr, 3);
+        Asset wawn = BinarySearch.assetSearch(arr, 4);
 
         Assert.assertTrue(hd instanceof CD);
         Assert.assertTrue(mb instanceof AudioBook);
@@ -37,7 +37,7 @@ public class BinarySearchTest {
         Assert.assertEquals(lotr.getTitle(),"The Lord of the Rings");
         Assert.assertEquals(wawn.getTitle(),"Where are we now");
 
-        Asset nonExistent = BinarySearch.assetSearch(arr, "1234");
+        Asset nonExistent = BinarySearch.assetSearch(arr, 9999);
 
         Assert.assertNull(nonExistent);
     }

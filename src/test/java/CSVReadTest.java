@@ -29,25 +29,25 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadBooks() {
-        Asset lotr = lb.getAsset("The Lord of the Rings");
+        Asset lotr = lb.getAsset(1);
         Assert.assertNotNull(lotr);
     }
 
     @Test
     public void testCSVReadAudiobooks() {
-        Asset md = lb.getAsset("Moby Dick");
+        Asset md = lb.getAsset(2);
         Assert.assertNotNull(md);
     }
 
     @Test
     public void testCSVReadCDs() {
-        Asset hd = lb.getAsset("Hunky Dory");
+        Asset hd = lb.getAsset(3);
         Assert.assertNotNull(hd);
     }
 
     @Test
     public void testCSVReadTheses() {
-        Asset wawn = lb.getAsset("Where are we now");
+        Asset wawn = lb.getAsset(4);
         Assert.assertNotNull(wawn);
     }
 

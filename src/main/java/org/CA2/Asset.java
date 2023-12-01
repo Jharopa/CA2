@@ -1,16 +1,26 @@
 package org.CA2;
 
 public abstract class Asset implements Comparable<Asset>, Printable {
+    protected int id;
     protected String title;
     protected boolean availability;
 
-    public Asset(String title, boolean availability) throws AssetException {
+    public Asset(int id, String title, boolean availability) throws AssetException {
         if (title.length() > 200) {
             throw new AssetException("Asset title can not be greater than 200");
         }
 
+        this.id = id;
         this.title = title;
         this.availability = availability;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public void getID(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -35,11 +45,11 @@ public abstract class Asset implements Comparable<Asset>, Printable {
 
     // Strings are compared lexicographic order https://www.educative.io/answers/what-is-a-lexicographic-order
     public int compareTo(Asset o) {
-        return this.title.compareTo(o.getTitle());
+        return Integer.compare(this.getID(), o.getID());
     }
 
     @Override
     public String toString() {
-        return String.format("%s,", getTitle());
+        return String.format("%d, %s,", getID() ,getTitle());
     }
 }

@@ -4,8 +4,8 @@ public class Book extends Asset implements Printable{
     protected String author;
     protected String ISBN;
 
-    public Book(String title, String author, String ISBN, boolean availability) throws AssetException {
-        super(title, availability);
+    public Book(int id, String title, String author, String ISBN, boolean availability) throws AssetException {
+        super(id, title, availability);
         this.author = author;
         this.ISBN = ISBN;
     }

@@ -216,7 +216,7 @@ public class UserInterface {
 
             System.out.println("\n0. Return to previous menu\n");
 
-            System.out.print("\nEnter your selection: ");
+            System.out.print("Enter your selection: ");
 
             try {
                 choice = Integer.parseInt(sc.nextLine());
@@ -326,19 +326,19 @@ public class UserInterface {
                     System.out.println("\nReturning to main menu...");
                     break;
                 case 1:
-                    System.out.println("You have chosen to add a book...");
+                    System.out.println("\nYou have chosen to add a book...");
                     addBook();
                     break;
                 case 2:
-                    System.out.println("You have chosen to add an audio book...");
+                    System.out.println("\nYou have chosen to add an audio book...");
                     addAudioBook();
                     break;
                 case 3:
-                    System.out.println("You have chosen to add a thesis...");
+                    System.out.println("\nYou have chosen to add a thesis...");
                     addTheses();
                     break;
                 case 4:
-                    System.out.println("You have chosen to add a CD...");
+                    System.out.println("\nYou have chosen to add a CD...");
                     addCD();
                     break;
                 default:
@@ -376,16 +376,16 @@ public class UserInterface {
         int playtime;
 
         try {
-            System.out.println("Please enter the title of the CD:\n");
+            System.out.print("Please enter the title of the CD: ");
             title = sc.nextLine();
 
-            System.out.println("Please enter the producer of the cd:\n");
+            System.out.print("Please enter the producer of the cd: ");
             producer = sc.nextLine();
 
-            System.out.println("Please enter the director of the cd:\n");
+            System.out.print("Please enter the director of the cd: ");
             director = sc.nextLine();
 
-            System.out.println("Please enter the length of the CD in minutes:\n");
+            System.out.print("Please enter the length of the CD in minutes: ");
             playtime = Integer.parseInt(sc.nextLine());
 
             System.out.println("Adding this cd to our catalog...");
@@ -399,16 +399,16 @@ public class UserInterface {
 
     private void addAudioBook() {
         try {
-            System.out.println("Please enter the title of the audio book:\n");
+            System.out.print("Please enter the title of the audio book: ");
             String title = sc.nextLine();
 
-            System.out.println("Please enter the ID of the audio books author:\n");
+            System.out.print("Please enter the ID of the audio books author: ");
             int authorID = Integer.parseInt(sc.nextLine());
 
-            System.out.println("Please enter the duration of the audio book:\n");
+            System.out.print("Please enter the duration of the audio book: ");
             int duration = Integer.parseInt(sc.nextLine());
 
-            System.out.println("Please enter th ISBN of this audio book...");
+            System.out.print("Please enter th ISBN of this audio book: ");
             String isbn = sc.nextLine();
 
             System.out.println("Adding the audio book to our catalog...");
@@ -422,16 +422,16 @@ public class UserInterface {
 
     private void addTheses() {
         try {
-            System.out.println("Please enter the title of the thesis:\n");
+            System.out.print("Please enter the title of the thesis: ");
             String title = sc.nextLine();
 
-            System.out.println("Please enter the author of the thesis:\n");
+            System.out.print("Please enter the author of the thesis: ");
             int authorID = Integer.parseInt(sc.nextLine());
 
-            System.out.println("Please enter the topic of the thesis:\n");
+            System.out.print("Please enter the topic of the thesis: ");
             String topic = sc.nextLine();
 
-            System.out.println("Please enter the abstract of the thesis:\n");
+            System.out.print("Please enter the abstract of the thesis: ");
             String thesisAbstract = sc.nextLine();
 
             LocalDate date = null;
@@ -493,10 +493,10 @@ public class UserInterface {
             System.out.print("Please enter the user's ID: ");
             int userID = Integer.parseInt(sc.nextLine());
 
-            System.out.print("Please enter the asset's name: ");
-            String assetName = sc.nextLine();
+            System.out.print("Please enter the asset's ID: ");
+            int assetID = Integer.parseInt(sc.nextLine());
 
-            library.createLoan(assetName, userID);
+            library.createLoan(assetID, userID);
         } catch (NumberFormatException e) {
             System.out.println("Failed to create loan. User's ID must be a number!");
         }

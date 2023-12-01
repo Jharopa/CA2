@@ -8,8 +8,8 @@ public class Thesis extends Asset implements Printable {
     private String Abstract;
     private LocalDate datePublished;
 
-    public Thesis(String title, String author, String topic, String Abstract, LocalDate datePublished, boolean availability) throws AssetException {
-        super(title, availability);
+    public Thesis(int id, String title, String author, String topic, String Abstract, LocalDate datePublished, boolean availability) throws AssetException {
+        super(id, title, availability);
 
         if (datePublished.isAfter(LocalDate.now())) {
             throw new AssetException("Theses datePublished can not be in the future");

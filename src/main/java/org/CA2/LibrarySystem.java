@@ -21,12 +21,13 @@ public class LibrarySystem {
     private LinkedList<LibraryUser> users;
     private LinkedList<Loan> loans;
 
-    private AtomicInteger loanIDCount;
+    private AtomicInteger assetIDCount;
     private AtomicInteger userIDCount;
     private AtomicInteger authorIDCount;
+    private AtomicInteger loanIDCount;
 
     // Paths to the CSV files that should be read from or written to
-    // Books, Audiobooks, CDs, Theses, Users, Authors
+    // Order of Books, Audiobooks, CDs, Theses, Users, Authors, Loans
     private final String[] CSVPaths;
 
     public LibrarySystem(String[] CSVPaths) {
@@ -47,7 +48,7 @@ public class LibrarySystem {
         }
 
         try {
-            Book book = new Book(title, thisAuthor.getName(), ISBN, true);
+            Book book = new Book(assetIDCount.incrementAndGet(), title, thisAuthor.getName(), ISBN, true);
             thisAuthor.addAuthoredAsset(book);
             assets.add(book);
             sortAssets();
@@ -66,7 +67,7 @@ public class LibrarySystem {
         }
 
         try {
-            AudioBook audioBook = new AudioBook(title, thisAuthor.getName(), ISBN, duration, true);
+            AudioBook audioBook = new AudioBook(assetIDCount.incrementAndGet(), title, thisAuthor.getName(), ISBN, duration, true);
             thisAuthor.addAuthoredAsset(audioBook);
             assets.add(audioBook);
             sortAssets();
@@ -77,7 +78,7 @@ public class LibrarySystem {
 
     public void addCD(String title, String producer, String director, int playtime) {
         try {
-            assets.add(new CD(title, producer, director, playtime, true));
+            assets.add(new CD(assetIDCount.incrementAndGet(), title, producer, director, playtime, true));
             sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add CD. Reason: %s", e);
@@ -94,7 +95,7 @@ public class LibrarySystem {
         }
 
         try {
-            Thesis thesis = new Thesis(title, thisAuthor.getName(), topic, Abstract, datePublished, true);
+            Thesis thesis = new Thesis(assetIDCount.incrementAndGet(), title, thisAuthor.getName(), topic, Abstract, datePublished, true);
             thisAuthor.addAuthoredAsset(thesis);
             assets.add(thesis);
             sortAssets();
@@ -113,18 +114,18 @@ public class LibrarySystem {
         sortUsers();
     }
 
-    public Asset getAsset(String title) {
+    public Asset getAsset(int assetID) {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
 
-        return BinarySearch.assetSearch(assetsArr, title);
+        return BinarySearch.assetSearch(assetsArr, assetID);
     }
 
-    public Author getAuthor(int id) {
+    public Author getAuthor(int authorID) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
 
-        return BinarySearch.authorSearch(authorArr, id);
+        return BinarySearch.authorSearch(authorArr, authorID);
     }
 
     public LibraryUser getUser(int userID) {
@@ -169,17 +170,17 @@ public class LibrarySystem {
         loans = new LinkedList<>(Arrays.asList(loanArr));
     }
 
-    public void createLoan(String assetTitle, int userID) {
-        Asset asset = getAsset(assetTitle);
+    public void createLoan(int assetID, int userID) {
+        Asset asset = getAsset(assetID);
         LibraryUser user = getUser(userID);
 
         if (asset == null) {
-            System.out.printf("Unable to find provided asset %s\nUnable to create loan", assetTitle);
+            System.out.printf("Unable to find asset with ID %s\nUnable to create loan", assetID);
             return;
         }
 
         if (user == null) {
-            System.out.printf("Unable to find provided user %s\nUnable to create loan", assetTitle);
+            System.out.printf("Unable to find user with ID %s\nUnable to create loan", userID);
             return;
         }
 
@@ -324,10 +325,10 @@ public class LibrarySystem {
     }
 
     public void initializeIDCounters() {
-        if (loans.isEmpty()) {
-            loanIDCount = new AtomicInteger(0);
+        if (assets.isEmpty()) {
+            assetIDCount = new AtomicInteger(0);
         } else {
-            loanIDCount = new AtomicInteger(loans.get(loans.size() - 1).getID());
+            assetIDCount = new AtomicInteger(assets.get(assets.size() - 1).getID());
         }
 
         if (users.isEmpty()) {
@@ -341,13 +342,19 @@ public class LibrarySystem {
         } else {
             authorIDCount = new AtomicInteger(authors.get(authors.size() - 1).getID());
         }
+
+        if (loans.isEmpty()) {
+            loanIDCount = new AtomicInteger(0);
+        } else {
+            loanIDCount = new AtomicInteger(loans.get(loans.size() - 1).getID());
+        }
     }
 
     public void load() {
-        loadItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
-        loadItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
-        loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
-        loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
+        loadItems(new String[] {"id", "title", "author", "ISBN", "availability"}, CSVPaths[0]);
+        loadItems(new String[] {"id", "title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
+        loadItems(new String[] {"id", "title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
+        loadItems(new String[] {"id", "title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         loadItems(new String[] {"id", "name", "authored"}, CSVPaths[5]);
         loadItems(new String[] {"id", "user", "borrowed", "borrowDate", "returnDate", "returned"}, CSVPaths[6]);
@@ -370,32 +377,36 @@ public class LibrarySystem {
 
             for (CSVRecord csvRecord : csvParser) {
                     if (filePath.equals(CSVPaths[0])) {
+                        int id = Integer.parseInt(csvRecord.get("id"));
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String ISBN = csvRecord.get("ISBN");
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
-                        assets.add(new Book(title, author, ISBN, availability));
+                        assets.add(new Book(id, title, author, ISBN, availability));
                     }
                     else if (filePath.equals(CSVPaths[1])) {
+                        int id = Integer.parseInt(csvRecord.get("id"));
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String ISBN = csvRecord.get("ISBN");
                         int duration = Integer.parseInt(csvRecord.get("duration"));
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
-                        assets.add(new AudioBook(title, author, ISBN, duration, availability));
+                        assets.add(new AudioBook(id, title, author, ISBN, duration, availability));
                     }
                     else if (filePath.equals(CSVPaths[2])) {
+                        int id = Integer.parseInt(csvRecord.get("id"));
                         String title = csvRecord.get("title");
                         String producer = csvRecord.get("producer");
                         String director = csvRecord.get("director");
                         int playtime = Integer.parseInt(csvRecord.get("playtime"));
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
-                        assets.add(new CD(title, producer, director, playtime, availability));
+                        assets.add(new CD(id, title, producer, director, playtime, availability));
                     }
                     else if (filePath.equals(CSVPaths[3])) {
+                        int id = Integer.parseInt(csvRecord.get("id"));
                         String title = csvRecord.get("title");
                         String author = csvRecord.get("author");
                         String topic = csvRecord.get("topic");
@@ -405,16 +416,23 @@ public class LibrarySystem {
 
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
-                        assets.add(new Thesis(title, author, topic, Abstract, datePublished, availability));
+                        assets.add(new Thesis(id, title, author, topic, Abstract, datePublished, availability));
                     }
                     else if (filePath.equals(CSVPaths[4])) {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String borrowed = csvRecord.get("borrowed");
-                        String[] borrowedAssetsTitle = null;
+
+                        String[] borrowedAssetsIDStrings;
+                        int[] borrowedAssetsIDs = null;
 
                         if (!borrowed.isEmpty()) {
-                            borrowedAssetsTitle = borrowed.split("\\|");
+                            borrowedAssetsIDStrings = borrowed.split("\\|");
+                            borrowedAssetsIDs = new int[borrowedAssetsIDStrings.length];
+
+                            for (int i = 0; i < borrowedAssetsIDs.length; i++) {
+                                borrowedAssetsIDs[i] = Integer.parseInt(borrowedAssetsIDStrings[i]);
+                            }
                         }
 
                         // Search for asset by name and add to assetsList
@@ -422,9 +440,10 @@ public class LibrarySystem {
                         HeapSort.sort(arr);
 
                         LibraryUser user = new LibraryUser(id, name);
-                        if (borrowedAssetsTitle != null) {
-                            for (String string: borrowedAssetsTitle) {
-                                user.addBorrowedAsset(BinarySearch.assetSearch(arr, string));
+
+                        if (borrowedAssetsIDs != null) {
+                            for (int assetID: borrowedAssetsIDs) {
+                                user.addBorrowedAsset(BinarySearch.assetSearch(arr, assetID));
                             }
                         }
 
@@ -433,10 +452,17 @@ public class LibrarySystem {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
-                        String[] authoredAssets = null;
+
+                        String[] authoredAssetIDStrings;
+                        int[] authoredAssetIDs = null;
 
                         if (!authored.isEmpty()) {
-                            authoredAssets = authored.split("\\|");
+                            authoredAssetIDStrings = authored.split("\\|");
+                            authoredAssetIDs = new int[authoredAssetIDStrings.length];
+
+                            for (int i = 0; i < authoredAssetIDs.length; i++) {
+                                authoredAssetIDs[i] = Integer.parseInt(authoredAssetIDStrings[i]);
+                            }
                         }
 
                         // Search for asset by name and add to assetsList
@@ -445,9 +471,9 @@ public class LibrarySystem {
 
                         Author author = new Author(id, name);
 
-                        if (authoredAssets != null) {
-                            for (String string: authoredAssets) {
-                                author.addAuthoredAsset(BinarySearch.assetSearch(arr, string));
+                        if (authoredAssetIDs != null) {
+                            for (int assetID: authoredAssetIDs) {
+                                author.addAuthoredAsset(BinarySearch.assetSearch(arr, assetID));
                             }
                         }
 
@@ -455,7 +481,7 @@ public class LibrarySystem {
                     }
                     else if (filePath.equals(CSVPaths[6])) {
                         // Get loan ID
-                        int id = Integer.parseInt(csvRecord.get("id"));
+                        int loanID = Integer.parseInt(csvRecord.get("id"));
 
                         // Get library user
                         int userID = Integer.parseInt(csvRecord.get("user"));
@@ -463,10 +489,10 @@ public class LibrarySystem {
                         LibraryUser user = getUser(userID);
 
                         // Get borrowed asset
-                        String borrowed = csvRecord.get("borrowed");
+                        int assetID = Integer.parseInt(csvRecord.get("borrowed"));
 
                         sortAssets();
-                        Asset borrowedAsset = getAsset(borrowed);
+                        Asset borrowedAsset = getAsset(assetID);
 
                         // Create dateBorrowed
                         LocalDate dateBorrowed = LocalDate.parse(csvRecord.get("borrowDate"), DateTimeFormatter.ISO_LOCAL_DATE);
@@ -476,7 +502,7 @@ public class LibrarySystem {
 
                         boolean returned = Boolean.parseBoolean(csvRecord.get("returned"));
 
-                        loans.add(new Loan(id, user, borrowedAsset, dateBorrowed, dateReturned, returned));
+                        loans.add(new Loan(loanID, user, borrowedAsset, dateBorrowed, dateReturned, returned));
                     }
             }
         } catch (IOException e) {
@@ -492,10 +518,10 @@ public class LibrarySystem {
         sortUsers();
         sortLoans();
 
-        saveItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]); // Book
-        saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]); // Audiobook
-        saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]); // CD
-        saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]); // Thesis
+        saveItems(new String[] {"id", "title", "author", "ISBN", "availability"}, CSVPaths[0]); // Book
+        saveItems(new String[] {"id", "title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]); // Audiobook
+        saveItems(new String[] {"id", "title", "producer", "director", "playtime", "availability"}, CSVPaths[2]); // CD
+        saveItems(new String[] {"id", "title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]); // Thesis
         saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]); // User
         saveItems(new String[] {"id", "name", "authored"}, CSVPaths[5]); // Author
         saveItems(new String[] {"id", "user", "borrowed", "dateBorrowed", "dateReturned", "returned"}, CSVPaths[6]); // Loan
@@ -513,6 +539,7 @@ public class LibrarySystem {
                 for (Asset asset : assets) {
                     if (asset instanceof Book book && !(asset instanceof AudioBook)) {
                         csvPrinter.printRecord(
+                                book.getID(),
                                 book.getTitle(),
                                 book.getAuthor(),
                                 book.getISBN(),
@@ -524,6 +551,7 @@ public class LibrarySystem {
                 for (Asset asset : assets) {
                     if (asset instanceof AudioBook audioBook) {
                         csvPrinter.printRecord(
+                                audioBook.getID(),
                                 audioBook.getTitle(),
                                 audioBook.getAuthor(),
                                 audioBook.getISBN(),
@@ -536,6 +564,7 @@ public class LibrarySystem {
                 for (Asset asset : assets) {
                     if (asset instanceof CD cd) {
                         csvPrinter.printRecord(
+                                cd.getID(),
                                 cd.getTitle(),
                                 cd.getProducer(),
                                 cd.getDirector(),
@@ -548,6 +577,7 @@ public class LibrarySystem {
                 for (Asset asset : assets) {
                     if (asset instanceof Thesis thesis) {
                         csvPrinter.printRecord(
+                                thesis.getID(),
                                 thesis.getTitle(),
                                 thesis.getAuthor(),
                                 thesis.getTopic(),
@@ -563,7 +593,7 @@ public class LibrarySystem {
                     LinkedList<Asset> assets = user.getBorrowedAssets();
 
                     for (Asset asset : assets) {
-                        borrowedAssets.append(asset.getTitle()).append("|");
+                        borrowedAssets.append(asset.getID()).append("|");
                     }
 
                     csvPrinter.printRecord(
@@ -578,7 +608,7 @@ public class LibrarySystem {
                     LinkedList<Asset> assets = author.getAuthoredAssets();
 
                     for (Asset asset : assets) {
-                        authoredAssets.append(asset.getTitle()).append("|");
+                        authoredAssets.append(asset.getID()).append("|");
                     }
 
                     csvPrinter.printRecord(
@@ -592,7 +622,7 @@ public class LibrarySystem {
                     csvPrinter.printRecord(
                             loan.getID(),
                             loan.getBorrower().getID(),
-                            loan.getBorrowedAsset().getTitle(),
+                            loan.getBorrowedAsset().getID(),
                             loan.getBorrowDate().toString(),
                             loan.getReturnDate().toString(),
                             loan.isReturned()
