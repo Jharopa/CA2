@@ -19,7 +19,7 @@ public class ThesisTest {
         Assert.assertEquals(t.getDatePublished(), LocalDate.parse("2023-08-08", DateTimeFormatter.ISO_LOCAL_DATE));
         Assert.assertTrue(t.isAvailability());
 
-        Assert.assertEquals(t.toString(), "Where are we now available John Doe Philosophy 2023-08-08");
+        Assert.assertEquals(t.toString(), "Where are we now, John Doe, Philosophy, 2023-08-08, available");
 
         t.setTitle("New title");
         t.setAuthor("Jane Doe");

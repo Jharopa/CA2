@@ -28,7 +28,7 @@ public class AudioBook extends Book implements Printable {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" %d", duration);
+        return String.format("%s, %s, %s, %d, %s", title, author, ISBN, duration, availability ? "available" : "unavailable");
     }
 
     @Override

@@ -10,7 +10,7 @@ public class AuthorTest {
         Book b1 = new Book("The Lord of the Rings", "JRR. Tolkien", "9780544003415", true);
         AudioBook ab1 = new AudioBook("The Hobbit", "JRR. Tolkien","9781566192637", 340, true);
 
-        Author a = new Author("JRR. Tolkien");
+        Author a = new Author(1, "JRR. Tolkien");
 
         a.addAuthoredAsset(b1);
         a.addAuthoredAsset(ab1);

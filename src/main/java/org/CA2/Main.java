@@ -1,7 +1,5 @@
 package org.CA2;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -12,14 +10,6 @@ public class Main {
     private static final Scanner sc = new Scanner(System.in);
 
     private static LibrarySystem library;
-
-    private static boolean validateIntegerRange(int choice, int limit) {
-        if (choice >= 0 && choice <= limit) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     private static boolean validateDate(String input) {
         try {
@@ -32,7 +22,8 @@ public class Main {
     }
 
     private static void addLibraryItem() {
-        int choice;
+        int choice = -1;
+
         do {
             System.out.println("\nWhich type of asset would you like to add?");
             System.out.println("1. Book");
@@ -40,13 +31,21 @@ public class Main {
             System.out.println("3. Thesis");
             System.out.println("4. CD");
             System.out.println("0. Return to main menu");
-            System.out.print("\r\nEnter your choice: ");
-            choice = sc.nextInt();
+            System.out.print("\nEnter your choice: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
+                continue;
+            }
+
 
             switch (choice) {
                 case 0:
                     System.out.println("\n\rReturning to main menu...\n\r");
-                    return;
+                    break;
                 case 1:
                     System.out.println("You have chosen to add a book...");
                     addBook();
@@ -66,25 +65,33 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please choose a valid number between 0 and 4.");
             }
-        } while (!validateIntegerRange(choice, 4));
+        } while (choice != 0);
     }
 
     // This is a lot of reused code just because I have an author... there needs to be a better way
-    private void addAuthorItem(String name) {
-        System.out.println("Please select one of the following to create for the author " + name);
+    private void addAuthorItem(int id) {
+        // Enter multiple
+        System.out.println("Please select one of the following to create for this author");
         System.out.println("1. Book");
         System.out.println("2. Audio Book");
         System.out.println("3. Thesis");
-        int input = sc.nextInt();
 
-        switch (input) {
+        int choice = 0;
+
+        try {
+            choice = Integer.parseInt(sc.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+        }
+
+        switch (choice) {
             case 1:
                 System.out.println("You have chosen a book. Please enter it's title: ");
                 String title = sc.nextLine();
                 System.out.println("Generating isbn ");
                 String isbn = generateISBN();
                 System.out.println("Adding the book titled '" + title + "' to the catalog");
-                library.addBook(title, name, isbn);
+                library.addBook(title, id, isbn);
             case 2:
                 System.out.println("You have chosen an audio book. Please enter it's title: ");
                 String audioTitle = sc.nextLine();
@@ -93,7 +100,7 @@ public class Main {
                 System.out.println("Generating isbn ");
                 String isbnAudio = generateISBN();
                 System.out.println("Adding the audio book titled '" + audioTitle + "' to the catalog");
-                library.addAudioBook(audioTitle, name, isbnAudio, audioDuration);
+                library.addAudioBook(audioTitle, id, isbnAudio, audioDuration);
                 break;
 
             case 3:
@@ -108,52 +115,37 @@ public class Main {
                 System.out.println("Enter the publishing date");
                 LocalDate date = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ISO_LOCAL_DATE);
                 System.out.println("Adding the thesis titled '" + thesisTitle + "' to the catalog");
-                library.addThesis(thesisTitle, name, topic, thesisAbstract, date);
+                library.addThesis(thesisTitle, id, topic, thesisAbstract, date);
         }
-        System.out.println("Enter q to return to the main menu, or hit enter to add another asset");
-
-        while (true) {
-            String carryon = sc.nextLine();
-            if (carryon.toLowerCase() == "q") break;
-            else if (carryon.isEmpty()) addAuthorItem(name);
-            else {
-                System.out.println("Invalid entry. Please enter 'q' or nothing.");
-            }
-        }
-
     }
 
     private static void addBook() {
-        // Get book data as input
-        sc.nextLine();
-        System.out.println("Please enter the title of the book:\r\n");
-        String title = sc.nextLine();
-        System.out.println("Generating an ISBN....\r\n");
-        String isbn = generateISBN();
-        System.out.println("ISBN for " + title + " is " + isbn);
-        System.out.println("Please enter the author of the book:\r\n");
-        String author = sc.nextLine();
+        String title, isbn;
+        int authorID;
 
-//        Search for author
-//        LibrarySystem.getAuthor(author);
+        System.out.print("Please enter the title of the book: ");
+        title = sc.nextLine();
+
+        System.out.print("Please enter the book's ISBN: ");
+        isbn = sc.nextLine();
+
+        System.out.print("Please enter the ID of the book's author: ");
+        authorID = Integer.parseInt(sc.nextLine());
 
         System.out.println("Adding this book to our catalog");
-        // Call LibrarySystem addBook
-        library.addBook(title, author, isbn);
+        library.addBook(title, authorID, isbn);
     }
 
     private static void addCD() {
-        // needed to add an extra nextLine as it's not waiting for cd title input
-        sc.nextLine();
-        System.out.println("Please enter the title of the CD:\r\n");
+        System.out.println("Please enter the title of the CD:\n");
         String title = sc.nextLine();
         System.out.println("Debug: Title entered: " + title);
 
-        System.out.println("Please enter the producer of the cd:\r\n");
+        System.out.println("Please enter the producer of the cd:\n");
         String producer = sc.nextLine();
-        System.out.println("Please enter the director of the cd:\r\n");
+        System.out.println("Please enter the director of the cd:\n");
         String director = sc.nextLine();
-        System.out.println("Please enter the length of the CD in minutes:\r\n");
+        System.out.println("Please enter the length of the CD in minutes:\n");
         int playtime = sc.nextInt();
         sc.nextLine();
 
@@ -164,34 +156,28 @@ public class Main {
     }
 
     private static void addAudioBook() {
-        // Get audiobook data as input
-        sc.nextLine();
-        System.out.println("Please enter the title of the audio book:\r\n");
+        System.out.println("Please enter the title of the audio book:\n");
         String title = sc.nextLine();
-        System.out.println("Please enter the author of the book:\r\n");
-        String author = sc.nextLine();
-        System.out.println("Please enter the duration of the book:\r\n");
+        System.out.println("Please enter the ID of the audio books author:\n");
+        int authorID = sc.nextInt();
+        System.out.println("Please enter the duration of the book:\n");
         int duration = sc.nextInt();
         System.out.println("Generating an ISBN for this audio book...");
         String isbn = generateISBN();
         System.out.println("ISBN for " + title + " is " + isbn);
-        // search for author
-//        LibrarySystem.getAuthor(author);
         System.out.println("Adding the audio book to our catalog...");
         // Call LibrarySystem addAudioBook
-        library.addAudioBook(title, author, isbn, duration);
+        library.addAudioBook(title, authorID, isbn, duration);
     }
 
     private static void addTheses() {
-        sc.nextLine();
-        // Get thesis data as input
-        System.out.println("Please enter the title of the thesis:\r\n");
+        System.out.println("Please enter the title of the thesis:\n");
         String title = sc.nextLine();
-        System.out.println("Please enter the author of the thesis:\r\n");
-        String author = sc.nextLine();
-        System.out.println("Please enter the topic of the thesis:\r\n");
+        System.out.println("Please enter the author of the thesis:\n");
+        int authorID = sc.nextInt();
+        System.out.println("Please enter the topic of the thesis:\n");
         String topic = sc.nextLine();
-        System.out.println("Please enter the abstract of the thesis:\r\n");
+        System.out.println("Please enter the abstract of the thesis:\n");
         String thesisAbstract = sc.nextLine();
         System.out.println("Please enter the publish date for the thesis in the format yyyy-mm-dd:");
         LocalDate date = null;
@@ -203,7 +189,7 @@ public class Main {
         }
         System.out.println("Adding thesis to our catalog...");
         // Call LibrarySystem addThesis
-        library.addThesis(title, author, topic, thesisAbstract, date);
+        library.addThesis(title, authorID, topic, thesisAbstract, date);
     }
 
     private static void addAuthor() {
@@ -212,20 +198,11 @@ public class Main {
         String name = sc.nextLine();
         library.addAuthor(name);
         System.out.println("Added " + name + " to list of authors in library system.");
-//        System.out.println("Would you like to add an asset belonging to this author? (y/n)");
-//        String input = sc.nextLine();
-//        if (input.toLowerCase() == "n") {
-//            System.out.println("Returning to main menu...");
-//            return;
-//        } else if (input.toLowerCase() == "y") {
-//            System.out.println("You have chosen to add assets for this author...");
-//            addLibraryItem();
-//        }
     }
 
     private static void addUser() {
         // Get user data as input
-        System.out.println("Please enter the user's full name:\r\n");
+        System.out.println("Please enter the user's full name:\n");
         String name = sc.nextLine();
 
         // enter logic here to allow user to borrow books immediately
@@ -234,19 +211,22 @@ public class Main {
     }
 
     private static void borrowAsset() {
-        // Get user data as input
-        System.out.println("Please enter the user's ID:\r\n");
-        int id = sc.nextInt();
-        // LibrarySystem.getUser(id);
+        try {
+            System.out.print("Please enter the user's ID: ");
+            int userID = Integer.parseInt(sc.nextLine());
 
-        // Get asset titles
+            System.out.print("Please enter the asset's name: ");
+            String assetName = sc.nextLine();
 
-        // Call LibrarySystem createLoan
+            library.createLoan(assetName, userID);
+        } catch (NumberFormatException e) {
+            System.out.println("Failed to create loan. User's ID must be a number!");
+        }
     }
 
     private static void returnAsset() {
         // Get user data as input
-        System.out.println("Please enter the user's ID:\r\n");
+        System.out.println("Please enter the user's ID:\n");
         int id = sc.nextInt();
         // LibrarySystem.getUser(id);
         // Get asset titles
@@ -254,63 +234,210 @@ public class Main {
         // Call LibrarySystem createLoan
     }
 
-    private static void listAvailableAssets() {
-        System.out.println("Please select one of the asset types to view: ");
-        System.out.println("1. All assets");
-        System.out.println("2. Book");
-        System.out.println("3. Audio Book");
-        System.out.println("4. Thesis");
-        System.out.println("5. CDs");
-        System.out.println("0. Return to main menu");
+    private static void catalogueList() {
+        int choice = -1;
 
-        System.out.print("Enter your selection: ");
-        int input = sc.nextInt();
+        while (choice != 0) {
+            System.out.println("\nPlease select one of the following options: ");
+            System.out.println("1. List assets");
+            System.out.println("2. List users");
+            System.out.println("3. List authors");
+            System.out.println("4. List loans");
 
-        switch (input) {
-            case 1:
-                System.out.println("Listing available assets: ");
-                library.listAvailableAssets();
-                break;
-            case 2:
-                System.out.println("Listing available books: ");
-                library.listAvailableBooks();
-                break;
-            case 3:
-                System.out.println("Listing available audio books: ");
-                library.listAvailableAudioBooks();
-                break;
-            case 4:
-                System.out.println("Listing available theses: ");
-                library.listAvailableThesis();
-                break;
-            case 5:
-                System.out.println("Listing available CDs: ");
-                library.listAvailableCds();
-                break;
-            case 0:
-                System.out.println("Returning to main menu... ");
-                return;
-            default:
-                System.out.println("Invalid selection, please try again.\n");
+            System.out.println("\n0. Return to main menu");
+
+            System.out.print("\nEnter your selection: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    listAssets();
+                    break;
+                case 2:
+                    listUsers();
+                    break;
+                case 3:
+                    listAuthors();
+                    break;
+                case 4:
+                    listLoans();
+                    break;
+                case 0:
+                    System.out.println("\nReturning to main menu... ");
+                    break;
+                default:
+                    System.out.println("\nInvalid selection, please try again.\n");
+            }
+        }
+    }
+
+    private static void listAssets() {
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\nPlease select one of the asset types to view: ");
+            System.out.println("1. List all assets");
+            System.out.println("2. List books");
+            System.out.println("3. List audio books");
+            System.out.println("4. List thesis");
+            System.out.println("5. List CDs");
+            System.out.println("6. List borrowed assets");
+
+            System.out.println("\n0. Return to previous menu\n");
+
+            System.out.print("Enter your selection: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nAvailable assets: ");
+                    library.listAvailableAssets();
+                    break;
+                case 2:
+                    System.out.println("\nAvailable books: ");
+                    library.listAvailableBooks();
+                    break;
+                case 3:
+                    System.out.println("\nAvailable audio books: ");
+                    library.listAvailableAudioBooks();
+                    break;
+                case 4:
+                    System.out.println("\nAvailable theses: ");
+                    library.listAvailableThesis();
+                    break;
+                case 5:
+                    System.out.println("\nAvailable CDs: ");
+                    library.listAvailableCds();
+                    break;
+                case 6:
+                    System.out.println("\nBorrowed Assets: ");
+                    library.listBorrowedAssets();
+                    break;
+                case 0:
+                    System.out.println("\nReturning previous menu... ");
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.\n");
+            }
+        }
+    }
+
+    private static void listUsers() {
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\nPlease select one of the asset types to view: ");
+            System.out.println("1. All users");
+            System.out.println("2. Users' borrowed assets");
+
+            System.out.println("\n0. Return to previous\n");
+
+            System.out.print("Enter your selection: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Available assets: ");
+                    library.listUsers();
+                    break;
+                case 2:
+                    System.out.println("Please enter required user's ID:");
+                    int userID = Integer.parseInt(sc.nextLine());
+                    library.listUserAssets(userID);
+                    break;
+                case 0:
+                    System.out.println("\nReturning previous menu... ");
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.\n");
+            }
         }
     }
 
     private static void listAuthors() {
-        library.listAuthors();
+        int choice = -1;
+
+        while (choice != 0) {
+            System.out.println("\nPlease select from one of the following options: ");
+            System.out.println("1. List all authors");
+            System.out.println("2. List authors assets");
+
+            System.out.println("\n0. Return to previous menu");
+
+            System.out.print("Enter your selection: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+            }
+
+            switch (choice) {
+                case 1:
+                    library.listAuthors();
+                    break;
+                case 2:
+                    int authorID = sc.nextInt();
+                    library.listAuthorsAssets(authorID);
+                    break;
+                case 0:
+                    System.out.println("\nReturning previous menu... ");
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.\n");
+            }
+        }
     }
 
-    private static void listAvailableBooks() {
-        // Call LibrarySystems listAvailableBooks
-        library.listAvailableAssets();
-    }
+    private static void listLoans() {
+        int choice = -1;
 
-    private void listBorrowedBooks() {
-        // Call LibrarySystems listBorrowedBooks
+        while (choice != 0) {
+            System.out.println("\nPlease select from one of the following options: ");
+            System.out.println("1. List all loans");
+            System.out.println("2. List overdue loans");
 
-    }
+            System.out.println("\n0. Return to previous menu");
 
-    private void listAuthorsBooks() {
-        // Call LibrarySystems listAuthorsBooks
+            System.out.print("Enter your selection: ");
+
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+            }
+
+            switch (choice) {
+                case 1:
+                    library.listLoans();
+                    break;
+                case 2:
+                    library.listOverdueLoans();
+                    break;
+                case 0:
+                    System.out.println("Returning previous menu... ");
+                    break;
+                default:
+                    System.out.println("Invalid selection, please try again.\n");
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -332,22 +459,20 @@ public class Main {
         library.load();
         library.initializeIDCounters();
 
-        // library.listAssets();
-        // library.listAuthors();
+        System.out.println("\nWelcome to the Library Management System.");
 
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\nWelcome to the Library Management System. \r\nPlease select one of the following options:");
+            System.out.println("\nPlease select one of the following options:");
             System.out.println("1. Catalogue information");
             System.out.println("2. Add asset to the library catalogue");
             System.out.println("3. Add author to catalogue");
             System.out.println("4. Register new user");
             System.out.println("5. Customer wants to borrow asset");
             System.out.println("6. Customer wants to return asset");
-            System.out.println();
-            System.out.println("0. Exit");
 
+            System.out.println("\n0. Exit");
 
             System.out.print("Enter your choice: ");
 
@@ -361,8 +486,7 @@ public class Main {
 
             switch (choice) {
                 case 1:
-
-                    returnAsset();
+                    catalogueList();
                     break;
                 case 2:
                     System.out.println("You have chosen to add an asset.");

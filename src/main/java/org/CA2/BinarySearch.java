@@ -22,17 +22,17 @@ public class BinarySearch {
         return null;
     }
 
-    public static Author authorSearch(Author[] arr, String name) {
+    public static Author authorSearch(Author[] arr, int id) {
         int left = 0;
         int right = arr.length - 1;
 
         while (left <= right){
             int mid = left + (right - left) / 2;
 
-            if (arr[mid].getName().equals(name)){
+            if (arr[mid].getID() == id){
                 return arr[mid];
             }
-            else if (arr[mid].getName().compareTo(name) < 0){
+            else if (arr[mid].getID() < id){
                 left = mid + 1;
             }
             else {
@@ -43,17 +43,17 @@ public class BinarySearch {
         return null;
     }
 
-    public static LibraryUser userSearch(LibraryUser[] arr, String name) {
+    public static LibraryUser userSearch(LibraryUser[] arr, int id) {
         int left = 0;
         int right = arr.length - 1;
 
         while (left <= right){
             int mid = left + (right - left) / 2;
 
-            if (arr[mid].getName().equals(name)){
+            if (arr[mid].getID() == id){
                 return arr[mid];
             }
-            else if (arr[mid].getName().compareTo(name) < 0){
+            else if (arr[mid].getID() < id){
                 left = mid + 1;
             }
             else {

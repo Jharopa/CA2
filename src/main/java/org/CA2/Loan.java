@@ -1,7 +1,6 @@
 package org.CA2;
 
 import java.time.LocalDate;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Loan implements Comparable<Loan>, Printable {
     private final int id;

@@ -14,7 +14,7 @@ public class AudioBookTest {
         Assert.assertEquals(ab.getDuration(), 360);
         Assert.assertTrue(ab.isAvailability());
 
-        Assert.assertEquals(ab.toString(), "The Lord of the Rings available JRR. Tolkien 9780544003415 360");
+        Assert.assertEquals(ab.toString(), "The Lord of the Rings, JRR. Tolkien, 9780544003415, 360, available");
 
         ab.setTitle("New title");
         ab.setAuthor("John Doe");

@@ -1,8 +1,8 @@
 package org.CA2;
 
 public class Book extends Asset implements Printable{
-    private String author;
-    private String ISBN;
+    protected String author;
+    protected String ISBN;
 
     public Book(String title, String author, String ISBN, boolean availability) throws AssetException {
         super(title, availability);
@@ -28,7 +28,7 @@ public class Book extends Asset implements Printable{
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" %s %s", author, ISBN);
+        return super.toString() + String.format(" %s, %s, %s", author, ISBN, availability ? "available" : "unavailable");
     }
 
     @Override

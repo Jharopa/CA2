@@ -3,13 +3,22 @@ package org.CA2;
 import java.util.LinkedList;
 
 public class Author implements Comparable<Author>, Printable {
-
+    private int id;
     private String name;
     private LinkedList<Asset> authoredAsset;
 
-    public Author(String name) {
+    public Author(int id, String name) {
+        this.id = id;
         this.name = name;
         this.authoredAsset = new LinkedList<>();
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -34,12 +43,12 @@ public class Author implements Comparable<Author>, Printable {
 
     @Override
     public int compareTo(Author o) {
-        return this.name.compareTo(o.getName());
+        return Integer.compare(this.getID(), o.getID());
     }
 
     @Override
     public String toString() {
-        return String.format("%s", name);
+        return String.format("%d, %s", id, name);
     }
 
     @Override

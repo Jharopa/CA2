@@ -1,7 +1,6 @@
 package org.CA2;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class LibraryUser implements Comparable<LibraryUser>, Printable{
     private int ID;
@@ -45,7 +44,7 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
 
     @Override
     public String toString() {
-        return String.format("%d %s", ID, name);
+        return String.format("%d, %s", ID, name);
     }
 
     @Override

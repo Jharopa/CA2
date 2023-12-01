@@ -53,7 +53,7 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadUsers() {
-        LibraryUser lu = lb.getUser("John Doe");
+        LibraryUser lu = lb.getUser(1);
 
         Assert.assertNotNull(lu);
 
@@ -63,7 +63,7 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadAuthors() {
-        Author a = lb.getAuthor("JRR. Tolkien");
+        Author a = lb.getAuthor(1);
 
         Assert.assertNotNull(a);
 

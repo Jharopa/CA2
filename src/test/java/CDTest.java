@@ -14,7 +14,7 @@ public class CDTest {
         Assert.assertEquals(c.getPlaytime(), 41);
         Assert.assertTrue(c.isAvailability());
 
-        Assert.assertEquals(c.toString(), "Hunky Dory available Ken Scott David Bowie 41");
+        Assert.assertEquals(c.toString(), "Hunky Dory, Ken Scott, David Bowie, 41, available");
 
         c.setTitle("New title");
         c.setProducer("John Doe");

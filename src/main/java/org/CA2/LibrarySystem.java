@@ -23,6 +23,7 @@ public class LibrarySystem {
 
     private AtomicInteger loanIDCount;
     private AtomicInteger userIDCount;
+    private AtomicInteger authorIDCount;
 
     // Paths to the CSV files that should be read from or written to
     // Books, Audiobooks, CDs, Theses, Users, Authors
@@ -37,8 +38,8 @@ public class LibrarySystem {
         this.CSVPaths = CSVPaths;
     }
 
-    public void addBook(String title, String author, String ISBN) {
-        Author thisAuthor = getAuthor(author);
+    public void addBook(String title, int authorID, String ISBN) {
+        Author thisAuthor = getAuthor(authorID);
 
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
@@ -46,7 +47,7 @@ public class LibrarySystem {
         }
 
         try {
-            Book book = new Book(title, author, ISBN, true);
+            Book book = new Book(title, thisAuthor.getName(), ISBN, true);
             thisAuthor.addAuthoredAsset(book);
             assets.add(book);
             sortAssets();
@@ -56,8 +57,8 @@ public class LibrarySystem {
     }
 
 
-    public void addAudioBook(String title, String author, String ISBN, int duration) {
-        Author thisAuthor = getAuthor(author);
+    public void addAudioBook(String title, int authorID, String ISBN, int duration) {
+        Author thisAuthor = getAuthor(authorID);
 
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
@@ -65,7 +66,7 @@ public class LibrarySystem {
         }
 
         try {
-            AudioBook audioBook = new AudioBook(title, author, ISBN, duration, true);
+            AudioBook audioBook = new AudioBook(title, thisAuthor.getName(), ISBN, duration, true);
             thisAuthor.addAuthoredAsset(audioBook);
             assets.add(audioBook);
             sortAssets();
@@ -84,8 +85,8 @@ public class LibrarySystem {
     }
 
     // Create the date outside of class and pass it in or pass in formatted string and create it here?
-    public void addThesis(String title, String author, String topic, String Abstract, LocalDate datePublished) {
-        Author thisAuthor = getAuthor(author);
+    public void addThesis(String title, int authorID, String topic, String Abstract, LocalDate datePublished) {
+        Author thisAuthor = getAuthor(authorID);
 
         if (thisAuthor == null) {
             System.out.println("No author found, please create this author first.");
@@ -93,7 +94,7 @@ public class LibrarySystem {
         }
 
         try {
-            Thesis thesis = new Thesis(title, author, topic, Abstract, datePublished, true);
+            Thesis thesis = new Thesis(title, thisAuthor.getName(), topic, Abstract, datePublished, true);
             thisAuthor.addAuthoredAsset(thesis);
             assets.add(thesis);
             sortAssets();
@@ -103,7 +104,7 @@ public class LibrarySystem {
     }
 
     public void addAuthor(String name) {
-        authors.add(new Author(name));
+        authors.add(new Author(authorIDCount.incrementAndGet(), name));
         sortAuthors();
     }
 
@@ -119,18 +120,18 @@ public class LibrarySystem {
         return BinarySearch.assetSearch(assetsArr, title);
     }
 
-    public Author getAuthor(String name) {
+    public Author getAuthor(int id) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
 
-        return BinarySearch.authorSearch(authorArr, name);
+        return BinarySearch.authorSearch(authorArr, id);
     }
 
-    public LibraryUser getUser(String name) {
+    public LibraryUser getUser(int userID) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
 
-        return BinarySearch.userSearch(userArr, name);
+        return BinarySearch.userSearch(userArr, userID);
     }
 
     public Loan getLoan(int id) {
@@ -168,9 +169,9 @@ public class LibrarySystem {
         loans = new LinkedList<>(Arrays.asList(loanArr));
     }
 
-    public void createLoan(String assetTitle, String userName) {
+    public void createLoan(String assetTitle, int userID) {
         Asset asset = getAsset(assetTitle);
-        LibraryUser user = getUser(userName);
+        LibraryUser user = getUser(userID);
 
         if (asset == null) {
             System.out.printf("Unable to find provided asset %s\nUnable to create loan", assetTitle);
@@ -250,16 +251,24 @@ public class LibrarySystem {
         }
     }
 
-    public void listBorrowedAssets(String userName) {
-        LibraryUser libraryUser = getUser(userName);
+    public void listBorrowedAssets() {
+        for (Asset asset : assets) {
+            if (!asset.isAvailability()) {
+                asset.print();
+            }
+        }
+    }
+
+    public void listBorrowedAssets(int userID) {
+        LibraryUser libraryUser = getUser(userID);
 
         for (Asset asset : libraryUser.getBorrowedAssets()) {
             asset.print();
         }
     }
 
-    public void listAuthorsAssets(String authorName) {
-        Author author = getAuthor(authorName);
+    public void listAuthorsAssets(int id) {
+        Author author = getAuthor(id);
 
         for (Asset asset : author.getAuthoredAssets()) {
             asset.print();
@@ -289,9 +298,20 @@ public class LibrarySystem {
     public void listAuthors() {
         for (Author author : authors) {
             author.print();
-            for (Asset asset : author.getAuthoredAssets()) {
-                asset.print();
-            }
+        }
+    }
+
+    public void listUsers() {
+        for (LibraryUser user : users) {
+            user.print();
+        }
+    }
+
+    public void listUserAssets(int userID) {
+        LibraryUser user = getUser(userID);
+
+        for (Asset asset : user.getBorrowedAssets()) {
+            asset.print();
         }
     }
 
@@ -307,6 +327,12 @@ public class LibrarySystem {
         } else {
             userIDCount = new AtomicInteger(users.get(users.size() - 1).getID());
         }
+
+        if (authors.isEmpty()) {
+            authorIDCount = new AtomicInteger(0);
+        } else {
+            authorIDCount = new AtomicInteger(authors.get(authors.size() - 1).getID());
+        }
     }
 
     public void load() {
@@ -315,7 +341,7 @@ public class LibrarySystem {
         loadItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
         loadItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
-        loadItems(new String[] {"name", "authored"}, CSVPaths[5]);
+        loadItems(new String[] {"id", "name", "authored"}, CSVPaths[5]);
         loadItems(new String[] {"id", "user", "borrowed", "borrowDate", "returnDate", "returned"}, CSVPaths[6]);
 
         sortAssets();
@@ -396,6 +422,7 @@ public class LibrarySystem {
 
                         users.add(user);
                     } else if (filePath.equals(CSVPaths[5])) {
+                        int id = Integer.parseInt(csvRecord.get("id"));
                         String name = csvRecord.get("name");
                         String authored = csvRecord.get("authored");
                         String[] authoredAssets = null;
@@ -408,7 +435,7 @@ public class LibrarySystem {
                         Asset[] arr = assets.toArray(new Asset[0]);
                         HeapSort.sort(arr);
 
-                        Author author = new Author(name);
+                        Author author = new Author(id, name);
 
                         if (authoredAssets != null) {
                             for (String string: authoredAssets) {
@@ -423,9 +450,9 @@ public class LibrarySystem {
                         int id = Integer.parseInt(csvRecord.get("id"));
 
                         // Get library user
-                        String userName = csvRecord.get("user");
+                        int userID = Integer.parseInt(csvRecord.get("user"));
 
-                        LibraryUser user = getUser(userName);
+                        LibraryUser user = getUser(userID);
 
                         // Get borrowed asset
                         String borrowed = csvRecord.get("borrowed");
@@ -457,13 +484,13 @@ public class LibrarySystem {
         sortUsers();
         sortLoans();
 
-        saveItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]);
-        saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
-        saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
-        saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
-        saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
-        saveItems(new String[] {"name", "authored"}, CSVPaths[5]);
-        saveItems(new String[] {"id", "user", "borrowed", "dateBorrowed", "dateReturned", "returned"}, CSVPaths[6]);
+        saveItems(new String[] {"title", "author", "ISBN", "availability"}, CSVPaths[0]); // Book
+        saveItems(new String[] {"title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]); // Audiobook
+        saveItems(new String[] {"title", "producer", "director", "playtime", "availability"}, CSVPaths[2]); // CD
+        saveItems(new String[] {"title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]); // Thesis
+        saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]); // User
+        saveItems(new String[] {"id", "name", "authored"}, CSVPaths[5]); // Author
+        saveItems(new String[] {"id", "user", "borrowed", "dateBorrowed", "dateReturned", "returned"}, CSVPaths[6]); // Loan
     }
 
     private void saveItems(String[] headers, String filePath) {
@@ -547,6 +574,7 @@ public class LibrarySystem {
                     }
 
                     csvPrinter.printRecord(
+                            author.getID(),
                             author.getName(),
                             authoredAssets
                     );
@@ -555,7 +583,7 @@ public class LibrarySystem {
                 for (Loan loan : loans) {
                     csvPrinter.printRecord(
                             loan.getID(),
-                            loan.getBorrower().getName(),
+                            loan.getBorrower().getID(),
                             loan.getBorrowedAsset().getTitle(),
                             loan.getBorrowDate().toString(),
                             loan.getReturnDate().toString(),

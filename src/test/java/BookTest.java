@@ -13,7 +13,7 @@ public class BookTest {
         Assert.assertEquals(b.getISBN(), "9780544003415");
         Assert.assertTrue(b.isAvailability());
 
-        Assert.assertEquals(b.toString(), "The Lord of the Rings available JRR. Tolkien 9780544003415");
+        Assert.assertEquals(b.toString(), "The Lord of the Rings, JRR. Tolkien, 9780544003415, available");
 
         b.setTitle("New title");
         b.setAuthor("John Doe");

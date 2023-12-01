@@ -40,6 +40,6 @@ public abstract class Asset implements Comparable<Asset>, Printable {
 
     @Override
     public String toString() {
-        return String.format("%s %s", getTitle(), availability ? "available" : "unavailable");
+        return String.format("%s,", getTitle());
     }
 }
