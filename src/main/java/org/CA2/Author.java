@@ -48,7 +48,7 @@ public class Author implements Comparable<Author>, Printable {
 
     @Override
     public String toString() {
-        return String.format("%d, %s", id, name);
+        return String.format("%-5s%-24s", id, name);
     }
 
     @Override

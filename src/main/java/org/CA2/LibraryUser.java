@@ -44,7 +44,7 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
 
     @Override
     public String toString() {
-        return String.format("%d, %s", ID, name);
+        return String.format("%-5s%-24s", ID, name);
     }
 
     @Override

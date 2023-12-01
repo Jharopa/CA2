@@ -79,7 +79,7 @@ public class Loan implements Comparable<Loan>, Printable {
     @Override
     public String toString() {
         return String.format(
-                "%d, %s, %s, %s, %s, %s",
+                "%-5s%-12s%-18s%-15s%-15s%-10s",
                 id, borrower.getName(), borrowedAsset.getTitle(),
                 borrowDate.toString(), returnDate.toString(),
                 returned ? "returned" : "unreturned"

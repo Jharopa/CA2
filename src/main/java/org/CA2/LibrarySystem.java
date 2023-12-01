@@ -20,7 +20,6 @@ public class LibrarySystem {
     private LinkedList<Author> authors;
     private LinkedList<LibraryUser> users;
     private LinkedList<Loan> loans;
-
     private AtomicInteger assetIDCount;
     private AtomicInteger userIDCount;
     private AtomicInteger authorIDCount;
@@ -259,14 +258,6 @@ public class LibrarySystem {
         }
     }
 
-    public void listBorrowedAssets(int userID) {
-        LibraryUser libraryUser = getUser(userID);
-
-        for (Asset asset : libraryUser.getBorrowedAssets()) {
-            asset.print();
-        }
-    }
-
     public void listAuthorsAssets(int authorID) {
         Author author = getAuthor(authorID);
 
@@ -282,32 +273,6 @@ public class LibrarySystem {
         }
     }
 
-    public void listLoans() {
-        for (Loan loan : loans) {
-            loan.print();
-        }
-    }
-
-    public void listOverdueLoans() {
-        for (Loan loan : loans) {
-            if (loan.isOverdue()) {
-                loan.print();
-            }
-        }
-    }
-
-    public void listAuthors() {
-        for (Author author : authors) {
-            author.print();
-        }
-    }
-
-    public void listUsers() {
-        for (LibraryUser user : users) {
-            user.print();
-        }
-    }
-
     public void listUserAssets(int userID) {
         LibraryUser user = getUser(userID);
 
@@ -320,6 +285,48 @@ public class LibrarySystem {
 
         for (Asset asset : user.getBorrowedAssets()) {
             asset.print();
+        }
+    }
+
+    public void listLoans() {
+        System.out.printf(
+                "%-5s%-12s%-18s%-15s%-15s%-10s\n",
+                "ID", "Borrower", "Borrowed assets",
+                "Borrow date", "Return date", "Status"
+        );
+
+        for (Loan loan : loans) {
+            loan.print();
+        }
+    }
+
+    public void listOverdueLoans() {
+        System.out.printf(
+                "%-5s%-12s%-18s%-15s%-15s%-10s\n",
+                "ID", "Borrower", "Borrowed assets",
+                "Borrow date", "Return date", "Status"
+        );
+
+        for (Loan loan : loans) {
+            if (loan.isOverdue()) {
+                loan.print();
+            }
+        }
+    }
+
+    public void listAuthors() {
+        System.out.printf("%-5s%-24s\n", "ID", "Name");
+
+        for (Author author : authors) {
+            author.print();
+        }
+    }
+
+    public void listUsers() {
+        System.out.printf("%-5s%-24s\n", "ID", "Name");
+
+        for (LibraryUser user : users) {
+            user.print();
         }
     }
 
