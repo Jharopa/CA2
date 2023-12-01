@@ -28,11 +28,12 @@ public class Book extends Asset implements Printable{
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" %s, %s, %s", author, ISBN, availability ? "available" : "unavailable");
+        return super.toString() + String.format("%-20s%-17s%-12s", author, ISBN, availability ? "available" : "unavailable");
     }
 
     @Override
     public void print() {
+        System.out.printf("%-5s%-24s%-20s%-17s%-12s\n", "ID", "Title", "Author", "ISBN", "Status");
         System.out.println(this);
     }
 }

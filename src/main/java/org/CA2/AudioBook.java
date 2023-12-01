@@ -28,11 +28,12 @@ public class AudioBook extends Book implements Printable {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %d, %s", title, author, ISBN, duration, availability ? "available" : "unavailable");
+        return String.format("%-5s%-24s%-20s%-17s%-12s%-12s", id, title, author, ISBN, duration, availability ? "available" : "unavailable");
     }
 
     @Override
     public void print() {
-        System.out.println(this.toString());
+        System.out.printf("%-5s%-24s%-20s%-17s%-12s%-12s\n", "ID", "Title", "Author", "ISBN", "Duration", "Status");
+        System.out.println(this);
     }
 }

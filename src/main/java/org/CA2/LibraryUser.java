@@ -39,7 +39,7 @@ public class LibraryUser implements Comparable<LibraryUser>, Printable{
 
     @Override
     public int compareTo(LibraryUser o) {
-        return this.name.compareTo(o.getName());
+        return Integer.compare(this.getID(), o.getID());
     }
 
     @Override

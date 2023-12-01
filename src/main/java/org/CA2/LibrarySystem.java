@@ -213,11 +213,10 @@ public class LibrarySystem {
     }
 
     public void listAvailableAssets() {
-        for (Asset asset : assets) {
-            if (asset.isAvailability()) {
-                asset.print();
-            }
-        }
+        listAvailableBooks();
+        listAvailableAudioBooks();
+        listAvailableThesis();
+        listAvailableCds();
     }
 
     public void listAvailableBooks() {

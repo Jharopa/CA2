@@ -39,11 +39,12 @@ public class CD extends Asset implements Printable{
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" %s, %s, %d, %s", producer, director, playtime, availability ? "available" : "unavailable");
+        return super.toString() + String.format("%-20s%-20s%-12s%-12s", producer, director, playtime, availability ? "available" : "unavailable");
     }
 
     @Override
     public void print() {
+        System.out.printf("%-5s%-24s%-20s%-20s%-12s%-12s\n", "ID", "Title", "Producer", "Performer", "Playtime", "Status");
         System.out.println(this);
     }
 }

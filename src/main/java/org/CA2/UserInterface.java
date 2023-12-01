@@ -99,6 +99,8 @@ public class UserInterface {
                 choice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
+                continue;
             }
 
             switch (choice) {
@@ -106,43 +108,37 @@ public class UserInterface {
                     System.out.println("\nAvailable assets: ");
                     library.listAvailableAssets();
 
-                    System.out.print("\nPress enter to continue... ");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 2:
                     System.out.println("\nAvailable books: ");
                     library.listAvailableBooks();
 
-                    System.out.print("\nPress enter to continue... ");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 3:
                     System.out.println("\nAvailable audio books: ");
                     library.listAvailableAudioBooks();
 
-                    System.out.print("\nPress enter to continue... ");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 4:
                     System.out.println("\nAvailable theses: ");
                     library.listAvailableThesis();
 
-                    System.out.print("\nPress enter to continue... ");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 5:
                     System.out.println("\nAvailable CDs: ");
                     library.listAvailableCds();
 
-                    System.out.print("\nPress enter to continue... ");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 6:
                     System.out.println("\nBorrowed Assets: ");
                     library.listBorrowedAssets();
 
-                    System.out.print("\nPress enter to continue...");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -169,6 +165,8 @@ public class UserInterface {
                 choice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
+                continue;
             }
 
             switch (choice) {
@@ -177,8 +175,7 @@ public class UserInterface {
 
                     library.listUsers();
 
-                    System.out.print("\nPress enter to continue...");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 2:
                     int userID;
@@ -194,8 +191,7 @@ public class UserInterface {
 
                     library.listUserAssets(userID);
 
-                    System.out.print("\nPress enter to continue...");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -222,16 +218,17 @@ public class UserInterface {
                 choice = Integer.parseInt(sc.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
+                choice = -1;
+                continue;
             }
 
             switch (choice) {
                 case 1:
-                    System.out.println("\nAuthors: ");
+                    System.out.println("\nLibrary authors: ");
 
                     library.listAuthors();
 
-                    System.out.print("\nPress enter to continue...");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 2:
                     int authorID = 0;
@@ -247,8 +244,7 @@ public class UserInterface {
 
                     library.listAuthorsAssets(authorID);
 
-                    System.out.print("\nPress enter to continue...");
-                    sc.nextLine();
+                    pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -279,10 +275,16 @@ public class UserInterface {
 
             switch (choice) {
                 case 1:
+                    System.out.println("\nLibrary loans: ");
                     library.listLoans();
+
+                    pause();
                     break;
                 case 2:
+                    System.out.println("\nOverdue Library loans: ");
                     library.listOverdueLoans();
+
+                    pause();
                     break;
                 case 0:
                     System.out.println("Returning previous menu... ");
@@ -470,7 +472,7 @@ public class UserInterface {
 
     private void addUser() {
         try {
-            System.out.println("Please enter the user's full name:\n");
+            System.out.print("Please enter the user's full name: ");
             String name = sc.nextLine();
 
             library.addUser(name);
@@ -531,21 +533,9 @@ public class UserInterface {
         }
     }
 
-    public String generateISBN() {
-        // Generate random ISBN-13 digits
-        Random random = new Random();
-        int[] digits = new int[13];
-        for (int i = 0; i < 12; i++) {
-            digits[i] = random.nextInt(10);
-        }
-
-        // Convert list of digits to ISBN-13 string
-        StringBuilder isbn = new StringBuilder();
-        for (int digit : digits) {
-            isbn.append(digit);
-        }
-
-        return isbn.toString();
+    private void pause() {
+        System.out.print("\nPress enter to continue...");
+        sc.nextLine();
     }
 
     //-------------------------//

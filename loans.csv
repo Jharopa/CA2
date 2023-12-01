@@ -1,2 +1,4 @@
 id,user,borrowed,dateBorrowed,dateReturned,returned
 1,1,2,2023-12-01,2023-12-15,true
+2,1,3,2023-10-01,2023-10-15,false
+3,2,6,2023-12-01,2023-12-15,false

@@ -1,4 +1,4 @@
 id,title,author,ISBN,availability
 1,The Lord of the Rings,JRR. Tolkien,12345,true
 2,Moby Dick,Herman Melville,1234567654321,true
-3,THe Hobbit,JRR. Tolkien,9780007525508,true
+3,The Hobbit,JRR. Tolkien,9780007525508,false

@@ -55,11 +55,12 @@ public class Thesis extends Asset implements Printable {
 
     @Override
     public String toString() {
-        return super.toString() + String.format(" %s, %s, %s, %s", author, topic, datePublished.toString(), availability ? "available" : "unavailable");
+        return super.toString() + String.format("%-20s%-15s%-17s%-12s", author, topic, datePublished.toString(), availability ? "available" : "unavailable");
     }
 
     @Override
     public void print() {
+        System.out.printf("%-5s%-24s%-20s%-15s%-17s%-12s\n", "ID", "Title", "Author", "Topic", "Publish date", "Status");
         System.out.println(this);
     }
 }

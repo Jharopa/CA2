@@ -50,6 +50,6 @@ public abstract class Asset implements Comparable<Asset>, Printable {
 
     @Override
     public String toString() {
-        return String.format("%d, %s,", getID() ,getTitle());
+        return String.format("%-5s%-24s", getID() ,getTitle());
     }
 }
