@@ -28,49 +28,49 @@ public class HeapSortTest {
         };
 
         userArr = new LibraryUser[] {
-                new LibraryUser(1, "Mary Smith"),
-                new LibraryUser(2, "John Doe"),
-                new LibraryUser(3, "Jane Doe"),
+                new LibraryUser(2, "Mary Smith"),
+                new LibraryUser(3, "John Doe"),
+                new LibraryUser(1, "Jane Doe"),
                 new LibraryUser(4, "Alan Connor")
         };
     }
 
     @Test
     public void testBinarySearch() {
-        Assert.assertEquals(assetArr[0].getTitle(), "The Lord of the Rings");
-        Assert.assertEquals(assetArr[1].getTitle(), "Moby Dick");
-        Assert.assertEquals(assetArr[2].getTitle(), "Hunky Dory");
-        Assert.assertEquals(assetArr[3].getTitle(), "Where are we now");
+        Assert.assertEquals("The Lord of the Rings", assetArr[0].getTitle());
+        Assert.assertEquals("Moby Dick", assetArr[1].getTitle());
+        Assert.assertEquals("Hunky Dory", assetArr[2].getTitle());
+        Assert.assertEquals("Where are we now", assetArr[3].getTitle());
 
         HeapSort.sort(assetArr);
 
-        Assert.assertEquals(assetArr[0].getTitle(), "Where are we now");
-        Assert.assertEquals(assetArr[1].getTitle(), "The Lord of the Rings");
-        Assert.assertEquals(assetArr[2].getTitle(), "Hunky Dory");
-        Assert.assertEquals(assetArr[3].getTitle(), "Moby Dick");
+        Assert.assertEquals("Where are we now", assetArr[0].getTitle());
+        Assert.assertEquals("The Lord of the Rings", assetArr[1].getTitle());
+        Assert.assertEquals("Hunky Dory", assetArr[2].getTitle());
+        Assert.assertEquals("Moby Dick", assetArr[3].getTitle());
 
-        Assert.assertEquals(authorArr[0].getName(), "John Doe");
-        Assert.assertEquals(authorArr[1].getName(), "JRR. Tolkien");
-        Assert.assertEquals(authorArr[2].getName(), "Herman Melville");
-        Assert.assertEquals(authorArr[3].getName(), "Ken Scott");
+        Assert.assertEquals("John Doe", authorArr[0].getName());
+        Assert.assertEquals("JRR. Tolkien", authorArr[1].getName());
+        Assert.assertEquals("Herman Melville", authorArr[2].getName());
+        Assert.assertEquals("Ken Scott", authorArr[3].getName());
 
         HeapSort.sort(authorArr);
 
-        Assert.assertEquals(authorArr[0].getName(), "Ken Scott");
-        Assert.assertEquals(authorArr[1].getName(), "JRR. Tolkien");
-        Assert.assertEquals(authorArr[2].getName(), "Herman Melville");
-        Assert.assertEquals(authorArr[3].getName(), "John Doe");
+        Assert.assertEquals("Ken Scott", authorArr[0].getName());
+        Assert.assertEquals("JRR. Tolkien", authorArr[1].getName());
+        Assert.assertEquals("Herman Melville", authorArr[2].getName());
+        Assert.assertEquals("John Doe", authorArr[3].getName());
 
         Assert.assertEquals(userArr[0].getName(), "Mary Smith");
-        Assert.assertEquals(userArr[1].getName(), "John Doe");
-        Assert.assertEquals(userArr[2].getName(), "Jane Doe");
-        Assert.assertEquals(userArr[3].getName(), "Alan Connor");
+        Assert.assertEquals("John Doe", userArr[1].getName());
+        Assert.assertEquals("Jane Doe", userArr[2].getName());
+        Assert.assertEquals("Alan Connor", userArr[3].getName());
 
         HeapSort.sort(userArr);
 
-        Assert.assertEquals(userArr[0].getName(), "Alan Connor");
-        Assert.assertEquals(userArr[1].getName(), "Jane Doe");
-        Assert.assertEquals(userArr[2].getName(), "John Doe");
-        Assert.assertEquals(userArr[3].getName(), "Mary Smith");
+        Assert.assertEquals("Jane Doe", userArr[0].getName());
+        Assert.assertEquals("Mary Smith", userArr[1].getName());
+        Assert.assertEquals("John Doe", userArr[2].getName());
+        Assert.assertEquals("Alan Connor", userArr[3].getName());
     }
 }

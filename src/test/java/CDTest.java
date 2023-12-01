@@ -8,13 +8,13 @@ public class CDTest {
     public void testBook() throws AssetException {
         CD c = new CD(1, "Hunky Dory", "Ken Scott", "David Bowie", 41, true);
 
-        Assert.assertEquals(c.getTitle(), "Hunky Dory");
-        Assert.assertEquals(c.getProducer(), "Ken Scott");
-        Assert.assertEquals(c.getDirector(), "David Bowie");
-        Assert.assertEquals(c.getPlaytime(), 41);
+        Assert.assertEquals("Hunky Dory", c.getTitle());
+        Assert.assertEquals("Ken Scott", c.getProducer());
+        Assert.assertEquals("David Bowie", c.getDirector());
+        Assert.assertEquals(41, c.getPlaytime());
         Assert.assertTrue(c.isAvailability());
 
-        Assert.assertEquals(c.toString(), "1, Hunky Dory, Ken Scott, David Bowie, 41, available");
+        Assert.assertEquals("1    Hunky Dory              Ken Scott           David Bowie         41          available   ", c.toString());
 
         c.setTitle("New title");
         c.setProducer("John Doe");
@@ -22,10 +22,10 @@ public class CDTest {
         c.setPlaytime(21);
         c.setAvailability(false);
 
-        Assert.assertEquals(c.getTitle(), "New title");
-        Assert.assertEquals(c.getProducer(), "John Doe");
-        Assert.assertEquals(c.getDirector(), "Jane Doe");
-        Assert.assertEquals(c.getPlaytime(), 21);
+        Assert.assertEquals("New title", c.getTitle());
+        Assert.assertEquals("John Doe", c.getProducer());
+        Assert.assertEquals("Jane Doe", c.getDirector());
+        Assert.assertEquals(21, c.getPlaytime());
         Assert.assertFalse(c.isAvailability());
     }
 }

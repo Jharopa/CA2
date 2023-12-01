@@ -8,21 +8,21 @@ public class BookTest {
     public void testBook() throws AssetException {
         Book b = new Book(1, "The Lord of the Rings", "JRR. Tolkien", "9780544003415", true);
 
-        Assert.assertEquals(b.getTitle(), "The Lord of the Rings");
-        Assert.assertEquals(b.getAuthor(), "JRR. Tolkien");
-        Assert.assertEquals(b.getISBN(), "9780544003415");
+        Assert.assertEquals("The Lord of the Rings", b.getTitle());
+        Assert.assertEquals("JRR. Tolkien", b.getAuthor());
+        Assert.assertEquals("9780544003415", b.getISBN());
         Assert.assertTrue(b.isAvailability());
 
-        Assert.assertEquals(b.toString(), "1, The Lord of the Rings, JRR. Tolkien, 9780544003415, available");
+        Assert.assertEquals("1    The Lord of the Rings   JRR. Tolkien        9780544003415    available   ", b.toString());
 
         b.setTitle("New title");
         b.setAuthor("John Doe");
         b.setISBN("1234");
         b.setAvailability(false);
 
-        Assert.assertEquals(b.getTitle(), "New title");
-        Assert.assertEquals(b.getAuthor(), "John Doe");
-        Assert.assertEquals(b.getISBN(), "1234");
+        Assert.assertEquals("New title", b.getTitle());
+        Assert.assertEquals("John Doe", b.getAuthor());
+        Assert.assertEquals("1234", b.getISBN());
         Assert.assertFalse(b.isAvailability());
     }
 }

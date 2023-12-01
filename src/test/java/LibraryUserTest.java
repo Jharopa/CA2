@@ -15,9 +15,9 @@ public class LibraryUserTest {
         user.addBorrowedAsset(b1);
         user.addBorrowedAsset(ab1);
 
-        Assert.assertEquals(user.getName(), "John Doe");
-        Assert.assertEquals(user.getBorrowedAssets().get(0), b1);
-        Assert.assertEquals(user.getBorrowedAssets().get(1), ab1);
+        Assert.assertEquals("John Doe", user.getName());
+        Assert.assertEquals(b1, user.getBorrowedAssets().get(0));
+        Assert.assertEquals( ab1, user.getBorrowedAssets().get(1));
 
         user.setName("New Name");
 
@@ -30,8 +30,8 @@ public class LibraryUserTest {
         user.addBorrowedAsset(b2);
         user.addBorrowedAsset(ab2);
 
-        Assert.assertEquals(user.getName(), "New Name");
-        Assert.assertEquals(user.getBorrowedAssets().get(0), b2);
-        Assert.assertEquals(user.getBorrowedAssets().get(1), ab2);
+        Assert.assertEquals("New Name", user.getName());
+        Assert.assertEquals(b2, user.getBorrowedAssets().get(0));
+        Assert.assertEquals(ab2, user.getBorrowedAssets().get(1));
     }
 }

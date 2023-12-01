@@ -15,9 +15,9 @@ public class AuthorTest {
         a.addAuthoredAsset(b1);
         a.addAuthoredAsset(ab1);
 
-        Assert.assertEquals(a.getName(), "JRR. Tolkien");
-        Assert.assertEquals(a.getAuthoredAssets().get(0), b1);
-        Assert.assertEquals(a.getAuthoredAssets().get(1), ab1);
+        Assert.assertEquals("JRR. Tolkien", a.getName());
+        Assert.assertEquals(b1, a.getAuthoredAssets().get(0));
+        Assert.assertEquals(ab1, a.getAuthoredAssets().get(1));
 
         a.setName("New Name");
 
@@ -29,8 +29,8 @@ public class AuthorTest {
         assets.add(ab2);
         a.setAuthoredAssets(assets);
 
-        Assert.assertEquals(a.getName(), "New Name");
-        Assert.assertEquals(a.getAuthoredAssets().get(0), b2);
-        Assert.assertEquals(a.getAuthoredAssets().get(1), ab2);
+        Assert.assertEquals("New Name", a.getName());
+        Assert.assertEquals(b2, a.getAuthoredAssets().get(0));
+        Assert.assertEquals(ab2, a.getAuthoredAssets().get(1));
     }
 }

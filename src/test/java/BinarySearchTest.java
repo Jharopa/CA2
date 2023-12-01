@@ -32,10 +32,10 @@ public class BinarySearchTest {
         Assert.assertTrue(lotr instanceof Book);
         Assert.assertTrue(wawn instanceof Thesis);
 
-        Assert.assertEquals(hd.getTitle(),"Hunky Dory");
-        Assert.assertEquals(mb.getTitle(),"Moby Dick");
-        Assert.assertEquals(lotr.getTitle(),"The Lord of the Rings");
-        Assert.assertEquals(wawn.getTitle(),"Where are we now");
+        Assert.assertEquals("Hunky Dory", hd.getTitle());
+        Assert.assertEquals("Moby Dick", mb.getTitle());
+        Assert.assertEquals("The Lord of the Rings", lotr.getTitle());
+        Assert.assertEquals("Where are we now", wawn.getTitle());
 
         Asset nonExistent = BinarySearch.assetSearch(arr, 9999);
 

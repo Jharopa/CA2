@@ -15,11 +15,11 @@ public class LoanTest {
                 LocalDate.parse("9999-11-30", DateTimeFormatter.ISO_LOCAL_DATE), false
         );
 
-        Assert.assertEquals(loan.getID(), 1);
-        Assert.assertEquals(loan.getBorrower().getName(), "John Doe");
-        Assert.assertEquals(loan.getBorrowedAsset().getTitle(), "The Lord of the Rings");
-        Assert.assertEquals(loan.getBorrowDate(), LocalDate.parse("2023-11-30", DateTimeFormatter.ISO_LOCAL_DATE));
-        Assert.assertEquals(loan.getReturnDate(), LocalDate.parse("9999-11-30", DateTimeFormatter.ISO_LOCAL_DATE));
+        Assert.assertEquals(1, loan.getID());
+        Assert.assertEquals("John Doe", loan.getBorrower().getName());
+        Assert.assertEquals("The Lord of the Rings", loan.getBorrowedAsset().getTitle());
+        Assert.assertEquals(LocalDate.parse("2023-11-30", DateTimeFormatter.ISO_LOCAL_DATE), loan.getBorrowDate());
+        Assert.assertEquals(LocalDate.parse("9999-11-30", DateTimeFormatter.ISO_LOCAL_DATE), loan.getReturnDate());
         Assert.assertFalse(loan.isReturned());
         Assert.assertFalse(loan.isOverdue());
 
