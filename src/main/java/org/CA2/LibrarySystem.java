@@ -267,8 +267,15 @@ public class LibrarySystem {
         }
     }
 
-    public void listAuthorsAssets(int id) {
-        Author author = getAuthor(id);
+    public void listAuthorsAssets(int authorID) {
+        Author author = getAuthor(authorID);
+
+        if (author == null) {
+            System.out.printf("\nFailed to find author with ID %d\n", authorID);
+            return;
+        }
+
+        System.out.printf("\nAssets authored by %s:\n", author.getName());
 
         for (Asset asset : author.getAuthoredAssets()) {
             asset.print();
@@ -289,12 +296,6 @@ public class LibrarySystem {
         }
     }
 
-    public void listAssets() {
-        for (Asset asset : assets) {
-            asset.print();
-        }
-    }
-
     public void listAuthors() {
         for (Author author : authors) {
             author.print();
@@ -309,6 +310,13 @@ public class LibrarySystem {
 
     public void listUserAssets(int userID) {
         LibraryUser user = getUser(userID);
+
+        if (user == null) {
+            System.out.printf("Failed to find user with ID %d\n", userID);
+            return;
+        }
+
+        System.out.printf("\nAssets borrowed by %s:\n", user.getName());
 
         for (Asset asset : user.getBorrowedAssets()) {
             asset.print();

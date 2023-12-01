@@ -1,2 +1,2 @@
 id,user,borrowed,dateBorrowed,dateReturned,returned
-1,1,Moby Dick,2023-12-01,2023-12-15,false
+1,1,Moby Dick,2023-12-01,2023-12-15,true
