@@ -3,6 +3,11 @@ package org.CA2;
 // Usage: HeapSort.sort(array); where array is an array of any type that implements the comparable interface
 
 public class HeapSort {
+    /**
+     * Generic implementation of the heapsort algorithm
+     * @param arr The array of objects to be sorted
+     * @param <T> Any type that implements the Comparable interface
+     */
     public static <T extends Comparable<T>> void sort(T[] arr) {
         int n = arr.length;
 
@@ -19,6 +24,13 @@ public class HeapSort {
         }
     }
 
+    /**
+     * Recursive function responsible for reshaping array into heap data-structure
+     * @param arr heap array
+     * @param n size of the heap
+     * @param i root of subtree
+     * @param <T> Any type that implements the Comparable interface
+     */
     private static <T extends Comparable<T>> void heapify(T[] arr, int n, int i) {
         int largest = i;
         int left = 2 * i + 1;

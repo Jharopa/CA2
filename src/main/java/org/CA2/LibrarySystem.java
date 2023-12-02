@@ -359,7 +359,7 @@ public class LibrarySystem {
     public void load() {
         loadItems(new String[] {"id", "title", "author", "ISBN", "availability"}, CSVPaths[0]);
         loadItems(new String[] {"id", "title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
-        loadItems(new String[] {"id", "title", "producer", "director", "playtime", "availability"}, CSVPaths[2]);
+        loadItems(new String[] {"id", "title", "producer", "performer", "playtime", "availability"}, CSVPaths[2]);
         loadItems(new String[] {"id", "title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]);
         loadItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]);
         loadItems(new String[] {"id", "name", "authored"}, CSVPaths[5]);
@@ -405,7 +405,7 @@ public class LibrarySystem {
                         int id = Integer.parseInt(csvRecord.get("id"));
                         String title = csvRecord.get("title");
                         String producer = csvRecord.get("producer");
-                        String director = csvRecord.get("director");
+                        String director = csvRecord.get("performer");
                         int playtime = Integer.parseInt(csvRecord.get("playtime"));
                         boolean availability = Boolean.parseBoolean(csvRecord.get("availability"));
 
@@ -526,7 +526,7 @@ public class LibrarySystem {
 
         saveItems(new String[] {"id", "title", "author", "ISBN", "availability"}, CSVPaths[0]); // Book
         saveItems(new String[] {"id", "title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]); // Audiobook
-        saveItems(new String[] {"id", "title", "producer", "director", "playtime", "availability"}, CSVPaths[2]); // CD
+        saveItems(new String[] {"id", "title", "producer", "performer", "playtime", "availability"}, CSVPaths[2]); // CD
         saveItems(new String[] {"id", "title", "author", "topic", "Abstract", "datePublished", "availability"}, CSVPaths[3]); // Thesis
         saveItems(new String[] {"id", "name", "borrowed"}, CSVPaths[4]); // User
         saveItems(new String[] {"id", "name", "authored"}, CSVPaths[5]); // Author
@@ -573,7 +573,7 @@ public class LibrarySystem {
                                 cd.getID(),
                                 cd.getTitle(),
                                 cd.getProducer(),
-                                cd.getDirector(),
+                                cd.getPerformer(),
                                 cd.getPlaytime(),
                                 cd.isAvailability()
                         );
