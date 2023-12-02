@@ -71,7 +71,7 @@ public class CSVWriteTest {
     public void testCSVWriteCDs() throws IOException {
         ArrayList<String> contents = getContents("src/test/resources/write_cds.csv");
 
-        Assert.assertEquals("id,title,producer,director,playtime,availability", contents.get(0));
+        Assert.assertEquals("id,title,producer,performer,playtime,availability", contents.get(0));
         Assert.assertEquals("4,Hunky Dory,Ken Scott,David Bowie,41,true", contents.get(1));
     }
 
