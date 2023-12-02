@@ -8,14 +8,25 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class UserInterface {
+    /**
+     * UserInterface class' Scanner object
+     */
     private final Scanner sc;
 
+    /**
+     * UserInterface class' LibrarySystem object
+     */
     private final LibrarySystem library;
 
     //-------------------//
     // Listing functions //
     //-------------------//
 
+    /**
+     * Class constructor, initializes class' scanner and library system by providing CSV paths,
+     * and calling the library system's constructor, load (loads library items state from CSV files),
+     * and initializeIDCounters functions
+     */
     UserInterface() {
         sc = new Scanner(System.in);
 
@@ -35,6 +46,10 @@ public class UserInterface {
         library.initializeIDCounters();
     }
 
+    /**
+     * Function used to select the desired library items information to be listed, calling the appropriate user interface functions
+     * associated with listing assets, users, authors, or loans
+     */
     private void catalogueList() {
         int choice = -1;
 
@@ -79,6 +94,11 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to select the desired assets information to be listed calling the appropriate library system functions
+     * associated with listing all available assets, available books, available audiobooks, available theses,
+     * available CDs, or borrowed assets
+     */
     private void listAssets() {
         int choice = -1;
 
@@ -149,6 +169,10 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to select the desired users information to be listed calling the appropriate library system
+     * functions associated with listing all users, or the borrowed assets of a user selected via id
+     */
     private void listUsers() {
         int choice = -1;
 
@@ -202,6 +226,10 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to select the desired author information to be listed calling the appropriate library system
+     * functions associated with listing all authors, or the authored assets of an author selected via id
+     */
     private void listAuthors() {
         int choice = -1;
 
@@ -255,6 +283,10 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to select the desired loans information to be listed calling the appropriate library system
+     * functions associated with listing all loans, or all overdue loans via id
+     */
     private void listLoans() {
         int choice = -1;
 
@@ -303,6 +335,10 @@ public class UserInterface {
     // Library item creation functions //
     //---------------------------------//
 
+    /**
+     * Function used to select the desired library item to be added to the library system by calling the
+     * appropriate user interface functions associated with adding a book, audiobook, thesis, or CD.
+     */
     private void addLibraryItem() {
         int choice = -1;
 
@@ -349,6 +385,9 @@ public class UserInterface {
         } while (choice != 0);
     }
 
+    /**
+     * Function used to add a book to the library system
+     */
     private void addBook() {
         String title, isbn;
         int authorID;
@@ -373,6 +412,9 @@ public class UserInterface {
 
     }
 
+    /**
+     * Function used to add a CD to the library system
+     */
     private void addCD() {
         String title, producer, director;
         int playtime;
@@ -399,6 +441,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to add an audiobook to the library system
+     */
     private void addAudioBook() {
         try {
             System.out.print("Please enter the title of the audio book: ");
@@ -422,6 +467,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to add a thesis to the library system
+     */
     private void addTheses() {
         try {
             System.out.print("Please enter the title of the thesis: ");
@@ -458,6 +506,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to add an author to the library system
+     */
     private void addAuthor() {
         try {
             System.out.print("Please enter the name of the author: ");
@@ -470,6 +521,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to add a user to the library system
+     */
     private void addUser() {
         try {
             System.out.print("Please enter the user's full name: ");
@@ -490,6 +544,9 @@ public class UserInterface {
     // Loan creation and return functions //
     //------------------------------------//
 
+    /**
+     * Function used to create a library system loan
+     */
     private void borrowAsset() {
         try {
             System.out.print("Please enter the user's ID: ");
@@ -504,6 +561,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Function used to return a library system loan
+     */
     private void returnAsset() {
         System.out.print("Please enter the loan ID: ");
 
@@ -523,6 +583,11 @@ public class UserInterface {
     // Helper functions //
     //------------------//
 
+    /**
+     * Helper function used to validate a date string provided by system user is in the correct format yyyy-MM-dd
+     * @param input The date string
+     * @return true if the date string is in the correct format, false otherwise.
+     */
     private boolean validateDate(String input) {
         try {
             LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
@@ -533,6 +598,9 @@ public class UserInterface {
         }
     }
 
+    /**
+     * Helper function used to create prompt on screen to pause output from continuing until the enter key is pressed.
+     */
     private void pause() {
         System.out.print("\nPress enter to continue...");
         sc.nextLine();
@@ -542,6 +610,13 @@ public class UserInterface {
     // End of helper functions //
     //-------------------------//
 
+    /**
+     * Main menu function that runs the main menu loop, allowing the user to select desired options from the list and calling
+     * the appropriate user interface function for Catalogue information (library item lists), add asset to library system,
+     * add author to library system, add user to library system, create a loan on library system and return loan on library system.
+     *
+     * Also calls the library systems save function for saving library items state out to CSV file.
+     */
     public void run() {
         // Main Loop/Menu
         System.out.println("\nWelcome to the Library Management System.");

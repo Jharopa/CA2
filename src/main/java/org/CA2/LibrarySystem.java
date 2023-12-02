@@ -16,19 +16,50 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LibrarySystem {
+    /**
+     * Linked list containing the library system's asset objects
+     */
     private LinkedList<Asset> assets;
+    /**
+     * Linked list containing the library system's authors objects
+     */
     private LinkedList<Author> authors;
+    /**
+     * Linked list containing the library system's library user objects
+     */
     private LinkedList<LibraryUser> users;
+    /**
+     * Linked list containing the library system's loans objects
+     */
     private LinkedList<Loan> loans;
+
+    /**
+     * AtomicInteger used for asset object's ID generation
+     */
     private AtomicInteger assetIDCount;
+    /**
+     * AtomicInteger used for user object's ID generation
+     */
     private AtomicInteger userIDCount;
+    /**
+     * AtomicInteger used for author object's ID generation
+     */
     private AtomicInteger authorIDCount;
+    /**
+     * AtomicInteger used for loan object's ID generation
+     */
     private AtomicInteger loanIDCount;
 
-    // Paths to the CSV files that should be read from or written to
-    // Order of Books, Audiobooks, CDs, Theses, Users, Authors, Loans
+    /**
+     * Paths to the CSV files that should be read from or written to
+     * In the order of Books, Audiobooks, CDs, Theses, Users, Authors, Loans
+     */
     private final String[] CSVPaths;
 
+    /**
+     * Class constructor, initializes the library system's linked lists and CSV paths
+     * @param CSVPaths Paths of the files library item objects should be read from and written to.
+     */
     public LibrarySystem(String[] CSVPaths) {
         assets = new LinkedList<>();
         authors = new LinkedList<>();
@@ -38,6 +69,12 @@ public class LibrarySystem {
         this.CSVPaths = CSVPaths;
     }
 
+    /**
+     * Adds a new book to the library system
+     * @param title New book's title
+     * @param authorID ID of the new book's author
+     * @param ISBN New book's ISBN
+     */
     public void addBook(String title, int authorID, String ISBN) {
         Author thisAuthor = getAuthor(authorID);
 
@@ -56,7 +93,13 @@ public class LibrarySystem {
         }
     }
 
-
+    /**
+     * Adds a new audiobook to the library system
+     * @param title New audiobook's title
+     * @param authorID ID of the new audiobook's author
+     * @param ISBN New audiobook's ISBN
+     * @param duration New audiobook's duration
+     */
     public void addAudioBook(String title, int authorID, String ISBN, int duration) {
         Author thisAuthor = getAuthor(authorID);
 
@@ -75,16 +118,30 @@ public class LibrarySystem {
         }
     }
 
-    public void addCD(String title, String producer, String director, int playtime) {
+    /**
+     * Adds a new CD to the library system
+     * @param title New CDs title
+     * @param producer New CDs producer
+     * @param performer New CDs performer
+     * @param playtime New CDs playtime
+     */
+    public void addCD(String title, String producer, String performer, int playtime) {
         try {
-            assets.add(new CD(assetIDCount.incrementAndGet(), title, producer, director, playtime, true));
+            assets.add(new CD(assetIDCount.incrementAndGet(), title, producer, performer, playtime, true));
             sortAssets();
         } catch (AssetException e) {
             System.out.printf("Unable to add CD. Reason: %s", e);
         }
     }
 
-    // Create the date outside of class and pass it in or pass in formatted string and create it here?
+    /**
+     * Adds a new thesis to the library system
+     * @param title New thesis' title
+     * @param authorID ID of the new thesis' author
+     * @param topic New thesis' topic
+     * @param Abstract New thesis' abstract
+     * @param datePublished New thesis' publish date
+     */
     public void addThesis(String title, int authorID, String topic, String Abstract, LocalDate datePublished) {
         Author thisAuthor = getAuthor(authorID);
 
@@ -103,16 +160,29 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Adds a new author to the library system
+     * @param name The name of the new author
+     */
     public void addAuthor(String name) {
         authors.add(new Author(authorIDCount.incrementAndGet(), name));
         sortAuthors();
     }
 
+    /**
+     * Adds a new user to the library system
+     * @param name The name of the new user
+     */
     public void addUser(String name) {
         users.add(new LibraryUser(userIDCount.incrementAndGet(), name));
         sortUsers();
     }
 
+    /**
+     * Gets a library system's asset using the asset's ID
+     * @param assetID The ID of the desired asset
+     * @return The asset object if found otherwise null
+     */
     public Asset getAsset(int assetID) {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
@@ -120,6 +190,11 @@ public class LibrarySystem {
         return BinarySearch.assetSearch(assetsArr, assetID);
     }
 
+    /**
+     * Gets a library system's author using the author's ID
+     * @param authorID The ID of the desired author
+     * @return The author object if found otherwise null
+     */
     public Author getAuthor(int authorID) {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
@@ -127,6 +202,11 @@ public class LibrarySystem {
         return BinarySearch.authorSearch(authorArr, authorID);
     }
 
+    /**
+     * Gets a library system's user using the user's ID
+     * @param userID The ID of the desired user
+     * @return The user object if found otherwise null
+     */
     public LibraryUser getUser(int userID) {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
@@ -134,6 +214,11 @@ public class LibrarySystem {
         return BinarySearch.userSearch(userArr, userID);
     }
 
+    /**
+     * Gets a library system's loan using the loan's ID
+     * @param id The ID of the desired loan
+     * @return The loan object if found otherwise null
+     */
     public Loan getLoan(int id) {
         Loan[] loanArr = new Loan[loans.size()];
         loans.toArray(loanArr);
@@ -141,6 +226,9 @@ public class LibrarySystem {
         return BinarySearch.loanSearch(loanArr, id);
     }
 
+    /**
+     * Sorts library system's assets linked list
+     */
     private void sortAssets() {
         Asset[] assetsArr = new Asset[assets.size()];
         assets.toArray(assetsArr);
@@ -148,6 +236,9 @@ public class LibrarySystem {
         assets = new LinkedList<>(Arrays.asList(assetsArr));
     }
 
+    /**
+     * Sorts library system's authors linked list
+     */
     private void sortAuthors() {
         Author[] authorArr = new Author[authors.size()];
         authors.toArray(authorArr);
@@ -155,6 +246,9 @@ public class LibrarySystem {
         authors = new LinkedList<>(Arrays.asList(authorArr));
     }
 
+    /**
+     * Sorts library system's users linked list
+     */
     private void sortUsers() {
         LibraryUser[] userArr = new LibraryUser[users.size()];
         users.toArray(userArr);
@@ -162,6 +256,9 @@ public class LibrarySystem {
         users = new LinkedList<>(Arrays.asList(userArr));
     }
 
+    /**
+     * Sorts library system's loans linked list
+     */
     private void sortLoans() {
         Loan[] loanArr = new Loan[loans.size()];
         loans.toArray(loanArr);
@@ -169,6 +266,11 @@ public class LibrarySystem {
         loans = new LinkedList<>(Arrays.asList(loanArr));
     }
 
+    /**
+     * User to create a library system loan
+     * @param assetID The ID of the asset to be loaned out
+     * @param userID The ID of the user loaning the asset
+     */
     public void createLoan(int assetID, int userID) {
         Asset asset = getAsset(assetID);
         LibraryUser user = getUser(userID);
@@ -197,6 +299,10 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Used to return a library system loan
+     * @param id The ID of the loan to be returned
+     */
     public void returnLoan(int id) {
         Loan loan = getLoan(id);
 
@@ -211,6 +317,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's available assets
+     */
     public void listAvailableAssets() {
         listAvailableBooks();
         listAvailableAudioBooks();
@@ -218,6 +327,9 @@ public class LibrarySystem {
         listAvailableCds();
     }
 
+    /**
+     * Lists library system's available books
+     */
     public void listAvailableBooks() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof Book book && !(asset instanceof AudioBook)) {
@@ -226,6 +338,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's available audiobooks
+     */
     public void listAvailableAudioBooks() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof AudioBook audioBook) {
@@ -234,6 +349,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's available theses
+     */
     public void listAvailableThesis() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof Thesis thesis) {
@@ -242,6 +360,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's available CDs
+     */
     public void listAvailableCds() {
         for (Asset asset : assets) {
             if (asset.isAvailability() && asset instanceof CD cd) {
@@ -250,6 +371,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's borrowed assets
+     */
     public void listBorrowedAssets() {
         for (Asset asset : assets) {
             if (!asset.isAvailability()) {
@@ -258,6 +382,10 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists authored assets of a library system's author selected via user's ID
+     * @param authorID ID of desired author
+     */
     public void listAuthorsAssets(int authorID) {
         Author author = getAuthor(authorID);
 
@@ -273,6 +401,10 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists borrowed assets of a library system's user selected via user's ID
+     * @param userID ID of desired user
+     */
     public void listUserAssets(int userID) {
         LibraryUser user = getUser(userID);
 
@@ -288,6 +420,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's loans
+     */
     public void listLoans() {
         System.out.printf(
                 "%-5s%-12s%-18s%-15s%-15s%-10s\n",
@@ -300,6 +435,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's overdue loans
+     */
     public void listOverdueLoans() {
         System.out.printf(
                 "%-5s%-12s%-18s%-15s%-15s%-10s\n",
@@ -314,6 +452,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's authors
+     */
     public void listAuthors() {
         System.out.printf("%-5s%-24s\n", "ID", "Name");
 
@@ -322,6 +463,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Lists library system's users
+     */
     public void listUsers() {
         System.out.printf("%-5s%-24s\n", "ID", "Name");
 
@@ -330,6 +474,9 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Initializes the AtomicInteger counters for assets, users, authors, and loans, used to generate IDs each respective object
+     */
     public void initializeIDCounters() {
         if (assets.isEmpty()) {
             assetIDCount = new AtomicInteger(0);
@@ -356,6 +503,10 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Calls loadItems function with the appropriate CSV headers and CSV path then sorts asset, author, user, and loan
+     * linked lists populated by the loadItems function calls.
+     */
     public void load() {
         loadItems(new String[] {"id", "title", "author", "ISBN", "availability"}, CSVPaths[0]);
         loadItems(new String[] {"id", "title", "author", "ISBN", "duration", "availability"}, CSVPaths[1]);
@@ -371,6 +522,14 @@ public class LibrarySystem {
         sortLoans();
     }
 
+    /**
+     * Reads asset, author, user, and loan information in from CSV files creating objects and adding them to the
+     * appropriate linked list in the library system using the CSV file headers and file path provided by the load function
+     * to do so.
+     *
+     * @param headers CSV file headers
+     * @param filePath CSV file path
+     */
     private void loadItems(String[] headers, String filePath) {
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader(headers)
@@ -518,6 +677,10 @@ public class LibrarySystem {
         }
     }
 
+    /**
+     * Sorts asset, author, user, and loan linked lists then calls save item functions with the appropriate CSV headers,
+     * and CSV path.
+     */
     public void save() {
         sortAssets();
         sortAuthors();
@@ -533,6 +696,12 @@ public class LibrarySystem {
         saveItems(new String[] {"id", "user", "borrowed", "dateBorrowed", "dateReturned", "returned"}, CSVPaths[6]); // Loan
     }
 
+    /**
+     * Writes asset, author, user, and loan objects found in the library system's linked lists to CSV files using the appropriate
+     * CSV headers and file path.
+     * @param headers CSV file headers
+     * @param filePath CSV file path
+     */
     private void saveItems(String[] headers, String filePath) {
         CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
                 .setHeader(headers)
