@@ -342,44 +342,44 @@ public class LibrarySystem {
      * Lists library system's available audiobooks
      */
     public void listAvailableAudioBooks() {
-        for (Asset asset : assets) {
+        assets.forEach( (asset) -> {
             if (asset.isAvailability() && asset instanceof AudioBook audioBook) {
                 audioBook.print();
             }
-        }
+        });
     }
 
     /**
      * Lists library system's available theses
      */
     public void listAvailableThesis() {
-        for (Asset asset : assets) {
+        assets.forEach( (asset) -> {
             if (asset.isAvailability() && asset instanceof Thesis thesis) {
                 thesis.print();
             }
-        }
+        });
     }
 
     /**
      * Lists library system's available CDs
      */
     public void listAvailableCds() {
-        for (Asset asset : assets) {
+        assets.forEach( (asset) -> {
             if (asset.isAvailability() && asset instanceof CD cd) {
                 cd.print();
             }
-        }
+        });
     }
 
     /**
      * Lists library system's borrowed assets
      */
     public void listBorrowedAssets() {
-        for (Asset asset : assets) {
+        assets.forEach( (asset) -> {
             if (!asset.isAvailability()) {
                 asset.print();
             }
-        }
+        });
     }
 
     /**
@@ -396,9 +396,7 @@ public class LibrarySystem {
 
         System.out.printf("\nAssets authored by %s:\n", author.getName());
 
-        for (Asset asset : author.getAuthoredAssets()) {
-            asset.print();
-        }
+        author.getAuthoredAssets().forEach(Printable::print);
     }
 
     /**
@@ -415,9 +413,7 @@ public class LibrarySystem {
 
         System.out.printf("\nAssets borrowed by %s:\n", user.getName());
 
-        for (Asset asset : user.getBorrowedAssets()) {
-            asset.print();
-        }
+        user.getBorrowedAssets().forEach(Printable::print);
     }
 
     /**
@@ -430,9 +426,7 @@ public class LibrarySystem {
                 "Borrow date", "Return date", "Status"
         );
 
-        for (Loan loan : loans) {
-            loan.print();
-        }
+        loans.forEach(Printable::print);
     }
 
     /**
@@ -445,11 +439,11 @@ public class LibrarySystem {
                 "Borrow date", "Return date", "Status"
         );
 
-        for (Loan loan : loans) {
+        loans.forEach( (loan) -> {
             if (loan.isOverdue()) {
                 loan.print();
             }
-        }
+        });
     }
 
     /**
@@ -458,9 +452,7 @@ public class LibrarySystem {
     public void listAuthors() {
         System.out.printf("%-5s%-24s\n", "ID", "Name");
 
-        for (Author author : authors) {
-            author.print();
-        }
+        authors.forEach(Author::print);
     }
 
     /**
@@ -469,9 +461,7 @@ public class LibrarySystem {
     public void listUsers() {
         System.out.printf("%-5s%-24s\n", "ID", "Name");
 
-        for (LibraryUser user : users) {
-            user.print();
-        }
+        users.forEach(LibraryUser::print);
     }
 
     /**

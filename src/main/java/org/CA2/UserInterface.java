@@ -90,6 +90,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("\nInvalid selection, please try again.\n");
+                    choice = -1;
             }
         }
     }
@@ -165,6 +166,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.\n");
+                    choice = -1;
             }
         }
     }
@@ -222,6 +224,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.\n");
+                    choice = -1;
             }
         }
     }
@@ -279,6 +282,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.\n");
+                    choice = -1;
             }
         }
     }
@@ -323,6 +327,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.\n");
+                    choice = -1;
             }
         }
     }
@@ -381,6 +386,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid selection, please try again.");
+                    choice = -1;
             }
         } while (choice != 0);
     }
@@ -673,6 +679,7 @@ public class UserInterface {
                     break;
                 default:
                     System.out.println("Invalid choice. Please select option from 0-6.");
+                    choice = -1;
             }
         }
 
