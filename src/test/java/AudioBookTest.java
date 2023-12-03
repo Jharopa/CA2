@@ -18,13 +18,13 @@ public class AudioBookTest {
 
         ab.setTitle("New title");
         ab.setAuthor("John Doe");
-        ab.setISBN("1234");
+        ab.setISBN("9780544004321");
         ab.setDuration(180);
         ab.setAvailability(false);
 
         Assert.assertEquals("New title", ab.getTitle());
         Assert.assertEquals("John Doe", ab.getAuthor());
-        Assert.assertEquals("1234", ab.getISBN());
+        Assert.assertEquals("9780544004321", ab.getISBN());
         Assert.assertEquals(180, ab.getDuration());
         Assert.assertFalse(ab.isAvailability());
     }

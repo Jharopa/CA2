@@ -17,12 +17,12 @@ public class BookTest {
 
         b.setTitle("New title");
         b.setAuthor("John Doe");
-        b.setISBN("1234");
+        b.setISBN("9780544004321");
         b.setAvailability(false);
 
         Assert.assertEquals("New title", b.getTitle());
         Assert.assertEquals("John Doe", b.getAuthor());
-        Assert.assertEquals("1234", b.getISBN());
+        Assert.assertEquals("9780544004321", b.getISBN());
         Assert.assertFalse(b.isAvailability());
     }
 }

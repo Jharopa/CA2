@@ -25,8 +25,8 @@ public class AuthorTest {
 
         a.setName("New Name");
 
-        Book b2 = new Book(1, "New Book", "New name", "123456", true);
-        AudioBook ab2 = new AudioBook(2, "New Book 2", "New name","654321", 340, true);
+        Book b2 = new Book(1, "New Book", "New name", "9780544001234", true);
+        AudioBook ab2 = new AudioBook(2, "New Book 2", "New name","9780544004321", 340, true);
 
         LinkedList<Asset> assets = new LinkedList<>();
         assets.add(b2);

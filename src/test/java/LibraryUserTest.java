@@ -22,8 +22,8 @@ public class LibraryUserTest {
 
         user.setName("New Name");
 
-        Book b2 = new Book(1, "New Book", "New name", "123456", true);
-        AudioBook ab2 = new AudioBook(2, "New Book 2", "New name","654321", 340, true);
+        Book b2 = new Book(1, "New Book", "New name", "9781566191234", true);
+        AudioBook ab2 = new AudioBook(2, "New Book 2", "New name","9781566194321", 340, true);
 
         user.removeBorrowedAsset(b1);
         user.removeBorrowedAsset(ab1);

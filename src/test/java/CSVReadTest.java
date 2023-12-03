@@ -1,7 +1,4 @@
-import org.CA2.models.Asset;
-import org.CA2.models.Author;
-import org.CA2.models.LibraryUser;
-import org.CA2.models.Loan;
+import org.CA2.models.*;
 import org.CA2.services.LibrarySystem;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,26 +30,53 @@ public class CSVReadTest {
 
     @Test
     public void testCSVReadBooks() {
-        Asset lotr = lb.getAsset(1);
+        Book lotr = (Book) lb.getAsset(1);
+
         Assert.assertNotNull(lotr);
+        Assert.assertEquals(1, lotr.getID());
+        Assert.assertEquals("The Lord of the Rings", lotr.getTitle());
+        Assert.assertEquals("JRR. Tolkien", lotr.getAuthor());
+        Assert.assertEquals("9780544003415", lotr.getISBN());
+        Assert.assertFalse(lotr.isAvailability());
     }
 
     @Test
     public void testCSVReadAudiobooks() {
-        Asset md = lb.getAsset(2);
+        AudioBook md = (AudioBook) lb.getAsset(2);
+
         Assert.assertNotNull(md);
+        Assert.assertEquals(2, md.getID());
+        Assert.assertEquals("Moby Dick", md.getTitle());
+        Assert.assertEquals("Herman Melville", md.getAuthor());
+        Assert.assertEquals("9781566192637", md.getISBN());
+        Assert.assertEquals(340, md.getDuration());
+        Assert.assertTrue(md.isAvailability());
     }
 
     @Test
     public void testCSVReadCDs() {
-        Asset hd = lb.getAsset(3);
+        CD hd = (CD) lb.getAsset(3);
+
         Assert.assertNotNull(hd);
+        Assert.assertEquals(3, hd.getID());
+        Assert.assertEquals("Hunky Dory", hd.getTitle());
+        Assert.assertEquals("Ken Scott", hd.getProducer());
+        Assert.assertEquals("David Bowie", hd.getPerformer());
+        Assert.assertEquals(41, hd.getPlaytime());
+        Assert.assertTrue(hd.isAvailability());
     }
 
     @Test
     public void testCSVReadTheses() {
-        Asset wawn = lb.getAsset(4);
+        Thesis wawn = (Thesis) lb.getAsset(4);
+
         Assert.assertNotNull(wawn);
+        Assert.assertEquals(4, wawn.getID());
+        Assert.assertEquals("Where are we now", wawn.getTitle());
+        Assert.assertEquals("John Doe", wawn.getAuthor());
+        Assert.assertEquals("Philosophy", wawn.getTopic());
+        Assert.assertEquals("This is an abstract", wawn.getAbstract());
+        Assert.assertEquals(LocalDate.parse("2023-09-26", DateTimeFormatter.ISO_LOCAL_DATE), wawn.getDatePublished());
     }
 
     @Test
@@ -60,9 +84,29 @@ public class CSVReadTest {
         LibraryUser lu = lb.getUser(1);
 
         Assert.assertNotNull(lu);
+        Assert.assertEquals(1, lu.getID());
+        Assert.assertEquals("John Doe", lu.getName());
+
+        CD hd = (CD) lu.getBorrowedAssets().get(0);
+        AudioBook md = (AudioBook) lu.getBorrowedAssets().get(1);
 
         Assert.assertNotNull(lu.getBorrowedAssets().get(0));
+        Assert.assertNotNull(hd);
+        Assert.assertEquals(3, hd.getID());
+        Assert.assertEquals("Hunky Dory", hd.getTitle());
+        Assert.assertEquals("Ken Scott", hd.getProducer());
+        Assert.assertEquals("David Bowie", hd.getPerformer());
+        Assert.assertEquals(41, hd.getPlaytime());
+        Assert.assertTrue(hd.isAvailability());
+
         Assert.assertNotNull(lu.getBorrowedAssets().get(1));
+        Assert.assertNotNull(md);
+        Assert.assertEquals(2, md.getID());
+        Assert.assertEquals("Moby Dick", md.getTitle());
+        Assert.assertEquals("Herman Melville", md.getAuthor());
+        Assert.assertEquals("9781566192637", md.getISBN());
+        Assert.assertEquals(340, md.getDuration());
+        Assert.assertTrue(md.isAvailability());
     }
 
     @Test
@@ -70,8 +114,17 @@ public class CSVReadTest {
         Author a = lb.getAuthor(1);
 
         Assert.assertNotNull(a);
+        Assert.assertEquals(1, a.getID());
+        Assert.assertEquals("JRR. Tolkien", a.getName());
 
-        Assert.assertNotNull(a.getAuthoredAssets().get(0));
+        Book lotr = (Book) a.getAuthoredAssets().get(0);
+
+        Assert.assertNotNull(lotr);
+        Assert.assertEquals(1, lotr.getID());
+        Assert.assertEquals("The Lord of the Rings", lotr.getTitle());
+        Assert.assertEquals("JRR. Tolkien", lotr.getAuthor());
+        Assert.assertEquals("9780544003415", lotr.getISBN());
+        Assert.assertFalse(lotr.isAvailability());
     }
 
     @Test

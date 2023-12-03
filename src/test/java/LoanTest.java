@@ -13,7 +13,7 @@ public class LoanTest {
     @Test
     public void testLoan() throws AssetException {
         LibraryUser user = new LibraryUser( 1, "John Doe");
-        Asset book = new Book(1, "The Lord of the Rings", "JRR. Tolkien", "1234", false);
+        Asset book = new Book(1, "The Lord of the Rings", "JRR. Tolkien", "9780544001234", false);
         Loan loan = new Loan(
                 1, user, book, LocalDate.parse("2023-11-30", DateTimeFormatter.ISO_LOCAL_DATE),
                 LocalDate.parse("9999-11-30", DateTimeFormatter.ISO_LOCAL_DATE), false
