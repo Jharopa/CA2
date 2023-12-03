@@ -1,4 +1,8 @@
-import org.CA2.*;
+import org.CA2.exceptions.AssetException;
+import org.CA2.models.Asset;
+import org.CA2.models.AudioBook;
+import org.CA2.models.Author;
+import org.CA2.models.Book;
 import org.junit.Test;
 import org.junit.Assert;
 

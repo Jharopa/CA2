@@ -1,4 +1,4 @@
-package org.CA2;
+package org.CA2.exceptions;
 
 public class AssetException extends Exception {
     /**
@@ -10,7 +10,7 @@ public class AssetException extends Exception {
      * Default constructor
      */
     public AssetException() {
-        this.message = "Error in Exam or Exam subclass";
+        this.message = "Error in Asset or Asset subclass";
     }
 
     /**
@@ -26,6 +26,6 @@ public class AssetException extends Exception {
      * @return A string representing the AssetException's message
      */
     public String toString() {
-        return String.format("\n\t\tExamException: %s", this.message);
+        return String.format("\n\t\tAssetException: %s", this.message);
     }
 }

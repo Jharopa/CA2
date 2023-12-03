@@ -1,4 +1,6 @@
-package org.CA2;
+package org.CA2.models;
+
+import org.CA2.interfaces.Printable;
 
 import java.util.LinkedList;
 

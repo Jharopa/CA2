@@ -1,10 +1,11 @@
-package org.CA2;
+package org.CA2.services;
+
+import org.CA2.util.Helpers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
-import java.util.Random;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -27,7 +28,7 @@ public class UserInterface {
      * and calling the library system's constructor, load (loads library items state from CSV files),
      * and initializeIDCounters functions
      */
-    UserInterface() {
+    public UserInterface() {
         sc = new Scanner(System.in);
 
         String[] csvPaths = new String[]{
@@ -64,13 +65,7 @@ public class UserInterface {
 
             System.out.print("\nEnter your selection: ");
 
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
-                choice = -1;
-                continue;
-            }
+            choice = Helpers.validateInteger(choice);
 
             switch (choice) {
                 case 1:
@@ -104,17 +99,7 @@ public class UserInterface {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\nPlease select one of the asset types to view: ");
-            System.out.println("1. List all available assets");
-            System.out.println("2. List available books");
-            System.out.println("3. List available audio books");
-            System.out.println("4. List available thesis");
-            System.out.println("5. List available CDs");
-            System.out.println("6. List borrowed assets");
-
-            System.out.println("\n0. Return to previous menu\n");
-
-            System.out.print("Enter your selection: ");
+            DisplayService.printAvailableAssetsMenu();
 
             try {
                 choice = Integer.parseInt(sc.nextLine());
@@ -129,37 +114,38 @@ public class UserInterface {
                     System.out.println("\nAvailable assets: ");
                     library.listAvailableAssets();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 2:
                     System.out.println("\nAvailable books: ");
                     library.listAvailableBooks();
 
-                    pause();
+
+                    Helpers.pause();
                     break;
                 case 3:
                     System.out.println("\nAvailable audio books: ");
                     library.listAvailableAudioBooks();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 4:
                     System.out.println("\nAvailable theses: ");
                     library.listAvailableThesis();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 5:
                     System.out.println("\nAvailable CDs: ");
                     library.listAvailableCds();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 6:
                     System.out.println("\nBorrowed Assets: ");
                     library.listBorrowedAssets();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -201,7 +187,7 @@ public class UserInterface {
 
                     library.listUsers();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 2:
                     int userID;
@@ -217,7 +203,7 @@ public class UserInterface {
 
                     library.listUserAssets(userID);
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -259,7 +245,7 @@ public class UserInterface {
 
                     library.listAuthors();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 2:
                     int authorID = 0;
@@ -275,7 +261,7 @@ public class UserInterface {
 
                     library.listAuthorsAssets(authorID);
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 0:
                     System.out.println("\nReturning previous menu... ");
@@ -314,13 +300,13 @@ public class UserInterface {
                     System.out.println("\nLibrary loans: ");
                     library.listLoans();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 2:
                     System.out.println("\nOverdue Library loans: ");
                     library.listOverdueLoans();
 
-                    pause();
+                    Helpers.pause();
                     break;
                 case 0:
                     System.out.println("Returning previous menu... ");
@@ -348,13 +334,7 @@ public class UserInterface {
         int choice = -1;
 
         do {
-            System.out.println("\nWhich type of asset would you like to add?");
-            System.out.println("1. Book");
-            System.out.println("2. Audio Book");
-            System.out.println("3. Thesis");
-            System.out.println("4. CD");
-            System.out.println("\n0. Return to main menu");
-            System.out.print("\nEnter your choice: ");
+            DisplayService.printAddAssetMenu();
 
             try {
                 choice = Integer.parseInt(sc.nextLine());
@@ -442,7 +422,7 @@ public class UserInterface {
             library.addCD(title, producer, director, playtime);
         } catch (NumberFormatException e) {
             System.out.println("Failed to create CD. Playtime value was non-number");
-        } catch (NoSuchElementException|IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             System.out.println("Failed to create CD due to unexpected error. Please try again.");
         }
     }
@@ -466,9 +446,9 @@ public class UserInterface {
 
             System.out.println("Adding the audio book to our catalog...");
             library.addAudioBook(title, authorID, isbn, duration);
-        }  catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Failed to create CD. Author ID or duration value provided was non-number");
-        } catch (NoSuchElementException|IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             System.out.println("Failed to create audio book due to unexpected error. Please try again.");
         }
     }
@@ -498,16 +478,16 @@ public class UserInterface {
 
             while (!validDate) {
                 input = sc.nextLine();
-                validDate = validateDate(input);
+                validDate = Helpers.validateDate(input);
             }
 
             date = LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
 
             System.out.println("Adding thesis to our catalog...");
             library.addThesis(title, authorID, topic, thesisAbstract, date);
-        }  catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             System.out.println("Failed to create thesis. Author ID value provided was non-number");
-        } catch (NoSuchElementException|IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             System.out.println("Failed to create thesis due to unexpected error. Please try again.");
         }
     }
@@ -522,7 +502,7 @@ public class UserInterface {
 
             library.addAuthor(name);
             System.out.println("Added " + name + " to list of authors in library system.");
-        } catch (NoSuchElementException|IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             System.out.println("Failed to create author due to unexpected error. Please try again.");
         }
     }
@@ -537,7 +517,7 @@ public class UserInterface {
 
             library.addUser(name);
             System.out.println("Added " + name + " to list of users in library system.");
-        } catch (NoSuchElementException|IllegalStateException e) {
+        } catch (NoSuchElementException | IllegalStateException e) {
             System.out.println("Failed to create user due to unexpected error. Please try again.");
         }
     }
@@ -585,42 +565,13 @@ public class UserInterface {
     // End of loan creation and return functions //
     //-------------------------------------------//
 
-    //------------------//
-    // Helper functions //
-    //------------------//
 
-    /**
-     * Helper function used to validate a date string provided by system user is in the correct format yyyy-MM-dd
-     * @param input The date string
-     * @return true if the date string is in the correct format, false otherwise.
-     */
-    private boolean validateDate(String input) {
-        try {
-            LocalDate.parse(input, DateTimeFormatter.ISO_LOCAL_DATE);
-            return true;
-        } catch (DateTimeParseException e) {
-            System.out.print("Invalid date format. Please enter the date as yyyy-MM-dd: ");
-            return false;
-        }
-    }
-
-    /**
-     * Helper function used to create prompt on screen to pause output from continuing until the enter key is pressed.
-     */
-    private void pause() {
-        System.out.print("\nPress enter to continue...");
-        sc.nextLine();
-    }
-
-    //-------------------------//
-    // End of helper functions //
-    //-------------------------//
 
     /**
      * Main menu function that runs the main menu loop, allowing the user to select desired options from the list and calling
      * the appropriate user interface function for Catalogue information (library item lists), add asset to library system,
      * add author to library system, add user to library system, create a loan on library system and return loan on library system.
-     *
+     * <p>
      * Also calls the library systems save function for saving library items state out to CSV file.
      */
     public void run() {
@@ -630,25 +581,9 @@ public class UserInterface {
         int choice = -1;
 
         while (choice != 0) {
-            System.out.println("\nPlease select one of the following options:");
-            System.out.println("1. Catalogue information");
-            System.out.println("2. Add asset to the library catalogue");
-            System.out.println("3. Add author to catalogue");
-            System.out.println("4. Register new user");
-            System.out.println("5. Customer wants to borrow asset");
-            System.out.println("6. Customer wants to return asset");
+            DisplayService.printMainMenu();
+            choice = Helpers.validateInteger(choice);
 
-            System.out.println("\n0. Exit\n");
-
-            System.out.print("Enter your choice: ");
-
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid choice, value is not a number. Please provide a value from the list of options");
-                choice = -1;
-                continue;
-            }
 
             switch (choice) {
                 case 1:

@@ -1,7 +1,7 @@
-import org.CA2.AssetException;
+import org.CA2.exceptions.AssetException;
 import org.junit.Test;
 import org.junit.Assert;
-import org.CA2.CD;
+import org.CA2.models.CD;
 
 public class CDTest {
     @Test

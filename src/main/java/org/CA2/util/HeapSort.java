@@ -1,4 +1,4 @@
-package org.CA2;
+package org.CA2.util;
 
 // Usage: HeapSort.sort(array); where array is an array of any type that implements the comparable interface
 

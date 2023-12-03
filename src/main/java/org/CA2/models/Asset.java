@@ -1,4 +1,7 @@
-package org.CA2;
+package org.CA2.models;
+
+import org.CA2.interfaces.Printable;
+import org.CA2.exceptions.AssetException;
 
 public abstract class Asset implements Comparable<Asset>, Printable {
     /**

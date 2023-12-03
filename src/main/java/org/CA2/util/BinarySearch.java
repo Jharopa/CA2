@@ -1,4 +1,9 @@
-package org.CA2;
+package org.CA2.util;
+
+import org.CA2.models.Asset;
+import org.CA2.models.Author;
+import org.CA2.models.LibraryUser;
+import org.CA2.models.Loan;
 
 public class BinarySearch {
     /**

@@ -1,8 +1,7 @@
-import org.CA2.AssetException;
-import org.CA2.AudioBook;
+import org.CA2.exceptions.AssetException;
 import org.junit.Test;
 import org.junit.Assert;
-import org.CA2.Thesis;
+import org.CA2.models.Thesis;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

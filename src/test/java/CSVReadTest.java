@@ -1,4 +1,8 @@
-import org.CA2.*;
+import org.CA2.models.Asset;
+import org.CA2.models.Author;
+import org.CA2.models.LibraryUser;
+import org.CA2.models.Loan;
+import org.CA2.services.LibrarySystem;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;

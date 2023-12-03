@@ -1,4 +1,6 @@
-import org.CA2.*;
+import org.CA2.exceptions.AssetException;
+import org.CA2.models.*;
+import org.CA2.util.HeapSort;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;

@@ -1,4 +1,7 @@
-import org.CA2.*;
+import org.CA2.exceptions.AssetException;
+import org.CA2.models.CD;
+import org.CA2.models.LibraryUser;
+import org.CA2.services.LibrarySystem;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

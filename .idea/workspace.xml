@@ -8,9 +8,6 @@
       <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/services/DisplayService.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/org/CA2/util/Helpers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authors.csv" beforeDir="false" afterPath="$PROJECT_DIR$/authors.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/books.csv" beforeDir="false" afterPath="$PROJECT_DIR$/books.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loans.csv" beforeDir="false" afterPath="$PROJECT_DIR$/loans.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/Asset.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/models/Asset.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AssetException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/exceptions/AssetException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/CA2/AudioBook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/CA2/models/AudioBook.java" afterDir="false" />
@@ -37,7 +34,6 @@
       <change beforePath="$PROJECT_DIR$/src/test/java/LibraryUserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/LibraryUserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/LoanTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/LoanTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/ThesisTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ThesisTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/users.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +104,7 @@
       <recent name="org.CA2.interfaces" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.CSVWriteTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.CA2.Main" />
       <module name="CA2" />
@@ -151,10 +147,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.CSVWriteTest" />
-        <item itemvalue="JUnit.HeapSortTest" />
         <item itemvalue="JUnit.BinarySearchTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.HeapSortTest" />
       </list>
     </recent_temporary>
   </component>
@@ -294,11 +290,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>15</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/CA2/services/UserInterface.java</url>
-          <line>623</line>
-          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

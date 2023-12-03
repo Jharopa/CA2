@@ -1,8 +1,9 @@
-import org.CA2.*;
+import org.CA2.exceptions.AssetException;
+import org.CA2.models.AudioBook;
+import org.CA2.models.Book;
+import org.CA2.models.LibraryUser;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.LinkedList;
 
 public class LibraryUserTest {
     @Test

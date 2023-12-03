@@ -1,11 +1,12 @@
-import org.CA2.*;
+import org.CA2.exceptions.AssetException;
+import org.CA2.models.*;
+import org.CA2.util.BinarySearch;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Assert;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class BinarySearchTest {
     private static Asset[] arr;
